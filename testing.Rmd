@@ -1,0 +1,109 @@
+---
+title: "Power Calcualtions"
+author: "Hasthika"
+date: "2023-10-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## $n_x + n_y$ Fixed
+
+```{r}
+alpha <- 0.05
+sigx <- 12
+sigy <- 2
+mu0 <- 0
+mu1 <- 12
+setpower <- 0.9
+
+
+#nx + ny = 30
+
+total <- 30
+for (i in 1:total-1) {
+  nx <- i
+  ny <- total - nx
+    gamma <- (mu1 - mu0)/sqrt(sigx^2/nx+sigy^2/ny)
+    power <- pt(qt(alpha/2, nx + ny - 2), nx + ny - 2, gamma) + pt(qt(1-alpha/2, nx + ny - 2), nx + ny - 2, gamma, lower = FALSE)
+      
+      if (power > setpower) {
+    break
+  }
+  
+}
+
+list(nx=nx, ny = ny, achivedpower = power, setpower = setpower)
+
+```
+
+## $n_x$ and $n_y$ are free
+
+```{r}
+alpha <- 0.05
+#nx <- 11
+#ny <- 15
+sigx <- 9
+sigy <- 9
+mu0 <- 0
+mu1 <- 12
+setpower <- 0.9
+
+
+
+for (i in 2:100) {
+  nx <- i
+  
+  for (j in 2:100) {
+    ny <- j
+    gamma <- (mu1 - mu0)/sqrt(sigx^2/nx+sigy^2/ny)
+    power <- pt(qt(alpha/2, nx + ny - 2), nx + ny - 2, gamma) + pt(qt(1-alpha/2, nx + ny - 2), nx + ny - 2, gamma, lower = FALSE)
+      if (power > setpower) {
+    break
+  }
+    
+  }
+      if (power > setpower) {
+    break
+  }
+  
+}
+
+list(nx=nx, ny = ny, achivedpower = power, setpower = setpower)
+
+```
+
+## $n_x$ = $n_y$
+
+```{r}
+# nx = ny
+alpha <- 0.05
+#nx <- 11
+#ny <- 15
+sigx <- 9
+sigy <- 9
+mu0 <- 0
+mu1 <- 12
+setpower <- 0.9
+
+
+
+for (i in 2:100) {
+  nx <- i
+  ny <- i
+
+    gamma <- (mu1 - mu0)/sqrt(sigx^2/nx+sigy^2/ny)
+    power <- pt(qt(alpha/2, nx + ny - 2), nx + ny - 2, gamma) + pt(qt(1-alpha/2, nx + ny - 2), nx + ny - 2, gamma, lower = FALSE)
+
+      if (power > setpower) {
+    break
+  }
+  
+}
+
+list(nx=nx, ny = ny, achivedpower = power, setpower = setpower)
+
+```
