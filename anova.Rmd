@@ -1,0 +1,151 @@
+---
+title: "ANOVA F- Test Power Calculator"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: cerulean
+    #css: mycss.css
+    orientation: columns
+    social: menu
+    source_code: embed
+runtime: shiny
+---
+
+
+
+```{r global, include=FALSE}
+library(shiny)
+library(ggplot2)
+##### Function Defined:
+powerg <- function(nx = 11, ny = 15, mu0 = 0, mu1 = 10, muvec = c(5,8,2), nvec = c(25,30,20), sig = 6, alpha = 0.10, alternative = c("two.sided", "less", "greater"))
+{
+
+n_vec <- unlist(strsplit(nvec, ","))
+mu_vec <- unlist(strsplit(muvec, ","))
+
+mu_vec <- as.numeric(mu_vec)
+g <- length(mu_vec)
+n_vec <- as.numeric(n_vec)
+N <- sum(n_vec) # Total sample size
+
+mu <- sum(n_vec*mu_vec)/N # grand mean
+
+
+mu0 <- mu_vec[1]
+mu1 <- mu_vec[2]
+  
+
+gamma <- sqrt(sum(n_vec*((mu_vec - mu)^2))/sig^2)
+
+
+
+  
+if(gamma < 0){
+    ll <- -2*sqrt(((N)/(N - g))) + gamma*2
+    ul <- 10*sqrt(((N)/(N - g)))
+    } else if (gamma >= 0) { 
+    ll <- -2*sqrt(((N)/(N - g)))
+    ul <- 20*sqrt(((N)/(N - g))) + gamma*2
+    } 
+  
+
+
+p <- ggplot(data = data.frame(x = c(ll, ul)), aes(x = x))
+
+alternative <- match.arg(alternative) # Remove later
+
+    dt_fun1 <- function(x){
+      y <- df(x, g - 1, N - g)
+      y[x < qf(1 - alpha, g - 1, N - g)] <- NA
+      return(y)
+    }
+    
+    dt_fun2 <- function(x){
+      y <- df(x, g - 1, N - g, gamma^2)
+      y[x < qf(1 - alpha, g - 1, N - g)] <- NA
+      return(y)
+    } 
+    
+    dt_fun3 <- function(x){
+      y <- df(x, g - 1, N - g, gamma^2)
+      y[x > qf(1 - alpha, g - 1, N - g)] <- NA
+      return(y)
+    }
+    
+    POWER <- round(pf(qf(1-alpha,  g - 1, N - g),  g - 1, N - g, ncp = gamma^2, lower.tail = F), 4)
+    BETA <- round(1- POWER, 4)
+  
+  
+#}
+
+
+
+
+p + stat_function(fun = dt_fun1, geom = "area", n = 1500, fill = "red", alpha = 0.95) +
+  stat_function(fun = dt_fun2, geom = "area", n = 1500, fill = "blue", alpha = 0.4) +
+  stat_function(fun = dt_fun3, geom = "area", n = 1500, fill = "green", alpha = 0.1) +
+  stat_function(fun = df, args = list(g - 1, N - g), n = 1500, color = "red") +
+  stat_function(fun = df, args = list(g - 1, N - g, gamma^2), n = 1500, color = "blue") +
+  geom_hline(yintercept = 0) +
+  theme_bw(base_size = 16) +
+  labs(x = "", y = "", title = paste0("Power ","(",POWER,") is the sum of all blue and purple shaded areas"),
+       caption = paste0("Beta ","(",BETA,") is the green shaded area")) +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(plot.caption = element_text(hjust = 0.5))  
+
+}
+```
+
+
+Column {.sidebar}
+-----------------
+
+```{r}
+
+
+radioButtons(inputId = "Type", label = "Select alternative hypothesis:", 
+                   choices = c("\\(H_0:\\mu_1 = \\mu_2 = \\dots = \\mu_g \\)" = "two.sided",
+                               "\\(H_A:  \\mu_j's \\quad \\text{not all equal} \\)" = "greater"),
+                   selected = "two.sided")
+
+#selectInput("Balanced", label = "A balanced design (\\( n_1 \\)=\\( n_1 \\)=...=\\( n_g \\)):",
+#          choices = c("Yes" = "Yes", 
+#                      "No" = "No"),
+#                    selected = "All")
+
+#zone.choices = reactive({
+#  if (input$Zone=="Yes"){
+#  numericInput(inputId = "n1", label = "Enter \\( n_1 \\):", value = 20, min =1, max = 1000, step = 1)
+#  }else{
+#  textInput(inputId = 'vec2', 'Enter \\( n_1 \\), \\( n_1 \\),..,\\( n_g \\) (comma delimited)', "25,30,20")}
+#})
+
+
+textInput(inputId = 'vec1', 'Enter \\( \\mu_1 \\), \\( \\mu_1 \\),..,\\( \\mu_g \\) (comma delimited) for \\(H_A\\)', "5,8,2")
+textInput(inputId = 'vec2', 'Enter \\( n_1 \\), \\( n_1 \\),..,\\( n_g \\) (comma delimited)', "25,30,20")
+numericInput(inputId = "Sigma", label = "Enter \\((\\sigma)\\):", value = 6, min = 0.001, max = 100000, step = 1)
+sliderInput(inputId = "Alpha", label = "Significance level \\((\\alpha)\\):", min = 0.001, max = 0.25, value = 0.05, step = 0.001)
+```
+
+
+
+Column
+-------
+
+### 
+
+```{r}
+renderPlot({
+    powerg(nx = input$N1,
+           ny = input$N2,
+           sig = input$Sigma,
+           mu0 = input$mu0,
+           mu1 = input$mu1,
+           muvec = input$vec1,
+           nvec = input$vec2,
+           alpha = input$Alpha,
+           alternative = input$Type
+           )
+  })
+```
+
+

@@ -1,0 +1,272 @@
+---
+title: "Two-Sample Power Calculator"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: cerulean
+    #css: mycss.css
+    orientation: columns
+    social: menu
+    source_code: embed
+runtime: shiny
+---
+
+
+
+
+```{r global, include=FALSE}
+library(shiny)
+library(ggplot2)
+##### Function Defined:
+# mu0 is the mux - muy in Ho
+# mu1 is the mux - muy in Ha
+powerg <- function(nx = 11, ny = 15, mu0 = 0, mu1 = 10, sigx = 6, sigy = 6, alpha = 0.10, alternative = c("two.sided", "less", "greater"),
+                   variance = c("unknown", "known"))
+{
+  
+delta <- mu1 - mu0
+#gamma <- (delta)/(sd/sqrt(n))
+gamma <- (mu1 - mu0)/sqrt(sigx^2/nx+sigy^2/ny) # added
+
+  
+variance <- match.arg(variance)
+  
+if(variance == "unknown" & gamma < 0){
+    #ll <- -5*sqrt((n/(n - 2))) + gamma*2
+    ll <- -5*sqrt(((nx + ny)/(nx + ny - 2))) + gamma*2
+    #ul <- 5*sqrt((n/(n - 2)))
+    ul <- 5*sqrt(((nx + ny)/(nx + ny - 2)))
+    } else if (variance == "unknown" & gamma >= 0) { 
+    #ll <- -5*sqrt((n/(n - 2)))
+    ll <- -5*sqrt(((nx + ny)/(nx + ny - 2)))
+    ul <- 5*sqrt(((nx + ny)/(nx + ny - 2))) + gamma*2
+    } 
+  
+if (variance == "known") {
+    #ll <- min(mu0, mu1) - 3.4*sd/sqrt(n)
+    #ul <- max(mu0, mu1) + 3.4*sd/sqrt(n)
+    ll <- min(mu0, mu1) - 3.4*sqrt(sigx^2/nx+sigy^2/ny)
+    ul <- max(mu0, mu1) + 3.4*sqrt(sigx^2/nx+sigy^2/ny)
+    }
+
+p <- ggplot(data = data.frame(x = c(ll, ul)), aes(x = x))
+
+alternative <- match.arg(alternative)
+  
+  if(alternative == "less" & variance == "unknown"){
+    dt_fun1 <- function(x){
+      y <- dt(x, nx + ny - 2)
+      y[x > qt(alpha, nx + ny - 2)] <- NA
+      return(y)
+    }
+  
+    dt_fun2 <- function(x){
+      y <- dt(x, nx + ny - 2, gamma)
+      y[x > qt(alpha, nx + ny - 2)] <- NA
+      return(y)
+    }
+    
+    dt_fun3 <- function(x){
+      y <- dt(x, nx + ny - 2, gamma)
+      y[x < qt(alpha, nx + ny - 2)] <- NA
+      return(y)
+    }
+    
+    #POWER <- round(pt(qt(alpha, n - 1), n - 1, gamma), 4)
+     POWER <- round(pt(qt(alpha, nx + ny - 2), nx + ny - 2, gamma), 4)
+    BETA <- round(1- POWER, 4)
+    
+    } else if (alternative == "greater" & variance == "unknown") {
+    dt_fun1 <- function(x){
+      y <- dt(x, nx + ny - 2)
+      y[x < qt(1 - alpha, nx + ny - 2)] <- NA
+      return(y)
+    }
+    
+    dt_fun2 <- function(x){
+      y <- dt(x, nx + ny - 2, gamma)
+      y[x < qt(1 - alpha, nx + ny - 2)] <- NA
+      return(y)
+    }
+    
+    dt_fun3 <- function(x){
+      y <- dt(x, nx + ny - 2, gamma)
+      y[x > qt(1 - alpha, nx + ny - 2)] <- NA
+      return(y)
+    }
+    
+    POWER <- round(pt(qt(1 - alpha, nx + ny - 2), nx + ny - 2, gamma, lower.tail = FALSE), 4)
+    BETA <- round(1- POWER, 4)
+    
+    } else if (alternative == "two.sided" & variance == "unknown") {
+    dt_fun1 <- function(x){
+      y <- dt(x, nx + ny - 2)
+      y[x > qt(alpha/2, nx + ny - 2) & x < qt(1 - alpha/2, nx + ny - 2)] <- NA
+      return(y)
+    }
+    
+    dt_fun2 <- function(x){
+      y <- dt(x, nx + ny - 2, gamma)
+      y[x > qt(alpha/2, nx + ny - 2) & x < qt(1 - alpha/2, nx + ny - 2)] <- NA
+      return(y)
+    } 
+    
+    dt_fun3 <- function(x){
+      y <- dt(x, nx + ny - 2, gamma)
+      y[x > qt(1 - alpha/2, nx + ny - 2) | x < qt(alpha/2, nx + ny - 2)] <- NA
+      return(y)
+    }
+    
+    #POWER <- round(pt(qt(alpha/2, n - 1), n - 1, gamma) + pt(qt(1 - alpha/2, n - 1), n-1, gamma, lower.tail = FALSE), 4)
+    POWER <- round(pt(qt(alpha/2, nx + ny - 2), nx + ny - 2, gamma) + pt(qt(1-alpha/2, nx + ny - 2), nx + ny - 2, gamma, lower = FALSE), 4) #added
+    BETA <- round(1- POWER, 4)
+  }
+
+########### Next Normal  
+
+  if(alternative == "less" & variance == "known"){
+    dnorm_fun1 <- function(x){
+      #y <- dnorm(x, mu0, sd/sqrt(n))
+      y <- dnorm(x, mu0, sqrt(sigx^2/nx+sigy^2/ny))
+      #y[x > qnorm(alpha, mu0, sd/sqrt(n))] <- NA
+      y[x > qnorm(alpha, mu0, sqrt(sigx^2/nx+sigy^2/ny))] <- NA
+      return(y)
+    }
+
+    dnorm_fun2 <- function(x){
+      y <- dnorm(x, mu1, sqrt(sigx^2/nx+sigy^2/ny))
+      y[x > qnorm(alpha, mu0, sqrt(sigx^2/nx+sigy^2/ny))] <- NA
+      return(y)
+    }
+    
+    dnorm_fun3 <- function(x){
+      y <- dnorm(x, mu1, sqrt(sigx^2/nx+sigy^2/ny))
+      y[x < qnorm(alpha, mu0, sqrt(sigx^2/nx+sigy^2/ny))] <- NA
+      return(y)
+    }
+
+    POWER <- round(pnorm(qnorm(alpha, mu0, sqrt(sigx^2/nx+sigy^2/ny)), mu1, sqrt(sigx^2/nx+sigy^2/ny)), 4)
+    BETA <- round(1- POWER, 4)
+
+    } else if (alternative == "greater" & variance == "known"){
+
+    dnorm_fun1 <- function(x){
+      y <- dnorm(x, mu0, sqrt(sigx^2/nx+sigy^2/ny))
+      y[x < qnorm(1 - alpha, mu0, sqrt(sigx^2/nx+sigy^2/ny))] <- NA
+      return(y)
+    }
+
+    dnorm_fun2 <- function(x){
+      y <- dnorm(x, mu1, sqrt(sigx^2/nx+sigy^2/ny))
+      y[x < qnorm(1 - alpha, mu0, sqrt(sigx^2/nx+sigy^2/ny))] <- NA
+      return(y)
+    }
+    
+    dnorm_fun3 <- function(x){
+      y <- dnorm(x, mu1, sqrt(sigx^2/nx+sigy^2/ny))
+      y[x > qnorm(1 - alpha, mu0, sqrt(sigx^2/nx+sigy^2/ny))] <- NA
+      return(y)
+    }
+
+    POWER <- round(pnorm(qnorm(1- alpha, mu0, sqrt(sigx^2/nx+sigy^2/ny)), mu1, sqrt(sigx^2/nx+sigy^2/ny), lower.tail = FALSE), 4)
+    BETA <- round(1- POWER, 4)
+
+    } else if (alternative == "two.sided" & variance == "known") {
+    dnorm_fun1 <- function(x){
+      y <- dnorm(x, mu0, sqrt(sigx^2/nx+sigy^2/ny))
+      y[x > qnorm(alpha/2, mu0, sqrt(sigx^2/nx+sigy^2/ny)) & x < qnorm(1 - alpha/2, mu0, sqrt(sigx^2/nx+sigy^2/ny))] <- NA
+      return(y)
+    }
+
+    dnorm_fun2 <- function(x){
+      y <- dnorm(x, mu1, sqrt(sigx^2/nx+sigy^2/ny))
+      y[x > qnorm(alpha/2, mu0, sqrt(sigx^2/nx+sigy^2/ny)) & x < qnorm(1 - alpha/2, mu0, sqrt(sigx^2/nx+sigy^2/ny))] <- NA
+      return(y)
+    }
+    
+    dnorm_fun3 <- function(x){
+      y <- dnorm(x, mu1, sqrt(sigx^2/nx+sigy^2/ny))
+      y[x > qnorm(1 - alpha/2, mu0, sqrt(sigx^2/nx+sigy^2/ny)) | x < qnorm(alpha/2, mu0, sqrt(sigx^2/nx+sigy^2/ny))] <- NA
+      return(y)
+    }
+
+    POWER <- round(pnorm(qnorm(alpha/2, mu0, sqrt(sigx^2/nx+sigy^2/ny)), mu1, sqrt(sigx^2/nx+sigy^2/ny)) + pnorm(qnorm(1- alpha/2, mu0, sqrt(sigx^2/nx+sigy^2/ny)), mu1, sqrt(sigx^2/nx+sigy^2/ny), lower.tail = FALSE), 4)
+    BETA <- round(1- POWER, 4)
+}
+
+
+if(variance == "unknown"){
+  n <- nx + ny
+p + stat_function(fun = dt_fun1, geom = "area", n = 1500, fill = "red", alpha = 0.95) +
+  stat_function(fun = dt_fun2, geom = "area", n = 1500, fill = "blue", alpha = 0.4) +
+  stat_function(fun = dt_fun3, geom = "area", n = 1500, fill = "green", alpha = 0.1) +
+  stat_function(fun = dt, args = list(n - 1), n = 1500, color = "red") +
+  stat_function(fun = dt, args = list(n - 1, gamma), n = 1500, color = "blue") +
+  geom_hline(yintercept = 0) +
+  theme_bw(base_size = 16) +
+  labs(x = "", y = "", title = paste0("Power ","(",POWER,") is the sum of all blue and purple shaded areas"),
+       caption = paste0("Beta ","(",BETA,") is the green shaded area")) +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(plot.caption = element_text(hjust = 0.5))  
+} else {
+   n <- nx + ny
+p + stat_function(fun = dnorm_fun1, geom = "area", n = 1500, fill = "red", alpha = 0.95) +
+  stat_function(fun = dnorm_fun2, geom = "area", n = 1500, fill = "blue", alpha = 0.4) +
+  stat_function(fun = dnorm_fun3, geom = "area", n = 1500, fill = "green", alpha = 0.1) +
+  stat_function(fun = dnorm, args = list(mu0, sqrt(sigx^2/nx+sigy^2/ny)), n = 1500, color = "red") +
+  stat_function(fun = dnorm, args = list(mu1, sqrt(sigx^2/nx+sigy^2/ny)), n = 1500, color = "blue") +
+  geom_hline(yintercept = 0) +
+  theme_bw(base_size = 16) +
+    labs(x = "", y = "", title = paste0("Power ","(",POWER,") is the sum of all blue and purple shaded areas"),
+         caption = paste0("Beta ","(",BETA,") is the green shaded area")) +
+    theme(plot.title = element_text(hjust = 0.5)) + 
+    theme(plot.caption = element_text(hjust = 0.5))  
+}
+}
+```
+
+
+Column {.sidebar}
+-----------------
+
+```{r}
+radioButtons(inputId = "Type", label = "Select alternative hypothesis:", 
+                   choices = c("\\(H_A:\\mu_x \\neq \\mu_y \\)" = "two.sided",
+                               "\\(H_A:\\mu_x > \\mu_y \\)" = "greater",
+                               "\\(H_A:\\mu_x < \\mu_y \\)" = "less"),
+                   selected = "two.sided")
+radioButtons(inputId = "Variance", label = "Select appropriate button:", 
+                   choices = c("Variance unknown (t-test)" = "unknown",
+                               "Variance known (z-test)" = "known"),
+                   selected = "unknown")
+#numericInput(inputId = "N", label = "Sample size (\\(n\\)):", value = 25, min = 3, max = 10000, step = 1)
+numericInput(inputId = "mu0", label = "Hypothesized difference in means \\( \\mu_x - \\mu_y \\):", value = 0, min = -100000, max = 100000, step = 1)
+numericInput(inputId = "mu1", label = "True difference in means \\( \\mu_x - \\mu_x  \\):", value = 8, min = -100000, max = 100000, step = 1)
+numericInput(inputId = "Sigmax", label = "Population 1 standard deviation \\((\\sigma_1)\\):", value = 6, min = 0.001, max = 100000, step = 1)
+numericInput(inputId = "Sigmay", label = "Population 2 standard deviation \\((\\sigma_2)\\):", value = 6, min = 0.001, max = 100000, step = 1)
+sliderInput(inputId = "N1", label = "Size of the sample 1 \\((n_1)\\):", value = 25, min = 3, max = 100, step = 1) # added
+sliderInput(inputId = "N2", label = "Size of the sample 2 \\((n_2)\\):", value = 25, min = 3, max = 100, step = 1) # added
+sliderInput(inputId = "Alpha", label = "Significance level \\((\\alpha)\\):", min = 0.001, max = 0.25, value = 0.05, step = 0.001)
+```
+
+
+
+Column
+-------
+
+### 
+
+```{r}
+renderPlot({
+    powerg(nx = input$N1,
+           ny = input$N2,
+           sigx = input$Sigmax,
+           sigy = input$Sigmay,
+           mu0 = input$mu0,
+           mu1 = input$mu1,
+           alpha = input$Alpha,
+           alternative = input$Type,
+           variance = input$Variance)
+  })
+```
+
+
