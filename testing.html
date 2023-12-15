@@ -359,12 +359,12 @@ display: none;
 
 <div id="n_x-n_y-fixed" class="section level2">
 <h2><span class="math inline">\(n_x + n_y\)</span> Fixed</h2>
-<pre class="r"><code>alpha &lt;- 0.05
-sigx &lt;- 9
-sigy &lt;- 9
+<pre class="r"><code>alpha &lt;- 0.01
+sigx &lt;- 6
+sigy &lt;- 6
 mu0 &lt;- 0
-mu1 &lt;- 12
-setpower &lt;- 0.9
+mu1 &lt;- 10
+setpower &lt;- 0.8
 
 
 #nx + ny = 30
@@ -377,26 +377,27 @@ for (i in 1:total-1) {
     power &lt;- pt(qt(alpha/2, nx + ny - 2), nx + ny - 2, gamma) + pt(qt(1-alpha/2, nx + ny - 2), nx + ny - 2, gamma, lower = FALSE)
       
       if (power &gt; setpower) {
+        print(&quot;Power Achieved&quot;)
     break
   }
   
-}
-
-list(nx=nx, ny = ny, achivedpower = power, setpower = setpower)</code></pre>
+}</code></pre>
+<pre><code>## [1] &quot;Power Achieved&quot;</code></pre>
+<pre class="r"><code>list(nx=nx, ny = ny, achievedpower = power, setpower = setpower)</code></pre>
 <pre><code>## $nx
-## [1] 10
+## [1] 6
 ## 
 ## $ny
-## [1] 20
+## [1] 24
 ## 
-## $achivedpower
-## [1] 0.9134657
+## $achievedpower
+## [1] 0.8042722
 ## 
 ## $setpower
-## [1] 0.9</code></pre>
+## [1] 0.8</code></pre>
 </div>
-<div id="n_x-and-n_y-are-free-to-vary" class="section level2">
-<h2><span class="math inline">\(n_x\)</span> and <span class="math inline">\(n_y\)</span> are free to vary</h2>
+<div id="n_x-and-n_y-are-free" class="section level2">
+<h2><span class="math inline">\(n_x\)</span> and <span class="math inline">\(n_y\)</span> are free</h2>
 <pre class="r"><code>alpha &lt;- 0.05
 #nx &lt;- 11
 #ny &lt;- 15

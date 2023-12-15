@@ -1,9 +1,8 @@
 ---
-title: "Two-Sample Power Calculator"
+title: "Two-Sample Power Calculator for Means"
 output: 
   flexdashboard::flex_dashboard:
     theme: cerulean
-    #css: mycss.css
     orientation: columns
     social: menu
     source_code: embed
@@ -198,28 +197,34 @@ if(variance == "unknown"){
   n <- nx + ny
 p + stat_function(fun = dt_fun1, geom = "area", n = 1500, fill = "red", alpha = 0.95) +
   stat_function(fun = dt_fun2, geom = "area", n = 1500, fill = "blue", alpha = 0.4) +
-  stat_function(fun = dt_fun3, geom = "area", n = 1500, fill = "green", alpha = 0.1) +
+  stat_function(fun = dt_fun3, geom = "area", n = 1500, fill = "green", alpha = 0.5) +
   stat_function(fun = dt, args = list(n - 1), n = 1500, color = "red") +
   stat_function(fun = dt, args = list(n - 1, gamma), n = 1500, color = "blue") +
   geom_hline(yintercept = 0) +
   theme_bw(base_size = 16) +
-  labs(x = "", y = "", title = paste0("Power ","(",POWER,") is the sum of all blue and purple shaded areas"),
+  labs(x = "", y = "", 
+       title = paste0("Power ","(",POWER,") is the sum of all blue and purple shaded areas"),
+       subtitle = "Null distribution is the red density - True distribution is the blue density",
        caption = paste0("Beta ","(",BETA,") is the green shaded area")) +
   theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(plot.subtitle = element_text(hjust = 0.5)) + 
   theme(plot.caption = element_text(hjust = 0.5))  
 } else {
    n <- nx + ny
 p + stat_function(fun = dnorm_fun1, geom = "area", n = 1500, fill = "red", alpha = 0.95) +
   stat_function(fun = dnorm_fun2, geom = "area", n = 1500, fill = "blue", alpha = 0.4) +
-  stat_function(fun = dnorm_fun3, geom = "area", n = 1500, fill = "green", alpha = 0.1) +
+  stat_function(fun = dnorm_fun3, geom = "area", n = 1500, fill = "green", alpha = 0.5) +
   stat_function(fun = dnorm, args = list(mu0, sqrt(sigx^2/nx+sigy^2/ny)), n = 1500, color = "red") +
   stat_function(fun = dnorm, args = list(mu1, sqrt(sigx^2/nx+sigy^2/ny)), n = 1500, color = "blue") +
   geom_hline(yintercept = 0) +
   theme_bw(base_size = 16) +
-    labs(x = "", y = "", title = paste0("Power ","(",POWER,") is the sum of all blue and purple shaded areas"),
-         caption = paste0("Beta ","(",BETA,") is the green shaded area")) +
-    theme(plot.title = element_text(hjust = 0.5)) + 
-    theme(plot.caption = element_text(hjust = 0.5))  
+    labs(x = "", y = "", 
+       title = paste0("Power ","(",POWER,") is the sum of all blue and purple shaded areas"),
+       subtitle = "Null distribution is the red density - True distribution is the blue density",
+       caption = paste0("Beta ","(",BETA,") is the green shaded area")) +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(plot.subtitle = element_text(hjust = 0.5)) + 
+  theme(plot.caption = element_text(hjust = 0.5)) 
 }
 }
 ```
@@ -227,6 +232,11 @@ p + stat_function(fun = dnorm_fun1, geom = "area", n = 1500, fill = "red", alpha
 
 Column {.sidebar}
 -----------------
+
+Null hypothesis: $H_0: \mu_x = \mu_y$
+
+----
+
 
 ```{r}
 radioButtons(inputId = "Type", label = "Select alternative hypothesis:", 
@@ -240,12 +250,12 @@ radioButtons(inputId = "Variance", label = "Select appropriate button:",
                    selected = "unknown")
 #numericInput(inputId = "N", label = "Sample size (\\(n\\)):", value = 25, min = 3, max = 10000, step = 1)
 numericInput(inputId = "mu0", label = "Hypothesized difference in means \\( \\mu_x - \\mu_y \\):", value = 0, min = -100000, max = 100000, step = 1)
-numericInput(inputId = "mu1", label = "True difference in means \\( \\mu_x - \\mu_x  \\):", value = 8, min = -100000, max = 100000, step = 1)
-numericInput(inputId = "Sigmax", label = "Population 1 standard deviation \\((\\sigma_1)\\):", value = 6, min = 0.001, max = 100000, step = 1)
-numericInput(inputId = "Sigmay", label = "Population 2 standard deviation \\((\\sigma_2)\\):", value = 6, min = 0.001, max = 100000, step = 1)
-sliderInput(inputId = "N1", label = "Size of the sample 1 \\((n_1)\\):", value = 25, min = 3, max = 100, step = 1) # added
-sliderInput(inputId = "N2", label = "Size of the sample 2 \\((n_2)\\):", value = 25, min = 3, max = 100, step = 1) # added
-sliderInput(inputId = "Alpha", label = "Significance level \\((\\alpha)\\):", min = 0.001, max = 0.25, value = 0.05, step = 0.001)
+numericInput(inputId = "mu1", label = "True difference in means \\( \\mu_x - \\mu_y  \\):", value = 8, min = -100000, max = 100000, step = 1)
+numericInput(inputId = "Sigmax", label = "Population X standard deviation \\((\\sigma_x)\\):", value = 6, min = 0.001, max = 100000, step = 1)
+numericInput(inputId = "Sigmay", label = "Population Y standard deviation \\((\\sigma_y)\\):", value = 6, min = 0.001, max = 100000, step = 1)
+sliderInput(inputId = "N1", label = "Size of the sample from X \\((n_x)\\):", value = 25, min = 3, max = 100, step = 1) # added
+sliderInput(inputId = "N2", label = "Size of the sample from Y \\((n_y)\\):", value = 25, min = 3, max = 100, step = 1) # added
+sliderInput(inputId = "Alpha", label = "Significance level \\((\\alpha)\\)- red shading in the null distribution:", min = 0.001, max = 0.25, value = 0.05, step = 0.001)
 ```
 
 
