@@ -72,10 +72,14 @@ powerg <- function(mu_vec = c(5, 8, 2), n_vec = c(25, 25, 25), sig = 5, alpha = 
          caption = paste0("Beta ","(",BETA,") is the green shaded area.", " Lambda ", "(",lambda,") is the statistical difference.")) +
     theme(plot.title = element_text(hjust = 0.5)) + 
     theme(plot.subtitle = element_text(hjust = 0.5)) + 
-    theme(plot.caption = element_text(hjust = 0.5))  
-  
+    theme(plot.caption = element_text(hjust = 0.5)) +
+    annotate("text", qf(.85, g - 1, N - g), df(qf(.85, g - 1, N - g), g - 1, N - g) + .2, label = expression(F["a, N-a"]), color = "red", parse = TRUE) + 
+    annotate("text", qf(.5, g - 1, N - g, lambda), df(qf(.5, g - 1, N - g, lambda), g - 1, N - g, lambda) + .05, label = expression(F["a, N-a, lambda"]), color = "blue", parse = TRUE) 
 }
-powerg()
+powerg(mu_vec = c(5, 8), n_vec = c(25, 25), sig = 5, alpha = 0.05)
+
+
+
 powerg(mu_vec = c(10,9,8,7), n_vec = c(25,25,25,25)*2, sig = 5)
 
 powerg(mu_vec = c(5, 8), n_vec = c(25,25), sig = 4)
