@@ -7,9 +7,11 @@ powerg <- function(mu_vec = c(5, 8, 2), n_vec = c(25, 25, 25), sig = 5, alpha = 
   
   #mu_vec <- as.numeric(mu_vec)
   g <- length(mu_vec)
+  dfn <- g - 1
   #n_vec <- as.numeric(n_vec)
   N <- sum(n_vec) # Total sample size
-  
+  dfe <- N - g
+  df <- c(dfn, dfe)
   mu <- sum(n_vec*mu_vec)/N # grand mean
   
   lambda <- sum(n_vec*((mu_vec - mu)^2))/sig^2 # Alan changed
@@ -73,8 +75,8 @@ powerg <- function(mu_vec = c(5, 8, 2), n_vec = c(25, 25, 25), sig = 5, alpha = 
     theme(plot.title = element_text(hjust = 0.5)) + 
     theme(plot.subtitle = element_text(hjust = 0.5)) + 
     theme(plot.caption = element_text(hjust = 0.5)) +
-    annotate("text", qf(.85, g - 1, N - g), df(qf(.85, g - 1, N - g), g - 1, N - g) + .2, label = expression(F["a, N-a"]), color = "red", parse = TRUE) + 
-    annotate("text", qf(.5, g - 1, N - g, lambda), df(qf(.5, g - 1, N - g, lambda), g - 1, N - g, lambda) + .05, label = expression(F["a, N-a, lambda"]), color = "blue", parse = TRUE) 
+    annotate("text", qf(.85, g - 1, N - g), df(qf(.85, g - 1, N - g), g - 1, N - g) + .2, label = expression(F["a - 1, N - a"]), color = "red", parse = TRUE) + 
+    annotate("text", qf(.5, g - 1, N - g, lambda), df(qf(.5, g - 1, N - g, lambda), g - 1, N - g, lambda) + .05, label = expression(F["a-1, N-a, lambda"]), color = "blue", parse = TRUE) 
 }
 powerg(mu_vec = c(5, 8), n_vec = c(25, 25), sig = 5, alpha = 0.05)
 

@@ -67,12 +67,12 @@ p + stat_function(fun = df_fun1, geom = "area", n = 1500, fill = "red", alpha = 
     labs(x = "", y = "", 
        title = paste0("Power ","(",POWER,") is the sum of all blue and purple shaded areas"),
        subtitle = "Null distribution is the red density - True distribution is the blue density",
-       caption = paste0("Beta ","(",BETA,") is the green shaded area.", " Lambda ", "(",LAMBDA,") is the statistical difference.")) +
+       caption = paste0("Beta ","(",BETA,") is the green shaded area.", " Lambda ", "(",LAMBDA,") is the statistical difference.") ) +
     theme(plot.title = element_text(hjust = 0.5)) + 
     theme(plot.subtitle = element_text(hjust = 0.5)) + 
     theme(plot.caption = element_text(hjust = 0.5)) +
-    annotate("text", qf(.5, g - 1, N - g) + 0.5, df(qf(.5, g - 1, N - g), g - 1, N - g) + 0.05, label = expression(F["a-1, N-a"]), color = "red", parse = TRUE) + 
-    annotate("text", qf(.5, g - 1, N - g, lambda) + 0.5, df(qf(.5, g - 1, N - g, lambda), g - 1, N - g, lambda) + 0.05, label = expression(F["a-1, N-a, lambda"]), color = "blue", parse = TRUE) 
+    annotate("text", qf(.5, g - 1, N - g) + 0.5, df(qf(.5, g - 1, N - g), g - 1, N - g) + 0.05, label = expression(F["a - 1, N - a"]), color = "red", parse = TRUE) + 
+    annotate("text", qf(.5, g - 1, N - g, lambda) + 0.5, df(qf(.5, g - 1, N - g, lambda), g - 1, N - g, lambda) + 0.05, label = expression(F["a - 1, N - a, lambda"]), color = "blue", parse = TRUE) 
 }
 ```
 
@@ -82,15 +82,15 @@ Column {.sidebar}
 
 Null and alternative hypotheses:
 
-$H_0: \mu_1 = \mu_1 = \cdots = \mu_a$
+$H_0: \mu_1 = \mu_2 = \cdots = \mu_a$
 $H_A: \mu_i \neq \mu_j$ for some ($i, j$)
 
 ---
 
 ```{r}
 
-textInput(inputId = 'vec1', 'Enter \\( \\mu_1 \\), \\( \\mu_1 \\),..,\\( \\mu_a \\) (comma delimited) for \\(H_A\\):', "5, 8, 2, 6")
-textInput(inputId = 'vec2', 'Enter \\( n_1 \\), \\( n_1 \\),..,\\( n_a \\) (comma delimited):', "25, 30, 20, 23")
+textInput(inputId = 'vec1', 'Enter \\( \\mu_1 \\), \\( \\mu_2 \\),..,\\( \\mu_a \\) (comma delimited) for \\(H_A\\):', "5, 8, 2, 6")
+textInput(inputId = 'vec2', 'Enter \\( n_1 \\), \\( n_2 \\),..,\\( n_a \\) (comma delimited):', "25, 30, 20, 23")
 numericInput(inputId = "Sigma", label = "Enter \\((\\sigma)\\):", value = 6, min = 0.001, max = 100000, step = 1)
 sliderInput(inputId = "Alpha", label = "Significance level \\((\\alpha)\\)- red/purple shading in the null distribution:", min = 0.01, max = 0.25, value = 0.05, step = 0.01)
 ```
