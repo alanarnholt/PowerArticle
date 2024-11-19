@@ -1,0 +1,168 @@
+---
+title: "Determining sample size for a completely randomized experiment to achieve an acceptable power"
+author:
+- name: Some Name
+  affiliation: Some School
+  email: somename.com
+header-includes:
+  - \usepackage{mathtools}
+  - \usepackage{amsmath}
+  - \usepackage{hyperref}
+  - \usepackage{breakurl}
+date: 'Last edit: `r format(Sys.time(), "%B %d, %Y")`'
+output: 
+    bookdown::html_document2
+    #bookdown::pdf_document2
+    #bookdown::word_document2
+bibliography: [packages.bib, powerarticle.bib] 
+csl: apa.csl
+toc: FALSE
+abstract: |
+  **Summary** Understanding and computing power and the relationship between sample size and power are facilitated via a Shiny app.  The Shiny app allows students to solve various scenarios by entering different parameters or moving sliders.  
+  
+  **Keywords:** Power, Shiny app, significance level, type I error, type II error
+---
+
+```{r label = "setup", include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", comment = NA, warning = FALSE, message = FALSE)
+```
+
+```{r, label = "BibMagic", include = FALSE}
+PackagesUsed <- c("ggplot2", "bookdown", "shiny", "base")
+# Write bib information
+knitr::write_bib(PackagesUsed, file = "./packages.bib")
+# Load packages
+lapply(PackagesUsed, library, character.only = TRUE)
+```
+
+
+# INTRODUCTION {-}
+
+The concept of power is introduced in elementary statistics texts such as @utts_mind_2006 and @veaux_stats:_2015; however, due to the difficulty in computing power, the topic of power and its relationship to sample size is not as well understood as it should be by many students .  Authors such as @anderson-cook_making_2003 and @aberson_interactive_2002 have introduced the concepts of power and sample size with Java applets.  Unfortunately, as security vulnerabilities with using Java in web browsers are real, applets written in Java are generally no longer accessible with most modern web browsers [@noauthor_modern_nodate].  Some Java applet authors have rewritten their applets using Java-script, but many have not.  An alternative method one can use to create interactive web-based applications is Shiny [@R-shiny].  Shiny apps can be written with some knowledge of the R programming language [@R-base].  @doi_web_2016 created seventeen different Shiny apps that can be used to teach a wide range of statistical topics.  Shiny apps were used as a means of allowing students aged 12 to 18 to engage with scientific material in @fawcett_storm_2017 and as a tool to enhance the learning experience of confidence intervals by @williams_using_2018. @fawcett_using_2018 continued working with Shiny apps and data applications in _Using Interactive Shiny Applications to Facilitate Research-Informed Learning and Teaching_. In what follows, the concepts of power and power's relationship to sample size are introduced using a Shiny app to solve a medical example. Step by step solutions for the medical example are also provided and can be used with more advanced students to illustrate the theory behind the power computations.
+
+# STATISTICAL BACKGROUND {-}
+
+Below is a discussion of how to use the Shiny App to find power using the *z*-test and the *t*-test for a particular mean under the assumption that one is sampling from a normal distribution.  Using the Shiny app allows students to visualize the hypothesized null distribution as well as the true distribution for either a one-sided or two-sided alternative hypothesis while changing the value of the standard deviation and the significance level.  Although some elementary texts discuss power for a *z*-test, most do not discuss how to compute power for a *t*-test.  While the omission is understandable given the number of topics in the standard algebra-based introductory statistics course, presenting power only for the *z*-test, which most texts use as an introduction to the *t*-test, creates a critical gap in statistical knowledge for the student, especially when most practitioners never use a *z*-test.  Another possible reason elementary textbook authors may not discuss how to compute power when using a *t*-test is to avoid calculations that use a non-central *t*-distribution.  The ideas of a type I error, a type II error, and power are introduced in a table in virtually all elementary statistics texts.  For completeness, each concept is defined next.  
+
+A type I error is rejecting the null hypothesis when it is true; the probability of making a type I error is denoted with the Greek symbol alpha $(\alpha)$. Power is the probability of rejecting the null hypothesis when it is not true.  Consequently, power depends on the true value of the mean, denoted with $\mu_1$. That is, power is the probability of making the correct decision when the null hypothesis is not true.  A type II error is failing to reject the null hypothesis when the null hypothesis is not true; the probability of making a type II error is denoted with the Greek symbol beta $(\beta)$.  The power at $\mu_1$ is one minus the probability of making a type II error, that is, $1 - \beta$.  
+
+
+# EXAMPLE {-}
+
+The following scenario can be given to students:
+
+A new drug is being developed to lower the average total cholesterol (measured in milligrams per deciliter, mg/dL) for a group of high risk patients whose total cholesterol values follow a normal distribution with an average total cholesterol of $300$ mg/dL and a standard deviation for total cholesterol of $50$ mg/dL. The researchers working on the drug want to detect a $25$ mg/dL reduction in average total cholesterol at least $80$% of the time while controlling the probability of type I error at $0.01$ for the group. While it is possible this particular drug may increase rather than decrease the average total cholesterol for this group of risk patients, the researchers strongly believe the drug will only reduce the average total cholesterol for this group of patients.  Consequently, the researchers are seeking evidence only to support the idea that the drug is beneficial in reducing the average total cholesterol for this particular group of high risk patients.  What sample size ($n$) do the researchers need to use to be able to detect a $25$ mg/dL reduction in average total cholesterol at least $80$% of the time using $\alpha = 0.01$ for this group of high risk patients?
+
+## Solution using the Shiny app with a *z*-test {-}
+
+Start by asking the students to specify the null and alternative hypotheses they will use to test the new drug.  The null hypothesis is that the population mean $(\mu)$ is $300$ mg/dL versus the alternative hypothesis which is that the population mean is less than $300$ mg/dL because only evidence of a reduction is sought. The null and alternative hypotheses are written $H_0: \mu = \mu_0$ versus $H_A: \mu < \mu_0,$ where $\mu_0 = 300$.  Note that detecting a $25$ mg/dL reduction in average total cholesterol corresponds to a true mean of $275$ mg/dL or less.  In this article and in the Shiny app, $\mu_1$ denotes the true value of the population mean $(\mu)$.  Have the students open a browser and point to the Shiny app found at https://mathr.math.appstate.edu/shiny/Power2/.  Walk the students through selecting the appropriate buttons that match the problem description as shown in Figure .  Specifically, students will click in the radio buttons to the left of $H_A:\mu < \mu_0$ and Variance known (z-test).  Numbers corresponding to the problem description will be entered in the boxes beneath Hypothesized mean $\mu_0:$ $300$, True mean $\mu_1:$ $275$, and Population standard deviation $(\sigma): 50$.  The slider beneath Significance level $(\alpha):$ will need to be moved to $0.01$.  Ask the students to set the number in the Sample size $(n):$ box to $10$ and report the power.  Next have the students set the Sample size $(n):$ box to $100$ and report the power.  Allow the students to experiment with decreasing and increasing the sample size to find the minimum value of $n$ to achieve a power of at least $0.80$.  Using $n = 41$ as shown in Figure , power is $0.8093$.
+
+
+## Solution using the Shiny app with a *t*-test {-}
+
+A more conservative estimate of the required sample size is obtained by using a *t*-test.  The symmetric curve on the right side of Figure  depicts a central *t*-distribution with $n-1$ degrees of freedom.  The slightly left skewed curve on the left side of Figure  is a non-central *t*-distribution. To find the required sample size with a *t*-test, the amount of asymmetry in the non-central *t*-distribution is computed by the Shiny app when the user provides a best guess for the population standard deviation $(\sigma)$ in conjunction with the input values for $\mu_0$ and $\mu_1$. In this scenario, suppose $50$ mg/dL is an estimate of the standard deviation for the population of interest in the problem.  Therefore, $50$ mg/dL is used as the best guess for the population standard deviation.  When using a *t*-test to compute the required sample size, click the Variance unknown (t-test) radio button.  The rest of the buttons and values with the exception of the Sample size $(n):$ box will be the same as those used for the *z*-test. Increase the value of $n$ until the power is at least $0.80$.  Using $n = 43$ returns a power value of $0.8012$ as shown in Figure .
+
+
+
+##Step by step solution with a *z*-test {-}
+
+A step by step solution should start by asking the students to specify the null and alternative hypotheses they will use to test that the new drug reduces cholesterol.  Although the null and alternative hypotheses for this scenario are generally written as:
+
+$$H_0:\mu = 300 \text{ versus } H_A: \mu < 300,$$
+it helps to remind the student that in using a *z*-test, one is also assuming the distribution of the quantity in question (cholesterol) has a normal distribution with a known mean and known standard deviation of $300$ mg/dL and $50$ mg/dL, respectively.  Consequently, the sampling distribution of the sample mean ($\bar{X}$) has a known normal distribution with a mean of $300$ mg/dL and a standard deviation (or standard error of $\bar{X}$) of $50/\sqrt{n}$.  Have the students sketch by hand a graph like the one in Figure, shading the quantities $\alpha$, $\beta$, and $\text{Power}$ when the true mean is $275$. After students sketch Figure, have them translate the English prose of the desired average reduction in cholesterol to a  statement such as : The power of the test if the true distribution is centered at $275$ with a standard deviation of $50/\sqrt{n}$ is the probability the null hypothesis will be rejected when $\alpha = 0.01$.  Ask the students to solve for the number of subjects ($n$) they should include in their sample when using a *z*-test so that $\text{Power}\,\big(\mu_1 = 275\big)\geq 0.80$. The null hypothesis when $\alpha = 0.01$ for the alternative hypothesis $H_A: \mu < \mu_0$ will be rejected for standardized test statistic values less than or equal to $z_{0.01}= `r round(qnorm(0.01),4)`$, where the $\text{num}$ in $z_{\text{num}}$ denotes the area to the left of a standard normal distribution. That is, the null hypothesis $H_0: \mu = 300$ will be rejected when the sample mean, $\bar{X}$, is less than $300 - 2.3263 \cdot 50/\sqrt{n}$.  When $\mu_1 = 275$, the power is  
+
+
+$$
+\text{Power}\,(\mu_1 = 275) = P\Big(\bar{X} \leq 300 - 2.3263 \cdot \tfrac{50}{\sqrt{n}} \,\text{ given }\, \bar{X} \text{ has a mean of 275} \Big)
+$$  
+ 
+To each side of the inequality $$\bar{X} \leq 300 -2.3263\cdot \tfrac{50}{\sqrt{n}}$$ 
+subtract the mean $(275)$ and divide by the standard deviation $(50/\sqrt{n})$ to obtain a random variable that follows a standard normal distribution $(z)$.
+
+\begin{align*}
+\text{Power}\,(\mu_1 = 275) & = P\left( \frac{\bar{X} - 275}{\frac{50}{\sqrt{n}}} \leq \frac{(300 - 275) -2.3263 \frac{50}{\sqrt{n}}}{\frac{50}{\sqrt{n}}} \right) \\
+                            & = P\left(z \leq \frac{\sqrt{n}}{2} - 2.3263 \right) 
+\end{align*}
+
+Since the problem requires $\text{Power}\,(\mu_1 = 275) \geq 0.80$, the quantile from a standard normal distribution with $0.80$ of the area to the left, $z_{0.80} = `r round(qnorm(0.80),4)`$ is used to solve for $n$ below.  The value of $z_{0.80}$ can be found with software or using a standard normal table.
+
+
+\begin{align*}
+0.8416  & \leq \frac{\sqrt{n}}{2} - 2.3263\\
+n & \geq 40.1424
+\end{align*}
+
+To achieve a power of at least $0.80$, one needs to use $41$ subjects.  Note that one will always round to the next largest integer to achieve the required power specified in the problem.
+
+After the students solve the problem, have them verify their answer with the Shiny app at https://mathr.math.appstate.edu/shiny/Power2/.  Students will specify the alternative hypothesis $(H_A: \mu < \mu_0)$, select the appropriate test (*z*-test), enter the hypothesized mean $(300)$, enter the true mean $(275)$, type the population standard deviation $(50)$, select the significance level $(0.01)$, and then experiment with increasing or decreasing the sample size to find the minimum value of $n$ that achieves a power greater than or equal to $0.80$ as shown in the title of the graph in Figure \@ref(fig:shinyq1z).
+
+## Step by step solution with a *t*-test {-}
+
+
+The step by step solution with a *t*-test is similar to the solution with a *z*-test. Students specify their hypotheses and sketch by hand a graph like the one in Figure  shading the quantities $\alpha$, $\beta$, and $\text{Power}\,(\mu_1 = 275)$. 
+Only after sketching Figure , have the students translate the English prose of the desired average reduction in total cholesterol to a mathematical statement such as .
+
+
+\begin{equation}
+\text{Power}\,\big(\mu_1 = 275\big) = P\big(\text{Reject } H_0 \,\text{ given }\, H_A \text{ is true}\big) 
+(\#eq:powerteq)
+\end{equation}
+
+A more conservative estimate of the required sample size is obtained when one uses the *t*-test.  When the null hypothesis is true, the quantity in \@ref(eq:trv) 
+
+\begin{equation}
+\frac{\bar{X} - \mu}{\frac{s}{\sqrt{n}}}
+(\#eq:trv)
+\end{equation}
+
+follows a central *t*-distribution, generally denoted as $t_{n-1}$, where $n-1$ are the degrees of freedom for the distribution.  When the null hypothesis is false, the quantity in \@ref(eq:trv) follows a non-central *t*-distribution, generally denoted as $t_{n-1; \gamma}$, where $n-1$ are the degrees of freedom for the distribution, and $\gamma$ is referred to as the non-centrality parameter, a measure of the asymmetry of the distribution.  To find the required sample size with a *t*-test, first determine the non-centrality parameter by using a best guess for $\sigma$.  Unfortunately, the process is now more complex as the non-centrality parameter gamma ($\gamma$) is a function of $n$,
+
+$$\gamma = \frac{\mu_1 - \mu_0}{\frac{\sigma}{\sqrt{n}}} = \frac{275 - 300}{\frac{50}{\sqrt{n}}} = \frac{-\sqrt{n}}{2}.$$
+Finding the power when $\mu_1 = 275$ with a *t*-test is computed by finding the probability of rejecting the null hypothesis given $\mu_1 = 275$ ($H_A$ is true).  Recall that the null hypothesis is rejected for values to the left of a central *t* distribution with $0.01$ in its left tail and $n-1$ degrees of freedom, denoted as $t_{0.01; n-1}$.  For example, $t_{0.01; 40} = `r round(qt(0.01, 40),4)`$, can be found using either a table or with statistical software.  Consequently, the power when $\mu_1 = 275$ is the area in a the non-central *t*-distribution ($t_{n-1; \gamma}$) to the left of $t_{0.01; n-1}$, written mathematically as: 
+
+              
+$$
+\text{Power}\,\big(\mu_1 = 275\big)  = P\Big(t_{n - 1; -\sqrt{n}/2} \leq t_{0.01; n - 1}   \Big),
+$$
+and depicted as the blue and purple shaded areas in Figure \@ref(fig:shinyq1t).
+
+
+To find a solution, one will need to use increasing values of $n$ until the 
+$P\big(t_{n - 1; -\sqrt{n}/2} \leq t_{0.01; n - 1}\big) \geq 0.80.$  Since the solution for the *z*-test yielded an $n = 41$, it seems reasonable to start with that value.  Although tables and charts for the non-central *t*-distribution are available, most tables have limited values of $\gamma$, and most charts require extensive interpolation.  Consequently, one should use a software program that will work with non-central distributions.  To find $P\big(t_{n - 1; -\sqrt{n}/2} \leq t_{0.01; n - 1}\big)$, one solution using `R` is given next.  The `qt()` and `pt()` functions in `R` return a *t* quantile and the area to the left of a quantile in a *t*-distribution, respectively.  The first two arguments for `qt()` are the area to the left of the desired quantile and the degrees of freedom.  The first three arguments for `pt()` are the quantile, the degrees of freedom, and the non-centrality parameter.  The critical value of *t* with $n = 41$ is `qt(0.01, 41 - 1)`, stored in `t1`.  Note that text following the pound sign (`#`) in `R` are comments.     
+
+```{r}
+t1 <- qt(0.01, 41 - 1)  # Critical t value, alpha = 0.01, dof = 40
+t1
+```
+
+The area to the left of `t1` in a non-central *t* distribution with $n = 41$ and $\gamma = -\sqrt{41}/2$ is the power and is computed with the command `pt()` shown below.    
+
+```{r}
+pt(t1, 41 - 1, -sqrt(41)/2)   # Area to left t1 in non-central t
+```
+
+Commands for finding the power at $n = 41$, $42$, and $43$ and the corresponding power values are provided below.  Note that $n = 43$ is the smallest value of $n$ to return a power $(0.8011974)$ greater than $0.80$.
+
+```{r}
+pt(qt(0.01, 41 - 1), 41 - 1, -sqrt(41)/2)  # power with n = 41
+pt(qt(0.01, 42 - 1), 42 - 1, -sqrt(42)/2)  # power with n = 42 
+pt(qt(0.01, 43 - 1), 43 - 1, -sqrt(43)/2)  # power with n = 43
+```
+
+After the students solve the problem using statistical software, have them verify their answer with the Shiny app at https://mathr.math.appstate.edu/shiny/Power2/.  Students will specify the alternative hypothesis $(H_A: \mu < \mu_0)$, select the appropriate test (*t*-test), enter the hypothesized mean $(300)$, type the true mean $(275)$, type the population standard deviation $(50)$, select the significance level $(0.01)$, and experiment with increasing or decreasing the sample size to find the minimum value of $n$ to achieve a power greater than or equal to $0.80$. A screen capture of the Shiny app with $n = 43$ is shown in Figure .
+
+# ADDITIONAL EXAMPLES {-}    
+    
+Once the students are comfortable using the Shiny app, they will be able to answer a variety of questions relating to power, sample size, the probability of making a type II error $(\beta)$, and significance level $(\alpha)$ by experimenting with different inputs in the Shiny app.  The following questions work well with the app.  
+
+a. Before a drug is administered, the lead physician states she believes the standard deviation for the patients administered the new drug will have a total cholesterol standard deviation between $40$ mg/dL and $70$ mg/dL.  Use this new information to recompute your sample size requirements for the experiment using a *t*-test.  Develop new recommendations and explain your new sample size requirements to meet the stated objectives.
+
+**Partial Answer:** A conservative answer would use the total cholesterol standard deviation of $70$ mg/dL to ensure the probability of detecting a reduction of $25$ mg/dL is at least $80$%.  Using $70$ mg/dL as the standard deviation, a sample size of $n = 82$ will detect a $25$ mg/dL reduction in total cholesterol $80.33$% of the time when the significance level is $0.01$.
+    
+b. What sample size is need to ensure the type II error is no greater than the type I error?
+      
+**Partial Answer:** A sample size of $n \geq 173$ will return $\beta$ (the probability of making a type II error) < $\alpha = 0.01$.
+
+
+
+# References {-}
