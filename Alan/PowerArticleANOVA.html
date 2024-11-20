@@ -403,7 +403,7 @@ errors are assumed to be normally and independently distributed with mean zero
 and constant standard deviation <span class="math inline">\(\bigl(NID(0, \sigma)\bigr)\)</span>. Although estimating the parameters for Model <a href="#eq:EDMeq">(1)</a> is possible, the goal of the experimenter is typically to discern whether or not the <span class="math inline">\(a\)</span> treatment means are equal. The hypotheses of interest are</p>
 <p><span class="math display" id="eq:HYP">\[H_0: \mu_1=\mu_2= \dots = \mu_a\quad\text{ versus }\quad H_1:\mu_i \ne \mu_j \text{ for some }(i, j).
 \tag{2}\]</span></p>
-<p>The following notation is adopted from <span class="citation">Ugarte et al. (2015)</span>: The sum of the observations in the <span class="math inline">\(i^\text{th}\)</span> treatment group is <span class="math inline">\(Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}\)</span>, and the mean of the observations in the
+<p>The notation that follows is adopted from <span class="citation">Ugarte et al. (2015)</span>. The sum of the observations in the <span class="math inline">\(i^\text{th}\)</span> treatment group is <span class="math inline">\(Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}\)</span>, and the mean of the observations in the
 <span class="math inline">\(i^\text{th}\)</span> treatment group is <span class="math inline">\(\bar{Y}_{i\bullet}=\frac{1}{n_{i}}\sum_{j=1}^{n_i} Y_{ij} = \frac{Y_{i\bullet}}{n_i}\)</span>. The bar indicates a mean while the dot
 <span class="math inline">\((\bullet)\)</span> indicates that values have been added over the indicated subscript.
 The sum of all observations is <span class="math inline">\(Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i} Y_{ij}.\)</span> The grand mean of all observations is denoted <span class="math inline">\(\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}=\frac{Y_{\bullet\bullet}}{N}.\)</span> For <span class="math inline">\(a = 2\)</span> treatments, the typical sum of squares for testing the hypotheses in <a href="#eq:HYP">(2)</a> are shown to the left of the equivalence (<span class="math inline">\(\equiv\)</span>) symbol in <a href="#eq:AltFeq">(3)</a>. The representation on the right side of the <span class="math inline">\(\equiv\)</span> in <a href="#eq:AltFeq">(3)</a> is the standard test statistic used to test two means when variances are assumed to be equal. To verify the equivalence keep in mind that <span class="math inline">\(\sum_{j=1}^{n_i} Y_{ij} = \bar{Y}_{i\bullet} n_i \text{ for } i=1,2\)</span> and <span class="math inline">\((n_1 + n_2) \bar{Y}_{\bullet\bullet} = \sum_{i=1}^2 \sum_{j=1}^{n_i} Y_{ij}\)</span>.</p>
@@ -422,6 +422,15 @@ F = \dfrac{(\,\bar{Y}_{1\bullet} -\bar{Y}_{2\bullet})^2 }{S^2_p\left( \frac{1}{n
 \sqrt{ \frac{1}{n_1} + \frac{1}{n_2}}} \right]^2 = [t]^2.
 \tag{4}
 \end{equation}\]</span></p>
+<p>The quantity in <a href="#eq:AltFeq">(3)</a> measures the statistical differences between <strong>sample</strong> means. Replacing the sample means in <a href="#eq:AltFeq">(3)</a> with the population means yields</p>
+<p><span class="math display">\[\begin{equation*}
+\lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}
+\end{equation*}\]</span>
+where <span class="math inline">\(SS_\text{Hypothesis}(\text{population})\)</span> is the sum of squares for
+treatments obtained by
+replacing <span class="math inline">\(\bar{Y}_{1\bullet}\)</span> with <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\bar{Y}_{2\bullet}\)</span> with <span class="math inline">\(\mu_2\)</span>, and
+<span class="math inline">\(\bar{Y}_{\bullet\bullet}\)</span> with <span class="math inline">\(\frac{n_1\mu_1+n_2\mu_2}{n_1+n_2}\)</span>.</p>
 </div>
 <div id="example" class="section level1 unnumbered">
 <h1>EXAMPLE</h1>

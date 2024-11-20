@@ -62,7 +62,7 @@ and constant standard deviation $\bigl(NID(0, \sigma)\bigr)$.  Although estimati
 $$H_0: \mu_1=\mu_2= \dots = \mu_a\quad\text{ versus }\quad H_1:\mu_i \ne \mu_j \text{ for some }(i, j).
 (\#eq:HYP)$$
 
-The following notation is adopted from @ugarte_probability_2015: The sum of the observations in the $i^\text{th}$ treatment group is $Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}$, and the mean of the observations in the
+The notation that follows is adopted from @ugarte_probability_2015. The sum of the observations in the $i^\text{th}$ treatment group is $Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}$, and the mean of the observations in the
 $i^\text{th}$ treatment group is $\bar{Y}_{i\bullet}=\frac{1}{n_{i}}\sum_{j=1}^{n_i}
 Y_{ij} = \frac{Y_{i\bullet}}{n_i}$. The bar indicates a mean while the dot
 $(\bullet)$ indicates that values have been added over the indicated subscript.
@@ -90,7 +90,16 @@ F = \dfrac{(\,\bar{Y}_{1\bullet} -\bar{Y}_{2\bullet})^2 }{S^2_p\left( \frac{1}{n
 (\#eq:tsqEQ)
 \end{equation}
 
+The quantity in \@ref(eq:AltFeq) measures the statistical differences between **sample** means. Replacing the sample means in \@ref(eq:AltFeq) with the population means yields
 
+\begin{equation*}
+\lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}
+\end{equation*}
+where $SS_\text{Hypothesis}(\text{population})$ is the sum of squares for 
+treatments obtained by
+replacing $\bar{Y}_{1\bullet}$ with $\mu_1$, $\bar{Y}_{2\bullet}$ with $\mu_2$, and
+$\bar{Y}_{\bullet\bullet}$ with $\frac{n_1\mu_1+n_2\mu_2}{n_1+n_2}$.
 
 # EXAMPLE {-}
 
