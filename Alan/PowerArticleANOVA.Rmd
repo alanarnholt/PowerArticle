@@ -1,8 +1,8 @@
 ---
-title: "Determining sample size for a completely randomized experiment to achieve an acceptable power"
+title: "Determining sample size for a completely randomized experiment to achieve an acceptable power with a Shiny app"
 author:
-- name: Some Name
-  affiliation: Some School
+- name: Dr. X, Dr. Y, and Dr. Z
+  affiliation: RV School
   email: somename.com
 header-includes:
   - \usepackage{mathtools}
@@ -38,13 +38,40 @@ lapply(PackagesUsed, library, character.only = TRUE)
 
 # INTRODUCTION {-}
 
-The concept of power is introduced in elementary statistics texts such as @utts_mind_2006 and @veaux_stats:_2015; however, due to the difficulty in computing power, the topic of power and its relationship to sample size is not as well understood as it should be by many students .  Authors such as @anderson-cook_making_2003 and @aberson_interactive_2002 have introduced the concepts of power and sample size with Java applets.  Unfortunately, as security vulnerabilities with using Java in web browsers are real, applets written in Java are generally no longer accessible with most modern web browsers [@noauthor_modern_nodate].  Some Java applet authors have rewritten their applets using Java-script, but many have not.  An alternative method one can use to create interactive web-based applications is Shiny [@R-shiny].  Shiny apps can be written with some knowledge of the R programming language [@R-base].  @doi_web_2016 created seventeen different Shiny apps that can be used to teach a wide range of statistical topics.  Shiny apps were used as a means of allowing students aged 12 to 18 to engage with scientific material in @fawcett_storm_2017 and as a tool to enhance the learning experience of confidence intervals by @williams_using_2018. @fawcett_using_2018 continued working with Shiny apps and data applications in _Using Interactive Shiny Applications to Facilitate Research-Informed Learning and Teaching_. In what follows, the concepts of power and power's relationship to sample size are introduced using a Shiny app to solve a medical example. Step by step solutions for the medical example are also provided and can be used with more advanced students to illustrate the theory behind the power computations.
+The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @https://doi.org/10.1111/test.12186.  This work shows how the noncentrality parameter ($\lambda$) is a measure of statistical difference between **population** means and the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power. The notation used for the one-way completely randomized design follows that presented in @ugarte_probability_2015.  To aid with the connection between noncentrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test where there are ($a = 2$) treatments before generalizing to $a >= 2$ treatments.  
+
 
 # STATISTICAL BACKGROUND {-}
 
-Below is a discussion of how to use the Shiny App to find power using the *z*-test and the *t*-test for a particular mean under the assumption that one is sampling from a normal distribution.  Using the Shiny app allows students to visualize the hypothesized null distribution as well as the true distribution for either a one-sided or two-sided alternative hypothesis while changing the value of the standard deviation and the significance level.  Although some elementary texts discuss power for a *z*-test, most do not discuss how to compute power for a *t*-test.  While the omission is understandable given the number of topics in the standard algebra-based introductory statistics course, presenting power only for the *z*-test, which most texts use as an introduction to the *t*-test, creates a critical gap in statistical knowledge for the student, especially when most practitioners never use a *z*-test.  Another possible reason elementary textbook authors may not discuss how to compute power when using a *t*-test is to avoid calculations that use a non-central *t*-distribution.  The ideas of a type I error, a type II error, and power are introduced in a table in virtually all elementary statistics texts.  For completeness, each concept is defined next.  
+The following notation is adopted from @ugarte_probability_2015: The sum of the observations in the $i^\text{th}$ treatment group is $Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}$, and the mean of the observations in the
+$i^\text{th}$ treatment group is $\bar{Y}_{i\bullet}=\frac{1}{n_{i}}\sum_{j=1}^{n_i}
+Y_{ij} = \frac{Y_{i\bullet}}{n_i}$. The bar indicates a mean while the dot
+$(\bullet)$ indicates that values have been added over the indicated subscript.
+The sum of all observations is $Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i}
+Y_{ij}.$ The grand mean of all observations is denoted $\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a
+\sum_{j=1}^{n_i}Y_{ij}=\frac{Y_{\bullet\bullet}}{N}.$
 
-A type I error is rejecting the null hypothesis when it is true; the probability of making a type I error is denoted with the Greek symbol alpha $(\alpha)$. Power is the probability of rejecting the null hypothesis when it is not true.  Consequently, power depends on the true value of the mean, denoted with $\mu_1$. That is, power is the probability of making the correct decision when the null hypothesis is not true.  A type II error is failing to reject the null hypothesis when the null hypothesis is not true; the probability of making a type II error is denoted with the Greek symbol beta $(\beta)$.  The power at $\mu_1$ is one minus the probability of making a type II error, that is, $1 - \beta$.  
+To describe the observations, the linear statistical model
+\begin{equation}\label{EDMeq}
+Y_{ij} = \mu + \tau_i + \epsilon_{ij} \text{ for }i=1, 2, \dots, a \text{ and } j
+=1, 2, \dots, n_a
+\end{equation}
+is used, where $Y_{ij}$ is the $j^\text{th}$
+observation of the $i^\text{th}$ treatment, $\mu$ is a parameter common to all
+treatments called the overall mean, $\tau_i$ is a parameter unique to the
+$i^\text{th}$ treatment called the $i^\text{th}$ treatment effect, and
+$\epsilon_{ij}$ is a random error component. For hypothesis testing, the model
+errors are assumed to be normally and independently distributed with mean zero
+and constant standard deviation $\bigl(NID(0, \sigma)\bigr)$. 
+
+\begin{equation}
+F = \frac{MS_\text{Treatment}}{MS_\text{Error}} = \dfrac{\dfrac{\sum_{i=1}^2
+\sum_{j=1}^{n_i} (\,\bar{Y}_{i\bullet} - \bar{Y}_{\bullet\bullet})^2}{
+df_\text{Treatment}}}{\dfrac{\sum_{i=1}^2 \sum_{j=1}^{n_i}(\, Y_{ij}-
+\bar{Y}_{i\bullet})^2}{ df_\text{Error}}} \equiv \dfrac{(\,\bar{Y}_{1\bullet}
+-\bar{Y}_{2\bullet})^2 \left( \frac{1}{n_1} + \frac{1}{n_2} \right)^{-1}}{S^2_p}
+(\#eq:AltFeq)
+\end{equation}
 
 
 # EXAMPLE {-}
