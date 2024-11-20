@@ -388,29 +388,39 @@ RV School<br><a class="author_email" href="mailto:#">somename.com</a>
 </div>
 <div id="statistical-background" class="section level1 unnumbered">
 <h1>STATISTICAL BACKGROUND</h1>
-<p>The following notation is adopted from <span class="citation">Ugarte et al. (2015)</span>: The sum of the observations in the <span class="math inline">\(i^\text{th}\)</span> treatment group is <span class="math inline">\(Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}\)</span>, and the mean of the observations in the
-<span class="math inline">\(i^\text{th}\)</span> treatment group is <span class="math inline">\(\bar{Y}_{i\bullet}=\frac{1}{n_{i}}\sum_{j=1}^{n_i} Y_{ij} = \frac{Y_{i\bullet}}{n_i}\)</span>. The bar indicates a mean while the dot
-<span class="math inline">\((\bullet)\)</span> indicates that values have been added over the indicated subscript.
-The sum of all observations is <span class="math inline">\(Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i} Y_{ij}.\)</span> The grand mean of all observations is denoted <span class="math inline">\(\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}=\frac{Y_{\bullet\bullet}}{N}.\)</span></p>
-<p>To describe the observations, the linear statistical model
-<span class="math display">\[\begin{equation}\label{EDMeq}
+<p>The observations in a completely randomized design (CRD) can be described with a linear statistical model
+<span class="math display" id="eq:EDMeq">\[\begin{equation}
 Y_{ij} = \mu + \tau_i + \epsilon_{ij} \text{ for }i=1, 2, \dots, a \text{ and } j
 =1, 2, \dots, n_a
+\tag{1}
 \end{equation}\]</span>
-is used, where <span class="math inline">\(Y_{ij}\)</span> is the <span class="math inline">\(j^\text{th}\)</span>
+where <span class="math inline">\(Y_{ij}\)</span> is the <span class="math inline">\(j^\text{th}\)</span>
 observation of the <span class="math inline">\(i^\text{th}\)</span> treatment, <span class="math inline">\(\mu\)</span> is a parameter common to all
 treatments called the overall mean, <span class="math inline">\(\tau_i\)</span> is a parameter unique to the
 <span class="math inline">\(i^\text{th}\)</span> treatment called the <span class="math inline">\(i^\text{th}\)</span> treatment effect, and
 <span class="math inline">\(\epsilon_{ij}\)</span> is a random error component. For hypothesis testing, the model
 errors are assumed to be normally and independently distributed with mean zero
-and constant standard deviation <span class="math inline">\(\bigl(NID(0, \sigma)\bigr)\)</span>.</p>
+and constant standard deviation <span class="math inline">\(\bigl(NID(0, \sigma)\bigr)\)</span>. Although estimating the parameters for Model <a href="#eq:EDMeq">(1)</a> is possible, the goal of the experimenter is typically to discern whether or not the <span class="math inline">\(a\)</span> treatment means are equal. The hypotheses of interest are</p>
+<p><span class="math display" id="eq:HYP">\[H_0: \mu_1=\mu_2= \dots = \mu_a\quad\text{ versus }\quad H_1:\mu_i \ne \mu_j \text{ for some }(i, j).
+\tag{2}\]</span></p>
+<p>The following notation is adopted from <span class="citation">Ugarte et al. (2015)</span>: The sum of the observations in the <span class="math inline">\(i^\text{th}\)</span> treatment group is <span class="math inline">\(Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}\)</span>, and the mean of the observations in the
+<span class="math inline">\(i^\text{th}\)</span> treatment group is <span class="math inline">\(\bar{Y}_{i\bullet}=\frac{1}{n_{i}}\sum_{j=1}^{n_i} Y_{ij} = \frac{Y_{i\bullet}}{n_i}\)</span>. The bar indicates a mean while the dot
+<span class="math inline">\((\bullet)\)</span> indicates that values have been added over the indicated subscript.
+The sum of all observations is <span class="math inline">\(Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i} Y_{ij}.\)</span> The grand mean of all observations is denoted <span class="math inline">\(\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}=\frac{Y_{\bullet\bullet}}{N}.\)</span> For <span class="math inline">\(a = 2\)</span> treatments, the typical sum of squares for testing the hypotheses in <a href="#eq:HYP">(2)</a> are shown to the left of the equivalence (<span class="math inline">\(\equiv\)</span>) symbol in <a href="#eq:AltFeq">(3)</a>. The representation on the right side of the <span class="math inline">\(\equiv\)</span> in <a href="#eq:AltFeq">(3)</a> is the standard test statistic used to test two means when variances are assumed to be equal. To verify the equivalence keep in mind that <span class="math inline">\(\sum_{j=1}^{n_i} Y_{ij} = \bar{Y}_{i\bullet} n_i \text{ for } i=1,2\)</span> and <span class="math inline">\((n_1 + n_2) \bar{Y}_{\bullet\bullet} = \sum_{i=1}^2 \sum_{j=1}^{n_i} Y_{ij}\)</span>.</p>
 <p><span class="math display" id="eq:AltFeq">\[\begin{equation}
 F = \frac{MS_\text{Treatment}}{MS_\text{Error}} = \dfrac{\dfrac{\sum_{i=1}^2
 \sum_{j=1}^{n_i} (\,\bar{Y}_{i\bullet} - \bar{Y}_{\bullet\bullet})^2}{
 df_\text{Treatment}}}{\dfrac{\sum_{i=1}^2 \sum_{j=1}^{n_i}(\, Y_{ij}-
 \bar{Y}_{i\bullet})^2}{ df_\text{Error}}} \equiv \dfrac{(\,\bar{Y}_{1\bullet}
 -\bar{Y}_{2\bullet})^2 \left( \frac{1}{n_1} + \frac{1}{n_2} \right)^{-1}}{S^2_p}
-\tag{1}
+\tag{3}
+\end{equation}\]</span></p>
+<p>Rewriting the right side of <a href="#eq:AltFeq">(3)</a> yields</p>
+<p><span class="math display" id="eq:tsqEQ">\[\begin{equation}
+F = \dfrac{(\,\bar{Y}_{1\bullet} -\bar{Y}_{2\bullet})^2 }{S^2_p\left( \frac{1}{n_1} +
+\frac{1}{n_2} \right)} = \left[ \dfrac{(\,\bar{Y}_{1\bullet} -\bar{Y}_{2\bullet}) }{S_p
+\sqrt{ \frac{1}{n_1} + \frac{1}{n_2}}} \right]^2 = [t]^2.
+\tag{4}
 \end{equation}\]</span></p>
 </div>
 <div id="example" class="section level1 unnumbered">
@@ -451,14 +461,14 @@ n &amp; \geq 40.1424
 Only after sketching Figure , have the students translate the English prose of the desired average reduction in total cholesterol to a mathematical statement such as .</p>
 <p><span class="math display" id="eq:powerteq">\[\begin{equation}
 \text{Power}\,\big(\mu_1 = 275\big) = P\big(\text{Reject } H_0 \,\text{ given }\, H_A \text{ is true}\big)
-\tag{2}
+\tag{5}
 \end{equation}\]</span></p>
-<p>A more conservative estimate of the required sample size is obtained when one uses the <em>t</em>-test. When the null hypothesis is true, the quantity in <a href="#eq:trv">(3)</a></p>
+<p>A more conservative estimate of the required sample size is obtained when one uses the <em>t</em>-test. When the null hypothesis is true, the quantity in <a href="#eq:trv">(6)</a></p>
 <p><span class="math display" id="eq:trv">\[\begin{equation}
 \frac{\bar{X} - \mu}{\frac{s}{\sqrt{n}}}
-\tag{3}
+\tag{6}
 \end{equation}\]</span></p>
-<p>follows a central <em>t</em>-distribution, generally denoted as <span class="math inline">\(t_{n-1}\)</span>, where <span class="math inline">\(n-1\)</span> are the degrees of freedom for the distribution. When the null hypothesis is false, the quantity in <a href="#eq:trv">(3)</a> follows a non-central <em>t</em>-distribution, generally denoted as <span class="math inline">\(t_{n-1; \gamma}\)</span>, where <span class="math inline">\(n-1\)</span> are the degrees of freedom for the distribution, and <span class="math inline">\(\gamma\)</span> is referred to as the non-centrality parameter, a measure of the asymmetry of the distribution. To find the required sample size with a <em>t</em>-test, first determine the non-centrality parameter by using a best guess for <span class="math inline">\(\sigma\)</span>. Unfortunately, the process is now more complex as the non-centrality parameter gamma (<span class="math inline">\(\gamma\)</span>) is a function of <span class="math inline">\(n\)</span>,</p>
+<p>follows a central <em>t</em>-distribution, generally denoted as <span class="math inline">\(t_{n-1}\)</span>, where <span class="math inline">\(n-1\)</span> are the degrees of freedom for the distribution. When the null hypothesis is false, the quantity in <a href="#eq:trv">(6)</a> follows a non-central <em>t</em>-distribution, generally denoted as <span class="math inline">\(t_{n-1; \gamma}\)</span>, where <span class="math inline">\(n-1\)</span> are the degrees of freedom for the distribution, and <span class="math inline">\(\gamma\)</span> is referred to as the non-centrality parameter, a measure of the asymmetry of the distribution. To find the required sample size with a <em>t</em>-test, first determine the non-centrality parameter by using a best guess for <span class="math inline">\(\sigma\)</span>. Unfortunately, the process is now more complex as the non-centrality parameter gamma (<span class="math inline">\(\gamma\)</span>) is a function of <span class="math inline">\(n\)</span>,</p>
 <p><span class="math display">\[\gamma = \frac{\mu_1 - \mu_0}{\frac{\sigma}{\sqrt{n}}} = \frac{275 - 300}{\frac{50}{\sqrt{n}}} = \frac{-\sqrt{n}}{2}.\]</span>
 Finding the power when <span class="math inline">\(\mu_1 = 275\)</span> with a <em>t</em>-test is computed by finding the probability of rejecting the null hypothesis given <span class="math inline">\(\mu_1 = 275\)</span> (<span class="math inline">\(H_A\)</span> is true). Recall that the null hypothesis is rejected for values to the left of a central <em>t</em> distribution with <span class="math inline">\(0.01\)</span> in its left tail and <span class="math inline">\(n-1\)</span> degrees of freedom, denoted as <span class="math inline">\(t_{0.01; n-1}\)</span>. For example, <span class="math inline">\(t_{0.01; 40} = -2.4233\)</span>, can be found using either a table or with statistical software. Consequently, the power when <span class="math inline">\(\mu_1 = 275\)</span> is the area in a the non-central <em>t</em>-distribution (<span class="math inline">\(t_{n-1; \gamma}\)</span>) to the left of <span class="math inline">\(t_{0.01; n-1}\)</span>, written mathematically as:</p>
 <p><span class="math display">\[
