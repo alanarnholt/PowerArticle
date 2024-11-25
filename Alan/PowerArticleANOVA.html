@@ -372,7 +372,7 @@ display: none;
 <address class="author_afil">
 RV School<br><a class="author_email" href="mailto:#">somename.com</a>
 </address>
-<h4 class="date">Last edit: November 20, 2024</h4>
+<h4 class="date">Last edit: November 25, 2024</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p><strong>Summary</strong> Understanding and computing power and the relationship between sample size and power are facilitated via a Shiny app. The Shiny app allows students to solve various scenarios by entering different parameters or moving sliders.</p>
@@ -435,10 +435,57 @@ replacing <span class="math inline">\(\bar{Y}_{1\bullet}\)</span> with <span cla
 <div id="example" class="section level1 unnumbered">
 <h1>EXAMPLE</h1>
 <p>The following scenario can be given to students:</p>
-<p>A new drug is being developed to lower the average total cholesterol (measured in milligrams per deciliter, mg/dL) for a group of high risk patients whose total cholesterol values follow a normal distribution with an average total cholesterol of <span class="math inline">\(300\)</span> mg/dL and a standard deviation for total cholesterol of <span class="math inline">\(50\)</span> mg/dL. The researchers working on the drug want to detect a <span class="math inline">\(25\)</span> mg/dL reduction in average total cholesterol at least <span class="math inline">\(80\)</span>% of the time while controlling the probability of type I error at <span class="math inline">\(0.01\)</span> for the group. While it is possible this particular drug may increase rather than decrease the average total cholesterol for this group of risk patients, the researchers strongly believe the drug will only reduce the average total cholesterol for this group of patients. Consequently, the researchers are seeking evidence only to support the idea that the drug is beneficial in reducing the average total cholesterol for this particular group of high risk patients. What sample size (<span class="math inline">\(n\)</span>) do the researchers need to use to be able to detect a <span class="math inline">\(25\)</span> mg/dL reduction in average total cholesterol at least <span class="math inline">\(80\)</span>% of the time using <span class="math inline">\(\alpha = 0.01\)</span> for this group of high risk patients?</p>
-<div id="solution-using-the-shiny-app-with-a-z-test" class="section level2 unnumbered">
-<h2>Solution using the Shiny app with a <em>z</em>-test</h2>
-<p>Start by asking the students to specify the null and alternative hypotheses they will use to test the new drug. The null hypothesis is that the population mean <span class="math inline">\((\mu)\)</span> is <span class="math inline">\(300\)</span> mg/dL versus the alternative hypothesis which is that the population mean is less than <span class="math inline">\(300\)</span> mg/dL because only evidence of a reduction is sought. The null and alternative hypotheses are written <span class="math inline">\(H_0: \mu = \mu_0\)</span> versus <span class="math inline">\(H_A: \mu &lt; \mu_0,\)</span> where <span class="math inline">\(\mu_0 = 300\)</span>. Note that detecting a <span class="math inline">\(25\)</span> mg/dL reduction in average total cholesterol corresponds to a true mean of <span class="math inline">\(275\)</span> mg/dL or less. In this article and in the Shiny app, <span class="math inline">\(\mu_1\)</span> denotes the true value of the population mean <span class="math inline">\((\mu)\)</span>. Have the students open a browser and point to the Shiny app found at <a href="https://mathr.math.appstate.edu/shiny/Power2/" class="uri">https://mathr.math.appstate.edu/shiny/Power2/</a>. Walk the students through selecting the appropriate buttons that match the problem description as shown in Figure . Specifically, students will click in the radio buttons to the left of <span class="math inline">\(H_A:\mu &lt; \mu_0\)</span> and Variance known (z-test). Numbers corresponding to the problem description will be entered in the boxes beneath Hypothesized mean <span class="math inline">\(\mu_0:\)</span> <span class="math inline">\(300\)</span>, True mean <span class="math inline">\(\mu_1:\)</span> <span class="math inline">\(275\)</span>, and Population standard deviation <span class="math inline">\((\sigma): 50\)</span>. The slider beneath Significance level <span class="math inline">\((\alpha):\)</span> will need to be moved to <span class="math inline">\(0.01\)</span>. Ask the students to set the number in the Sample size <span class="math inline">\((n):\)</span> box to <span class="math inline">\(10\)</span> and report the power. Next have the students set the Sample size <span class="math inline">\((n):\)</span> box to <span class="math inline">\(100\)</span> and report the power. Allow the students to experiment with decreasing and increasing the sample size to find the minimum value of <span class="math inline">\(n\)</span> to achieve a power of at least <span class="math inline">\(0.80\)</span>. Using <span class="math inline">\(n = 41\)</span> as shown in Figure , power is <span class="math inline">\(0.8093\)</span>.</p>
+<p>Consider a ficticious experiment where one of two hormones (testosterone or isoandrostenolone) are given to day old male chicks for fifteen days. At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and the average weight of chicks that receive isoandrostenolone will be 70 mg. Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg. What is the minimum number of chicks that should be assigned to each group to obtain a power for the test of at least 0.80 using <span class="math inline">\(\alpha = 0.05\)</span>?</p>
+<div id="solution-using-base-r-functions" class="section level2 unnumbered">
+<h2>Solution using base R functions</h2>
+<p>Start by asking the students to specify the null and alternative hypotheses they will use to test the two hormones. The hypotheses are:
+<span class="math display">\[H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}.\]</span>
+Since the researcher specified a range for <span class="math inline">\(\sigma\)</span>, two sets of values will be computed one for when the value of <span class="math inline">\(\sigma\)</span> is 20 mg and one for when the value of <span class="math inline">\(\sigma\)</span> is 30 mg. Start by finding a critical value for which the null hypothesis will be rejected at the <span class="math inline">\(\alpha = 0.05\)</span> level with a guess of <span class="math inline">\(n_1 = n_2 = 10\)</span>. That is we are looking for <span class="math inline">\(F_{0.95, 2 - 1, 10 + 10 -2} = F_{0.95, 1, 18} = 4.4138734\)</span>. Next compute the noncentrality parameter when <span class="math inline">\(\sigma = 20\)</span> mg.</p>
+<p><span class="math display">\[\begin{equation*}
+\lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{10(100 - 85)^2 + 10(70 - 85)^2}{20^2} = 11.25
+\end{equation*}\]</span></p>
+<p><span class="math display">\[\text{Power}(\lambda = 11.25) = P(F^*_{1, 18, \lambda = 11.25} \geq f_{0.95, 1, 18} = 4.4138734) = 0.8869702\]</span></p>
+<p>Since we only need to achieve a power of 0.80, we can reduce the values for each sample. Next, we consider using <span class="math inline">\(n_1 = 9\)</span> and <span class="math inline">\(n_2 = 8\)</span> when <span class="math inline">\(\sigma = 20\)</span> mg.</p>
+<p><span class="math display">\[\begin{equation*}
+\lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 8(70 - 85)^2}{20^2} = 9.5625
+\end{equation*}\]</span></p>
+<p><span class="math display">\[\text{Power}(\lambda = 9.5625) = P(F^*_{1, 15, \lambda = 9.5625} \geq f_{0.95, 1, 15} = 4.5430772) = 0.8236915\]</span></p>
+<pre class="r"><code># Hypothesized means
+hypmeans &lt;- c(100, 70)
+# Number of treatments
+a &lt;- length(hypmeans) 
+n1 = 10
+n2 = 10
+# Total number of experimental units
+N &lt;- n1 + n2 
+# Degrees of freedom for error
+dferror &lt;- N - a
+# Sigma value
+sigma &lt;- 20
+# Create n1 values of 100 and n2 values of 70 and store in Y
+Y &lt;- rep(hypmeans, times = c(n1, n2))
+# Create a treatment factor with n1 values of testosterone and n2 values of isoandrostenolone
+Treat &lt;- factor(rep(c(&quot;testosterone&quot;, &quot;isoandrostenolone&quot;), times = c(n1, n2)))
+# Compute SS for ANOVA
+summary(aov(Y ~ Treat))</code></pre>
+<pre><code>            Df Sum Sq Mean Sq   F value Pr(&gt;F)    
+Treat        1   4500    4500 1.993e+31 &lt;2e-16 ***
+Residuals   18      0       0                     
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># Pull out the SS Treat value and assign to SShyp
+(summary(aov(Y ~ Treat))[[1]][1, 2] -&gt; SShyp) </code></pre>
+<pre><code>[1] 4500</code></pre>
+<pre class="r"><code># Noncentrality parameter
+(lambda &lt;- SShyp/sigma^2)</code></pre>
+<pre><code>[1] 11.25</code></pre>
+<pre class="r"><code>(CriticalF &lt;- qf(0.95, a - 1, N - a))</code></pre>
+<pre><code>[1] 4.413873</code></pre>
+<pre class="r"><code># Power for lambda
+(pf(CriticalF, a-1, dferror, lambda, lower = FALSE) -&gt; POWER)</code></pre>
+<pre><code>[1] 0.8869702</code></pre>
 </div>
 <div id="solution-using-the-shiny-app-with-a-t-test" class="section level2 unnumbered">
 <h2>Solution using the Shiny app with a <em>t</em>-test</h2>

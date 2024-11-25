@@ -11,8 +11,8 @@ header-includes:
   - \usepackage{breakurl}
 date: 'Last edit: `r format(Sys.time(), "%B %d, %Y")`'
 output: 
-    bookdown::html_document2
-    #bookdown::pdf_document2
+    #bookdown::html_document2
+    bookdown::pdf_document2
     #bookdown::word_document2
 bibliography: [packages.bib, powerarticle.bib] 
 csl: apa.csl
@@ -105,11 +105,62 @@ $\bar{Y}_{\bullet\bullet}$ with $\frac{n_1\mu_1+n_2\mu_2}{n_1+n_2}$.
 
 The following scenario can be given to students:
 
-A new drug is being developed to lower the average total cholesterol (measured in milligrams per deciliter, mg/dL) for a group of high risk patients whose total cholesterol values follow a normal distribution with an average total cholesterol of $300$ mg/dL and a standard deviation for total cholesterol of $50$ mg/dL. The researchers working on the drug want to detect a $25$ mg/dL reduction in average total cholesterol at least $80$% of the time while controlling the probability of type I error at $0.01$ for the group. While it is possible this particular drug may increase rather than decrease the average total cholesterol for this group of risk patients, the researchers strongly believe the drug will only reduce the average total cholesterol for this group of patients.  Consequently, the researchers are seeking evidence only to support the idea that the drug is beneficial in reducing the average total cholesterol for this particular group of high risk patients.  What sample size ($n$) do the researchers need to use to be able to detect a $25$ mg/dL reduction in average total cholesterol at least $80$% of the time using $\alpha = 0.01$ for this group of high risk patients?
+Consider a ficticious experiment where one of two hormones (testosterone or isoandrostenolone) are given to day old male chicks for fifteen days.  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power for the test of at least 0.80 using $\alpha = 0.05$? 
 
-## Solution using the Shiny app with a *z*-test {-}
+## Solution using base R functions {-}
 
-Start by asking the students to specify the null and alternative hypotheses they will use to test the new drug.  The null hypothesis is that the population mean $(\mu)$ is $300$ mg/dL versus the alternative hypothesis which is that the population mean is less than $300$ mg/dL because only evidence of a reduction is sought. The null and alternative hypotheses are written $H_0: \mu = \mu_0$ versus $H_A: \mu < \mu_0,$ where $\mu_0 = 300$.  Note that detecting a $25$ mg/dL reduction in average total cholesterol corresponds to a true mean of $275$ mg/dL or less.  In this article and in the Shiny app, $\mu_1$ denotes the true value of the population mean $(\mu)$.  Have the students open a browser and point to the Shiny app found at https://mathr.math.appstate.edu/shiny/Power2/.  Walk the students through selecting the appropriate buttons that match the problem description as shown in Figure .  Specifically, students will click in the radio buttons to the left of $H_A:\mu < \mu_0$ and Variance known (z-test).  Numbers corresponding to the problem description will be entered in the boxes beneath Hypothesized mean $\mu_0:$ $300$, True mean $\mu_1:$ $275$, and Population standard deviation $(\sigma): 50$.  The slider beneath Significance level $(\alpha):$ will need to be moved to $0.01$.  Ask the students to set the number in the Sample size $(n):$ box to $10$ and report the power.  Next have the students set the Sample size $(n):$ box to $100$ and report the power.  Allow the students to experiment with decreasing and increasing the sample size to find the minimum value of $n$ to achieve a power of at least $0.80$.  Using $n = 41$ as shown in Figure , power is $0.8093$.
+Start by asking the students to specify the null and alternative hypotheses they will use to test the two hormones.  The hypotheses are: 
+$$H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}.$$
+Since the researcher specified a range for $\sigma$, two sets of values will be computed one for when the value of $\sigma$ is 20 mg and one for when the value of $\sigma$ is 30 mg. Start by finding a critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level with a guess of $n_1 = n_2 = 10$.  That is we are looking for $F_{0.95, 2 - 1, 10 + 10 -2} = F_{0.95, 1, 18} = `r qf(0.95, 1, 18)`$.  Next compute the noncentrality parameter when $\sigma = 20$ mg.
+
+\begin{equation*}
+\lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{10(100 - 85)^2 + 10(70 - 85)^2}{20^2} = 11.25
+\end{equation*}
+
+$$\text{Power}(\lambda = 11.25) = P(F^*_{1, 18, \lambda = 11.25} \geq f_{0.95, 1, 18} = `r qf(0.95, 1, 18)`) = `r pf(qf(0.95, 1, 18), 1, 18, 11.25, lower = FALSE)`$$
+
+Since we only need to achieve a power of 0.80, we can reduce the values for each sample.  Next, we consider using $n_1 = 9$ and $n_2 = 8$ when $\sigma = 20$ mg. 
+
+\begin{equation*}
+\lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 8(70 - 85)^2}{20^2} = 9.5625
+\end{equation*}
+
+$$\text{Power}(\lambda = 9.5625) = P(F^*_{1, 15, \lambda = 9.5625} \geq f_{0.95, 1, 15} = `r qf(0.95, 1, 15)`) = `r pf(qf(0.95, 1, 15), 1, 15, 9.5625, lower = FALSE)`$$
+```{r}
+# Hypothesized means
+hypmeans <- c(100, 70)
+# Number of treatments
+a <- length(hypmeans) 
+n1 = 10
+n2 = 10
+# Total number of experimental units
+N <- n1 + n2 
+# Degrees of freedom for error
+dferror <- N - a
+# Sigma value
+sigma <- 20
+# Create n1 values of 100 and n2 values of 70 and store in Y
+Y <- rep(hypmeans, times = c(n1, n2))
+# Create a treatment factor with n1 values of testosterone and n2 values of isoandrostenolone
+Treat <- factor(rep(c("testosterone", "isoandrostenolone"), times = c(n1, n2)))
+# Compute SS for ANOVA
+summary(aov(Y ~ Treat))
+# Pull out the SS Treat value and assign to SShyp
+(summary(aov(Y ~ Treat))[[1]][1, 2] -> SShyp) 
+# Noncentrality parameter
+(lambda <- SShyp/sigma^2)
+(CriticalF <- qf(0.95, a - 1, N - a))
+# Power for lambda
+(pf(CriticalF, a-1, dferror, lambda, lower = FALSE) -> POWER)
+```
+
+
+
+
+
+  
 
 
 ## Solution using the Shiny app with a *t*-test {-}
