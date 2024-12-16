@@ -12,8 +12,8 @@ header-includes:
 date: 'Last edit: `r format(Sys.time(), "%B %d, %Y")`'
 output: 
     #bookdown::html_document2
-    bookdown::pdf_document2
-    #bookdown::word_document2
+    #bookdown::pdf_document2
+    bookdown::word_document2
 bibliography: [packages.bib, powerarticle.bib] 
 csl: apa.csl
 toc: FALSE
@@ -101,7 +101,7 @@ treatments obtained by
 replacing $\bar{Y}_{1\bullet}$ with $\mu_1$, $\bar{Y}_{2\bullet}$ with $\mu_2$, and
 $\bar{Y}_{\bullet\bullet}$ with $\frac{n_1\mu_1+n_2\mu_2}{n_1+n_2}$.
 
-# EXAMPLE {-}
+# EXAMPLE 1{-}
 
 The following scenario can be given to students:
 
@@ -113,34 +113,82 @@ Start by asking the students to specify the null and alternative hypotheses they
 $$H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}.$$
 Since the researcher specified a range for $\sigma$, two sets of values will be computed one for when the value of $\sigma$ is 20 mg and one for when the value of $\sigma$ is 30 mg. Start by finding a critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level with a guess of $n_1 = n_2 = 10$.  That is we are looking for $F_{0.95, 2 - 1, 10 + 10 -2} = F_{0.95, 1, 18} = `r qf(0.95, 1, 18)`$.  Next compute the noncentrality parameter when $\sigma = 20$ mg.
 
-\begin{equation*}
-\lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
-\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{10(100 - 85)^2 + 10(70 - 85)^2}{20^2} = 11.25
-\end{equation*}
+\begin{align*}
+\lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} \\
+&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{10(100 - 85)^2 + 10(70 - 85)^2}{20^2} = 11.25
+\end{align*}
 
 $$\text{Power}(\lambda = 11.25) = P(F^*_{1, 18, \lambda = 11.25} \geq f_{0.95, 1, 18} = `r qf(0.95, 1, 18)`) = `r pf(qf(0.95, 1, 18), 1, 18, 11.25, lower = FALSE)`$$
+```{r}
+(CriticalF <- qf(0.95, 2 - 1, 20 - 2))
+# Power for lambda
+(pf(CriticalF, 2 - 1, 20 - 2, 11.25, lower = FALSE) -> POWER)
+```
+
 
 Since we only need to achieve a power of 0.80, we can reduce the values for each sample.  Next, we consider using $n_1 = 9$ and $n_2 = 8$ when $\sigma = 20$ mg. 
 
-\begin{equation*}
-\lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
-\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 8(70 - 85)^2}{20^2} = 9.5625
-\end{equation*}
+\begin{align*}
+\lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}\\
+&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 8(70 - 85)^2}{20^2} = 9.5625
+\end{align*}
 
 $$\text{Power}(\lambda = 9.5625) = P(F^*_{1, 15, \lambda = 9.5625} \geq f_{0.95, 1, 15} = `r qf(0.95, 1, 15)`) = `r pf(qf(0.95, 1, 15), 1, 15, 9.5625, lower = FALSE)`$$
+```{r}
+(CriticalF <- qf(0.95, 2 - 1, 9 + 8 - 2))
+# Power for lambda
+(pf(CriticalF, 2 - 1, 9 + 8 - 2, 9.5625, lower = FALSE) -> POWER)
+```
+
+The same calculations are performed next under the assumption that $\sigma = 30$ mg.
+
+\begin{align*}
+\lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} \\
+&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{10(100 - 85)^2 + 10(70 - 85)^2}{30^2} = 5
+\end{align*}
+
+$$\text{Power}(\lambda = 5) = P(F^*_{1, 18, \lambda = 5} \geq f_{0.95, 1, 18} = `r qf(0.95, 1, 18)`) = `r pf(qf(0.95, 1, 18), 1, 18, 5, lower = FALSE)`$$
+```{r}
+(CriticalF <- qf(0.95, 2 - 1, 20 - 2))
+# Power for lambda
+(pf(CriticalF, 2 - 1, 20 - 2, 5, lower = FALSE) -> POWER)
+```
+
+
+Since we need to achieve a power of 0.80, we need to increase the values for each sample.  Next, we consider using $n_1 = 17$ and $n_2 = 17$ when $\sigma = 30$ mg. 
+
+\begin{align*}
+\lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}\\
+&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{30^2} = 8.5
+\end{align*}
+
+$$\text{Power}(\lambda = 8.5) = P(F^*_{1, 32, \lambda = 8.5} \geq f_{0.95, 1, 32} = `r qf(0.95, 1, 32)`) = `r pf(qf(0.95, 1, 32), 1, 32, 8.5, lower = FALSE)`$$
+```{r}
+(CriticalF <- qf(0.95, 2 - 1, 17 + 17 - 2))
+# Power for lambda
+(pf(CriticalF, 2 - 1, 17 + 17 - 2, 8.5, lower = FALSE) -> POWER)
+```
+If the standard deviation for chick weight is $\sigma = 30$ mg, the experimenter needs to have 17 chicks assigned to each group to detect mean differences between groups greater than 80% percent of the time.  If the standard deviation for chick weights is as small as $\sigma = 20$ mg, the experimenter can assign 9 chicks to the first group and 8 chicks to the second group and still detect mean differences greater than 80% of the time.  To save space, we selected the values of $n_1$ and $n_2$ that solved the problem for the different values of $\sigma$.  Next we show how to compute the non-centrality parameter $\lambda$ using the notion of the $SS_\text{Hypothesis}(\text{population})$ using R, but which will work with any statistical software that computes the sum of squares.   
+
+
+
 ```{r}
 # Hypothesized means
 hypmeans <- c(100, 70)
 # Number of treatments
 a <- length(hypmeans) 
-n1 = 10
-n2 = 10
+n1 = 17
+n2 = 17
 # Total number of experimental units
 N <- n1 + n2 
 # Degrees of freedom for error
 dferror <- N - a
 # Sigma value
-sigma <- 20
+sigma <- 30
 # Create n1 values of 100 and n2 values of 70 and store in Y
 Y <- rep(hypmeans, times = c(n1, n2))
 # Create a treatment factor with n1 values of testosterone and n2 values of isoandrostenolone
@@ -156,118 +204,36 @@ summary(aov(Y ~ Treat))
 (pf(CriticalF, a-1, dferror, lambda, lower = FALSE) -> POWER)
 ```
 
+## Solution using the Shiny app{-}
 
+To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app found at [https://shinyapp](https://shinyapp) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80.
 
-
-
-  
-
-
-## Solution using the Shiny app with a *t*-test {-}
-
-A more conservative estimate of the required sample size is obtained by using a *t*-test.  The symmetric curve on the right side of Figure  depicts a central *t*-distribution with $n-1$ degrees of freedom.  The slightly left skewed curve on the left side of Figure  is a non-central *t*-distribution. To find the required sample size with a *t*-test, the amount of asymmetry in the non-central *t*-distribution is computed by the Shiny app when the user provides a best guess for the population standard deviation $(\sigma)$ in conjunction with the input values for $\mu_0$ and $\mu_1$. In this scenario, suppose $50$ mg/dL is an estimate of the standard deviation for the population of interest in the problem.  Therefore, $50$ mg/dL is used as the best guess for the population standard deviation.  When using a *t*-test to compute the required sample size, click the Variance unknown (t-test) radio button.  The rest of the buttons and values with the exception of the Sample size $(n):$ box will be the same as those used for the *z*-test. Increase the value of $n$ until the power is at least $0.80$.  Using $n = 43$ returns a power value of $0.8012$ as shown in Figure .
-
-
-
-##Step by step solution with a *z*-test {-}
-
-A step by step solution should start by asking the students to specify the null and alternative hypotheses they will use to test that the new drug reduces cholesterol.  Although the null and alternative hypotheses for this scenario are generally written as:
-
-$$H_0:\mu = 300 \text{ versus } H_A: \mu < 300,$$
-it helps to remind the student that in using a *z*-test, one is also assuming the distribution of the quantity in question (cholesterol) has a normal distribution with a known mean and known standard deviation of $300$ mg/dL and $50$ mg/dL, respectively.  Consequently, the sampling distribution of the sample mean ($\bar{X}$) has a known normal distribution with a mean of $300$ mg/dL and a standard deviation (or standard error of $\bar{X}$) of $50/\sqrt{n}$.  Have the students sketch by hand a graph like the one in Figure, shading the quantities $\alpha$, $\beta$, and $\text{Power}$ when the true mean is $275$. After students sketch Figure, have them translate the English prose of the desired average reduction in cholesterol to a  statement such as : The power of the test if the true distribution is centered at $275$ with a standard deviation of $50/\sqrt{n}$ is the probability the null hypothesis will be rejected when $\alpha = 0.01$.  Ask the students to solve for the number of subjects ($n$) they should include in their sample when using a *z*-test so that $\text{Power}\,\big(\mu_1 = 275\big)\geq 0.80$. The null hypothesis when $\alpha = 0.01$ for the alternative hypothesis $H_A: \mu < \mu_0$ will be rejected for standardized test statistic values less than or equal to $z_{0.01}= `r round(qnorm(0.01),4)`$, where the $\text{num}$ in $z_{\text{num}}$ denotes the area to the left of a standard normal distribution. That is, the null hypothesis $H_0: \mu = 300$ will be rejected when the sample mean, $\bar{X}$, is less than $300 - 2.3263 \cdot 50/\sqrt{n}$.  When $\mu_1 = 275$, the power is  
-
-
-$$
-\text{Power}\,(\mu_1 = 275) = P\Big(\bar{X} \leq 300 - 2.3263 \cdot \tfrac{50}{\sqrt{n}} \,\text{ given }\, \bar{X} \text{ has a mean of 275} \Big)
-$$  
- 
-To each side of the inequality $$\bar{X} \leq 300 -2.3263\cdot \tfrac{50}{\sqrt{n}}$$ 
-subtract the mean $(275)$ and divide by the standard deviation $(50/\sqrt{n})$ to obtain a random variable that follows a standard normal distribution $(z)$.
-
-\begin{align*}
-\text{Power}\,(\mu_1 = 275) & = P\left( \frac{\bar{X} - 275}{\frac{50}{\sqrt{n}}} \leq \frac{(300 - 275) -2.3263 \frac{50}{\sqrt{n}}}{\frac{50}{\sqrt{n}}} \right) \\
-                            & = P\left(z \leq \frac{\sqrt{n}}{2} - 2.3263 \right) 
-\end{align*}
-
-Since the problem requires $\text{Power}\,(\mu_1 = 275) \geq 0.80$, the quantile from a standard normal distribution with $0.80$ of the area to the left, $z_{0.80} = `r round(qnorm(0.80),4)`$ is used to solve for $n$ below.  The value of $z_{0.80}$ can be found with software or using a standard normal table.
-
-
-\begin{align*}
-0.8416  & \leq \frac{\sqrt{n}}{2} - 2.3263\\
-n & \geq 40.1424
-\end{align*}
-
-To achieve a power of at least $0.80$, one needs to use $41$ subjects.  Note that one will always round to the next largest integer to achieve the required power specified in the problem.
-
-After the students solve the problem, have them verify their answer with the Shiny app at https://mathr.math.appstate.edu/shiny/Power2/.  Students will specify the alternative hypothesis $(H_A: \mu < \mu_0)$, select the appropriate test (*z*-test), enter the hypothesized mean $(300)$, enter the true mean $(275)$, type the population standard deviation $(50)$, select the significance level $(0.01)$, and then experiment with increasing or decreasing the sample size to find the minimum value of $n$ that achieves a power greater than or equal to $0.80$ as shown in the title of the graph in Figure \@ref(fig:shinyq1z).
-
-## Step by step solution with a *t*-test {-}
-
-
-The step by step solution with a *t*-test is similar to the solution with a *z*-test. Students specify their hypotheses and sketch by hand a graph like the one in Figure  shading the quantities $\alpha$, $\beta$, and $\text{Power}\,(\mu_1 = 275)$. 
-Only after sketching Figure , have the students translate the English prose of the desired average reduction in total cholesterol to a mathematical statement such as .
-
-
-\begin{equation}
-\text{Power}\,\big(\mu_1 = 275\big) = P\big(\text{Reject } H_0 \,\text{ given }\, H_A \text{ is true}\big) 
-(\#eq:powerteq)
-\end{equation}
-
-A more conservative estimate of the required sample size is obtained when one uses the *t*-test.  When the null hypothesis is true, the quantity in \@ref(eq:trv) 
-
-\begin{equation}
-\frac{\bar{X} - \mu}{\frac{s}{\sqrt{n}}}
-(\#eq:trv)
-\end{equation}
-
-follows a central *t*-distribution, generally denoted as $t_{n-1}$, where $n-1$ are the degrees of freedom for the distribution.  When the null hypothesis is false, the quantity in \@ref(eq:trv) follows a non-central *t*-distribution, generally denoted as $t_{n-1; \gamma}$, where $n-1$ are the degrees of freedom for the distribution, and $\gamma$ is referred to as the non-centrality parameter, a measure of the asymmetry of the distribution.  To find the required sample size with a *t*-test, first determine the non-centrality parameter by using a best guess for $\sigma$.  Unfortunately, the process is now more complex as the non-centrality parameter gamma ($\gamma$) is a function of $n$,
-
-$$\gamma = \frac{\mu_1 - \mu_0}{\frac{\sigma}{\sqrt{n}}} = \frac{275 - 300}{\frac{50}{\sqrt{n}}} = \frac{-\sqrt{n}}{2}.$$
-Finding the power when $\mu_1 = 275$ with a *t*-test is computed by finding the probability of rejecting the null hypothesis given $\mu_1 = 275$ ($H_A$ is true).  Recall that the null hypothesis is rejected for values to the left of a central *t* distribution with $0.01$ in its left tail and $n-1$ degrees of freedom, denoted as $t_{0.01; n-1}$.  For example, $t_{0.01; 40} = `r round(qt(0.01, 40),4)`$, can be found using either a table or with statistical software.  Consequently, the power when $\mu_1 = 275$ is the area in a the non-central *t*-distribution ($t_{n-1; \gamma}$) to the left of $t_{0.01; n-1}$, written mathematically as: 
-
-              
-$$
-\text{Power}\,\big(\mu_1 = 275\big)  = P\Big(t_{n - 1; -\sqrt{n}/2} \leq t_{0.01; n - 1}   \Big),
-$$
-and depicted as the blue and purple shaded areas in Figure \@ref(fig:shinyq1t).
-
-
-To find a solution, one will need to use increasing values of $n$ until the 
-$P\big(t_{n - 1; -\sqrt{n}/2} \leq t_{0.01; n - 1}\big) \geq 0.80.$  Since the solution for the *z*-test yielded an $n = 41$, it seems reasonable to start with that value.  Although tables and charts for the non-central *t*-distribution are available, most tables have limited values of $\gamma$, and most charts require extensive interpolation.  Consequently, one should use a software program that will work with non-central distributions.  To find $P\big(t_{n - 1; -\sqrt{n}/2} \leq t_{0.01; n - 1}\big)$, one solution using `R` is given next.  The `qt()` and `pt()` functions in `R` return a *t* quantile and the area to the left of a quantile in a *t*-distribution, respectively.  The first two arguments for `qt()` are the area to the left of the desired quantile and the degrees of freedom.  The first three arguments for `pt()` are the quantile, the degrees of freedom, and the non-centrality parameter.  The critical value of *t* with $n = 41$ is `qt(0.01, 41 - 1)`, stored in `t1`.  Note that text following the pound sign (`#`) in `R` are comments.     
-
-```{r}
-t1 <- qt(0.01, 41 - 1)  # Critical t value, alpha = 0.01, dof = 40
-t1
+```{r, echo = FALSE, label = power1, fig.cap = "Power to detect specified means with given sample sizes and population standard deviation"}
+knitr::include_graphics("./pics/fig-power1.png")
 ```
 
-The area to the left of `t1` in a non-central *t* distribution with $n = 41$ and $\gamma = -\sqrt{41}/2$ is the power and is computed with the command `pt()` shown below.    
+The red density in Figure \@ref(fig:power1) depicts a central *F*-distribution with $2 - 1$ and $20 - 2 = 18$ degrees of freedom.  The blue density in Figure \@ref(fig:power1) is a non-central *F*-distribution with $2-1$ and $20-2 = 18$ degrees of freedom and non-centrality parameter ($\lambda = 11.25)$.  The purple shaded area in Figure \@ref(fig:power1) is the significance level and the sum of all blue and purple shaded areas is the power (0.887). Changing the values for $n_1$ and $n_2$ to either 8 and 9 or 9 and 8 results in a power of (0.8224) as shown in Figure \@ref(fig:power2).
 
-```{r}
-pt(t1, 41 - 1, -sqrt(41)/2)   # Area to left t1 in non-central t
+```{r, echo = FALSE, label = power2, fig.cap = "Power to detect specified means with given sample sizes and population standard deviation"}
+knitr::include_graphics("./pics/fig-power2.png")
 ```
 
-Commands for finding the power at $n = 41$, $42$, and $43$ and the corresponding power values are provided below.  Note that $n = 43$ is the smallest value of $n$ to return a power $(0.8011974)$ greater than $0.80$.
+Finally, have the students verify that the minimum samples sizes for $n_1$ and $n_2$ are both 17 when $\sigma = 30$ using the Shiny app as shown in Figure \@ref(fig:power3).
 
-```{r}
-pt(qt(0.01, 41 - 1), 41 - 1, -sqrt(41)/2)  # power with n = 41
-pt(qt(0.01, 42 - 1), 42 - 1, -sqrt(42)/2)  # power with n = 42 
-pt(qt(0.01, 43 - 1), 43 - 1, -sqrt(43)/2)  # power with n = 43
+```{r, echo = FALSE, label = power3, fig.cap = "Power to detect specified means with given sample sizes and population standard deviation"}
+knitr::include_graphics("./pics/fig-power3.png")
 ```
 
-After the students solve the problem using statistical software, have them verify their answer with the Shiny app at https://mathr.math.appstate.edu/shiny/Power2/.  Students will specify the alternative hypothesis $(H_A: \mu < \mu_0)$, select the appropriate test (*t*-test), enter the hypothesized mean $(300)$, type the true mean $(275)$, type the population standard deviation $(50)$, select the significance level $(0.01)$, and experiment with increasing or decreasing the sample size to find the minimum value of $n$ to achieve a power greater than or equal to $0.80$. A screen capture of the Shiny app with $n = 43$ is shown in Figure .
+# EXAMPLE 2{-}
 
-# ADDITIONAL EXAMPLES {-}    
-    
-Once the students are comfortable using the Shiny app, they will be able to answer a variety of questions relating to power, sample size, the probability of making a type II error $(\beta)$, and significance level $(\alpha)$ by experimenting with different inputs in the Shiny app.  The following questions work well with the app.  
+An educational researcher is interested in testing different tools to help his students master statistical concepts.  The researcher hypothesizes there will be an increasing in mean performance for students on a standardized test from lecture alone (70), to lecture with statistical software (75), to lecture with statistical software and videos (80), to lecture with statistical software, videos, and shiny apps of (85).  If the population standard deviation for the researcher's students on the standardized test is 15, find the minimum number of students required for each group to be able to have a power value of at least 0.80.
 
-a. Before a drug is administered, the lead physician states she believes the standard deviation for the patients administered the new drug will have a total cholesterol standard deviation between $40$ mg/dL and $70$ mg/dL.  Use this new information to recompute your sample size requirements for the experiment using a *t*-test.  Develop new recommendations and explain your new sample size requirements to meet the stated objectives.
+**Answer:** $n_1 = n_2 = n_3 = n_4 = 21$.
 
-**Partial Answer:** A conservative answer would use the total cholesterol standard deviation of $70$ mg/dL to ensure the probability of detecting a reduction of $25$ mg/dL is at least $80$%.  Using $70$ mg/dL as the standard deviation, a sample size of $n = 82$ will detect a $25$ mg/dL reduction in total cholesterol $80.33$% of the time when the significance level is $0.01$.
-    
-b. What sample size is need to ensure the type II error is no greater than the type I error?
-      
-**Partial Answer:** A sample size of $n \geq 173$ will return $\beta$ (the probability of making a type II error) < $\alpha = 0.01$.
+```{r, echo = FALSE, label = power4, fig.cap = "Power to detect specified means with given sample sizes and population standard deviation"}
+knitr::include_graphics("./pics/fig-power4.png")
+```
 
-
+We note in passing that computing power for full-rank general linear models is also possible using the same paradign where $\lambda = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}$.  For details see section 12.10 of @ugarte_probability_2015.  
 
 # References {-}
