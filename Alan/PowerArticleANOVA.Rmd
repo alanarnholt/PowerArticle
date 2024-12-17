@@ -9,7 +9,7 @@ header-includes:
   - \usepackage{amsmath}
   - \usepackage{hyperref}
   - \usepackage{breakurl}
-date: 'Last edit: `r format(Sys.time(), "%B %d, %Y")`'
+date: 'Last edit: `r format(Sys.time(), "%B %d, %Y at %X")`'
 output: 
     bookdown::html_document2
     #bookdown::pdf_document2
