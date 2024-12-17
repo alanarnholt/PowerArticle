@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.24)  17 DEC 2024 14:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.24)  17 DEC 2024 14:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -597,86 +597,50 @@ File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 File: ./pics/fig-power1.png Graphic file (type png)
 <use ./pics/fig-power1.png>
 Package pdftex.def Info: ./pics/fig-power1.png  used on input line 443.
-(pdftex.def)             Requested size: 1031.0478pt x 650.44788pt.
-
-Overfull \hbox (561.29279pt too wide) in paragraph at lines 443--444
- [][] 
- []
-
-
-LaTeX Warning: Float too large for page by 34.01787pt on input line 448.
-
+(pdftex.def)             Requested size: 423.5039pt x 267.17212pt.
 <./pics/fig-power2.png, id=69, 1181.41376pt x 748.7975pt>
 File: ./pics/fig-power2.png Graphic file (type png)
 <use ./pics/fig-power2.png>
 Package pdftex.def Info: ./pics/fig-power2.png  used on input line 454.
-(pdftex.def)             Requested size: 1026.27138pt x 650.46596pt.
-
-Overfull \hbox (556.51636pt too wide) in paragraph at lines 454--455
- [][] 
- []
-
-
-LaTeX Warning: Float too large for page by 34.03595pt on input line 459.
-
+(pdftex.def)             Requested size: 424.94809pt x 269.33838pt.
 <./pics/fig-power3.png, id=71, 1177.39874pt x 748.7975pt>
 File: ./pics/fig-power3.png Graphic file (type png)
 <use ./pics/fig-power3.png>
 Package pdftex.def Info: ./pics/fig-power3.png  used on input line 465.
-(pdftex.def)             Requested size: 1022.78362pt x 650.46596pt.
-
-Overfull \hbox (553.0286pt too wide) in paragraph at lines 465--466
- [][] 
- []
-
-
-LaTeX Warning: Float too large for page by 34.03595pt on input line 470.
-
+(pdftex.def)             Requested size: 423.5039pt x 269.33838pt.
 
 
 [5{/home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
 
-[6 <./pics/fig-power1.png>]
-
-[7 <./pics/fig-power2.png>]
-
-[8 <./pics/fig-power3.png>]
-<./pics/fig-power4.png, id=103, 1177.39874pt x 746.79pt>
+[6 <./pics/fig-power1.png> <./pics/fig-power2.png>]
+<./pics/fig-power4.png, id=93, 1177.39874pt x 746.79pt>
 File: ./pics/fig-power4.png Graphic file (type png)
 <use ./pics/fig-power4.png>
 Package pdftex.def Info: ./pics/fig-power4.png  used on input line 501.
-(pdftex.def)             Requested size: 1025.51439pt x 650.45412pt.
-
-Overfull \hbox (555.75937pt too wide) in paragraph at lines 501--502
- [][] 
- []
+(pdftex.def)             Requested size: 423.5039pt x 268.61629pt.
 
 
-LaTeX Warning: Float too large for page by 34.02411pt on input line 506.
+[7 <./pics/fig-power3.png>]
 
-
-
-[9]
-
-[10 <./pics/fig-power4.png>] (./PowerArticleANOVA.aux)
+[8 <./pics/fig-power4.png>] (./PowerArticleANOVA.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-10-09>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 15029 strings out of 475517
- 239929 string characters out of 5775463
- 681135 words of memory out of 5000000
+ 15027 strings out of 475517
+ 239916 string characters out of 5775463
+ 681147 words of memory out of 5000000
  37243 multiletter control sequences out of 15000+600000
  628343 words of font info for 160 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  69i,11n,79p,1706b,676s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on PowerArticleANOVA.pdf (10 pages, 1156680 bytes).
+Output written on PowerArticleANOVA.pdf (8 pages, 1157190 bytes).
 PDF statistics:
- 257 PDF objects out of 1000 (max. 8388607)
- 191 compressed objects within 2 object streams
- 40 named destinations out of 1000 (max. 500000)
+ 249 PDF objects out of 1000 (max. 8388607)
+ 185 compressed objects within 2 object streams
+ 38 named destinations out of 1000 (max. 500000)
  36941 words of extra memory for PDF output out of 42996 (max. 10000000)
 

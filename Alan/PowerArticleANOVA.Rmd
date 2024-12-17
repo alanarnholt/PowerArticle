@@ -11,9 +11,9 @@ header-includes:
   - \usepackage{breakurl}
 date: 'Last edit: `r format(Sys.time(), "%B %d, %Y at %X")`'
 output: 
-    bookdown::html_document2
+    #bookdown::html_document2
     #bookdown::pdf_document2
-    #bookdown::word_document2
+    bookdown::word_document2
 bibliography: [packages.bib, powerarticle.bib] 
 csl: apa.csl
 toc: FALSE
@@ -214,19 +214,19 @@ summary(aov(Y ~ Treat))
 To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app [@R-shiny] found at [https://shinyapp](https://shinyapp) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80.
 
 ```{r, echo = FALSE, label = power1, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
-knitr::include_graphics("./pics/fig-power1.png")
+knitr::include_graphics("./pics/fig-power1.png", dpi = 400)
 ```
 
 The red density in Figure \@ref(fig:power1) depicts a central *F*-distribution with $2 - 1$ and $20 - 2 = 18$ degrees of freedom.  The blue density in Figure \@ref(fig:power1) is a non-central *F*-distribution with $2-1$ and $20-2 = 18$ degrees of freedom and non-centrality parameter ($\lambda = 11.25)$.  The purple shaded area in Figure \@ref(fig:power1) is the significance level and the sum of all blue and purple shaded areas is the power (0.887). Changing the values for $n_1$ and $n_2$ to either 8 and 9 or 9 and 8 results in a power of (0.8224) as shown in Figure \@ref(fig:power2).
 
 ```{r, echo = FALSE, label = power2, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
-knitr::include_graphics("./pics/fig-power2.png")
+knitr::include_graphics("./pics/fig-power2.png", dpi = 400)
 ```
 
 Finally, have the students verify that the minimum samples sizes for $n_1$ and $n_2$ are both 17 when $\sigma = 30$ using the Shiny app as shown in Figure \@ref(fig:power3).
 
 ```{r, echo = FALSE, label = power3, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
-knitr::include_graphics("./pics/fig-power3.png")
+knitr::include_graphics("./pics/fig-power3.png", dpi = 400)
 ```
 
 # EXAMPLE 2{-}
@@ -244,7 +244,7 @@ knitr::kable(DF, caption = "Process of trial and error for desired power", bookt
 **Answer:** $n_1 = n_2 = n_3 = n_4 = 21$.
 
 ```{r, echo = FALSE, label = power4, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
-knitr::include_graphics("./pics/fig-power4.png")
+knitr::include_graphics("./pics/fig-power4.png", dpi = 400)
 ```
 
 We note in passing that computing power for full-rank general linear models is also possible using the same paradign where $\lambda = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}$.  For details see section 12.10 of @ugarte_probability_2015.  
