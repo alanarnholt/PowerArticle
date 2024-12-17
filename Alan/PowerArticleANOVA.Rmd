@@ -11,16 +11,16 @@ header-includes:
   - \usepackage{breakurl}
 date: 'Last edit: `r format(Sys.time(), "%B %d, %Y")`'
 output: 
-    #bookdown::html_document2
+    bookdown::html_document2
     #bookdown::pdf_document2
-    bookdown::word_document2
+    #bookdown::word_document2
 bibliography: [packages.bib, powerarticle.bib] 
 csl: apa.csl
 toc: FALSE
 abstract: |
-  **Summary** Understanding and computing power and the relationship between sample size and power are facilitated via a Shiny app which allows for a greater emphasis on interpretation of results.  The Shiny app allows students to solve various scenarios by entering different parameters or moving sliders.  
+  **Summary** A Shiny app facilitates computing power visualizing the relationship among means, population standard deviation, sample sizes, and significance level.  The Shiny app allows students to solve various scenarios by entering these parameters' and moving the significance slider.  
   
-  **Keywords:** Power, Shiny app, significance level, type I error, type II error
+  **Keywords:** Power, Shiny app, significance level
 ---
 
 ```{r label = "setup", include = FALSE}
@@ -38,7 +38,7 @@ lapply(PackagesUsed, library, character.only = TRUE)
 
 # INTRODUCTION {-}
 
-Following the GAISE guidelines [@gaise2016], many instructors have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a porject such as comparing many means when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER.  This work shows how the noncentrality parameter ($\lambda$) is a measure of statistical difference between **population** means and the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power. The notation used for the one-way completely randomized design follows that presented in @ugarte_probability_2015.  To aid with the connection between noncentrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test when there are ($a = 2$) treatments before generalizing to $a >= 2$ treatments.  
+Following the GAISE guidelines [@gaise2016], many instructors have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a project, often comparing many means when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The Shiny package [@R-shiny] can be used to create web based applications.  The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER.  This work shows how the noncentrality parameter ($\lambda$) is a measure of statistical difference between **population** means and how the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power. The notation used for the one-way completely randomized design follows that presented in @ugarte_probability_2015.  To aid with the connection between noncentrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test when there are ($a = 2$) treatments before generalizing to $a >= 2$ treatments.  
 
 
 # STATISTICAL BACKGROUND {-}
@@ -70,8 +70,8 @@ Y_{ij} = \frac{Y_{i\bullet}}{n_i}$. The bar indicates a mean while the dot
 $(\bullet)$ indicates that values have been added over the indicated subscript.
 The sum of all observations is $Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i}
 Y_{ij}.$ The grand mean of all observations is denoted $\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a
-\sum_{j=1}^{n_i}Y_{ij}=\frac{Y_{\bullet\bullet}}{N}.$ For $a = 2$ treatments, the typical sum of squares for testing the hypotheses in \@ref(eq:HYP) are shown to the left of the equivalence ($\equiv$) symbol in \@ref(eq:AltFeq).  The representation on the right side of the $\equiv$ in \@ref(eq:AltFeq) is the standard test statistic used to test two means when variances are assumed to be equal.  To verify the equivalence keep in mind that $\sum_{j=1}^{n_i} Y_{ij} = \bar{Y}_{i\bullet}
-n_i \text{ for } i=1,2$ and $(n_1 + n_2) \bar{Y}_{\bullet\bullet} = \sum_{i=1}^2
+\sum_{j=1}^{n_i}Y_{ij}=\frac{Y_{\bullet\bullet}}{N}.$ For $a = 2$ treatments, the typical sum of squares for testing the hypotheses in \@ref(eq:HYP) are shown to the left of the equivalence ($\equiv$) symbol in \@ref(eq:AltFeq).  The representation on the right side of the $\equiv$ in \@ref(eq:AltFeq) is the standard test statistic used to test two means when variances are assumed to be equal.  To verify the equivalence, keep in mind that $\sum_{j=1}^{n_i} Y_{ij} = n_i \bar{Y}_{i\bullet}
+ \text{ for } i=1,2$ and $(n_1 + n_2) \bar{Y}_{\bullet\bullet} = \sum_{i=1}^2
 \sum_{j=1}^{n_i} Y_{ij}$.
 
 \begin{equation}
@@ -92,22 +92,23 @@ F = \dfrac{(\,\bar{Y}_{1\bullet} -\bar{Y}_{2\bullet})^2 }{S^2_p\left( \frac{1}{n
 (\#eq:tsqEQ)
 \end{equation}
 
-The quantity in \@ref(eq:AltFeq) measures the statistical differences between **sample** means. Replacing the sample means in \@ref(eq:AltFeq) with the population means yields
+The quantity in \@ref(eq:AltFeq) measures the statistical differences between **sample** means. Let $SS_\text{Hypothesis}(\text{population})$ be the sum of squares for  treatments 
+obtained by replacing $\bar{Y}_{1\bullet}$ with $\mu_1$, $\bar{Y}_{2\bullet}$ with 
+$\mu_2$, and $\bar{Y}_{\bullet\bullet}$ with $\frac{n_1\mu_1+n_2\mu_2}{n_1+n_2}$. 
+Then, replacing the sample means in \@ref(eq:AltFeq) with the population means yields
 
 \begin{equation*}
 \lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
-\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}
+\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}.
 \end{equation*}
 
-where $SS_\text{Hypothesis}(\text{population})$ is the sum of squares for  treatments 
-obtained by replacing $\bar{Y}_{1\bullet}$ with $\mu_1$, $\bar{Y}_{2\bullet}$ with 
-$\mu_2$, and $\bar{Y}_{\bullet\bullet}$ with $\frac{n_1\mu_1+n_2\mu_2}{n_1+n_2}$.
+
 
 # EXAMPLE 1{-}
 
 The following scenario can be given to students:
 
-Consider a ficticious experiment where one of two hormones (testosterone or isoandrostenolone) are given to day old male chicks for fifteen days.  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power for the test of at least 0.80 using $\alpha = 0.05$? 
+Consider a ficticious experiment where one of two hormones (testosterone or isoandrostenolone) is administered for fifteen days to male chicks starting when the chicks are one day old.  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and that the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power for the test of at least 0.80 using $\alpha = 0.05$? 
 
 ## Solution using base R functions {-}
 
@@ -193,8 +194,10 @@ dferror <- N - a
 sigma <- 30
 # Create n1 values of 100 and n2 values of 70 and store in Y
 Y <- rep(hypmeans, times = c(n1, n2))
-# Create a treatment factor with n1 values of testosterone and n2 values of isoandrostenolone
-Treat <- factor(rep(c("testosterone", "isoandrostenolone"), times = c(n1, n2)))
+# Create a treatment factor with n1 values of testosterone 
+# and n2 values of isoandrostenolone
+Treat <- factor(rep(c("testosterone", "isoandrostenolone"), 
+                    times = c(n1, n2)))
 # Compute SS for ANOVA
 summary(aov(Y ~ Treat))
 # Pull out the SS Treat value and assign to SShyp
@@ -210,19 +213,19 @@ summary(aov(Y ~ Treat))
 
 To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app [@R-shiny] found at [https://shinyapp](https://shinyapp) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80.
 
-```{r, echo = FALSE, label = power1, fig.cap = "Power to detect specified means with given sample sizes and population standard deviation"}
+```{r, echo = FALSE, label = power1, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power1.png")
 ```
 
 The red density in Figure \@ref(fig:power1) depicts a central *F*-distribution with $2 - 1$ and $20 - 2 = 18$ degrees of freedom.  The blue density in Figure \@ref(fig:power1) is a non-central *F*-distribution with $2-1$ and $20-2 = 18$ degrees of freedom and non-centrality parameter ($\lambda = 11.25)$.  The purple shaded area in Figure \@ref(fig:power1) is the significance level and the sum of all blue and purple shaded areas is the power (0.887). Changing the values for $n_1$ and $n_2$ to either 8 and 9 or 9 and 8 results in a power of (0.8224) as shown in Figure \@ref(fig:power2).
 
-```{r, echo = FALSE, label = power2, fig.cap = "Power to detect specified means with given sample sizes and population standard deviation"}
+```{r, echo = FALSE, label = power2, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power2.png")
 ```
 
 Finally, have the students verify that the minimum samples sizes for $n_1$ and $n_2$ are both 17 when $\sigma = 30$ using the Shiny app as shown in Figure \@ref(fig:power3).
 
-```{r, echo = FALSE, label = power3, fig.cap = "Power to detect specified means with given sample sizes and population standard deviation"}
+```{r, echo = FALSE, label = power3, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power3.png")
 ```
 
@@ -230,9 +233,17 @@ knitr::include_graphics("./pics/fig-power3.png")
 
 An educational researcher is interested in testing different tools to help his students master statistical concepts.  The researcher hypothesizes there will be an increasing in mean performance for students on a standardized test from lecture alone (70), to lecture with statistical software (75), to lecture with statistical software and videos (80), to lecture with statistical software, videos, and shiny apps of (85).  If the population standard deviation for the researcher's students on the standardized test is 15, find the minimum number of students required for each group to be able to have a power value of at least 0.80.
 
+Figure \@ref(fig:power4) shows 70, 75, 80, and 85 entered for $\mu_1$, $\mu_2$, $\mu_3$, and $\mu_4$ in the $H_A$ box, the value of 15 in the $\sigma$ box, and sliding the significance level to 0.05.  Power is maximized when all treatment groups have the same number of experimental units.  Consequently, if there are no restrictions on the allocation of resources, the experimenter should allocate an equal number of experimental units to each of the $a$ treatments. Then, experiment with different values for the sample sizes for each treatment until the power is greater than or equal to 0.80.  Our trial and error method started with $n_1 = n_2 = n_3 = n_4 = 10$ which yielded too small a power.  As a guess, we doubled the values to $n_1 = n_2 = n_3 = n_4 = 20$ and noted we were just a little short of our desired power value.  Next we tried $n_1 = n_2 = n_3 = n_4 = 25$ and observed this was over the target value of 0.80.  We continued experimenting lowering the values until we arrived at $n_1 = n_2 = n_3 = n_4 = 21$ which returned a power of 0.8082.
+
+```{r, echo = FALSE}
+DF <- data.frame(n = c(10, 20, 25, 22, 21), Power = c(0.4396, 0.7856, 0.8797, 0.8287, 0.8082))
+knitr::kable(DF, caption = "Process of trial and error for desired power", booktabs = TRUE)
+```
+
+
 **Answer:** $n_1 = n_2 = n_3 = n_4 = 21$.
 
-```{r, echo = FALSE, label = power4, fig.cap = "Power to detect specified means with given sample sizes and population standard deviation"}
+```{r, echo = FALSE, label = power4, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power4.png")
 ```
 
