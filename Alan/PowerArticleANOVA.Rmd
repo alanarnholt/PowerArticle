@@ -11,14 +11,14 @@ header-includes:
   - \usepackage{breakurl}
 date: 'Last edit: `r format(Sys.time(), "%B %d, %Y at %X")`'
 output: 
-    #bookdown::html_document2
+    bookdown::html_document2
     #bookdown::pdf_document2
-    bookdown::word_document2
+    #bookdown::word_document2
 bibliography: [packages.bib, powerarticle.bib] 
 csl: apa.csl
 toc: FALSE
 abstract: |
-  **Summary** A Shiny app facilitates computing power visualizing the relationship among means, population standard deviation, sample sizes, and significance level.  The Shiny app allows students to solve various scenarios by entering these parameters' and moving the significance slider.  
+  **Summary** A Shiny app facilitates computing power and visualizing the non-central *F* distribution based on different population means, population standard deviation, sample sizes, and significance levels.  The Shiny app allows students to solve various scenarios by entering these parameters' values and by moving the significance slider.  
   
   **Keywords:** Power, Shiny app, significance level
 ---
@@ -231,7 +231,7 @@ knitr::include_graphics("./pics/fig-power3.png", dpi = 400)
 
 # EXAMPLE 2{-}
 
-An educational researcher is interested in testing different tools to help his students master statistical concepts.  The researcher hypothesizes there will be an increasing in mean performance for students on a standardized test from lecture alone (70), to lecture with statistical software (75), to lecture with statistical software and videos (80), to lecture with statistical software, videos, and shiny apps of (85).  If the population standard deviation for the researcher's students on the standardized test is 15, find the minimum number of students required for each group to be able to have a power value of at least 0.80.
+An educational researcher is interested in testing different tools to help his students master statistical concepts.  The researcher hypothesizes there will be increases in mean performance for students on a standardized test from lecture alone (70), to lecture with statistical software (75), to lecture with statistical software and videos (80), to lecture with statistical software, videos, and shiny apps of (85).  If the population standard deviation for the researcher's students on the standardized test is 15, find the minimum number of students required for each group to be able to have a power value of at least 0.80.
 
 Figure \@ref(fig:power4) shows 70, 75, 80, and 85 entered for $\mu_1$, $\mu_2$, $\mu_3$, and $\mu_4$ in the $H_A$ box, the value of 15 in the $\sigma$ box, and sliding the significance level to 0.05.  Power is maximized when all treatment groups have the same number of experimental units.  Consequently, if there are no restrictions on the allocation of resources, the experimenter should allocate an equal number of experimental units to each of the $a$ treatments. Then, experiment with different values for the sample sizes for each treatment until the power is greater than or equal to 0.80.  Our trial and error method started with $n_1 = n_2 = n_3 = n_4 = 10$ which yielded too small a power.  As a guess, we doubled the values to $n_1 = n_2 = n_3 = n_4 = 20$ and noted we were just a little short of our desired power value.  Next we tried $n_1 = n_2 = n_3 = n_4 = 25$ and observed this was over the target value of 0.80.  We continued experimenting lowering the values until we arrived at $n_1 = n_2 = n_3 = n_4 = 21$ which returned a power of 0.8082.
 

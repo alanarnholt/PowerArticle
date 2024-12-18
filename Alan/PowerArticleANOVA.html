@@ -372,10 +372,10 @@ display: none;
 <address class="author_afil">
 RV School<br><a class="author_email" href="mailto:#">somename.com</a>
 </address>
-<h4 class="date">Last edit: December 17, 2024 at 02:57:57 PM</h4>
+<h4 class="date">Last edit: December 18, 2024 at 02:58:46 PM</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
-<p><strong>Summary</strong> A Shiny app facilitates computing power visualizing the relationship among means, population standard deviation, sample sizes, and significance level. The Shiny app allows students to solve various scenarios by entering these parameters’ and moving the significance slider.</p>
+<p><strong>Summary</strong> A Shiny app facilitates computing power and visualizing the non-central <em>F</em> distribution based on different population means, population standard deviation, sample sizes, and significance levels. The Shiny app allows students to solve various scenarios by entering these parameters’ values and by moving the significance slider.</p>
 <p><strong>Keywords:</strong> Power, Shiny app, significance level</p>
 </div>
 
@@ -554,7 +554,7 @@ Figure 3: Power to detect a specified difference in means with given sample size
 </div>
 <div id="example-2" class="section level1 unnumbered">
 <h1>EXAMPLE 2</h1>
-<p>An educational researcher is interested in testing different tools to help his students master statistical concepts. The researcher hypothesizes there will be an increasing in mean performance for students on a standardized test from lecture alone (70), to lecture with statistical software (75), to lecture with statistical software and videos (80), to lecture with statistical software, videos, and shiny apps of (85). If the population standard deviation for the researcher’s students on the standardized test is 15, find the minimum number of students required for each group to be able to have a power value of at least 0.80.</p>
+<p>An educational researcher is interested in testing different tools to help his students master statistical concepts. The researcher hypothesizes there will be increases in mean performance for students on a standardized test from lecture alone (70), to lecture with statistical software (75), to lecture with statistical software and videos (80), to lecture with statistical software, videos, and shiny apps of (85). If the population standard deviation for the researcher’s students on the standardized test is 15, find the minimum number of students required for each group to be able to have a power value of at least 0.80.</p>
 <p>Figure <a href="#fig:power4">4</a> shows 70, 75, 80, and 85 entered for <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\mu_2\)</span>, <span class="math inline">\(\mu_3\)</span>, and <span class="math inline">\(\mu_4\)</span> in the <span class="math inline">\(H_A\)</span> box, the value of 15 in the <span class="math inline">\(\sigma\)</span> box, and sliding the significance level to 0.05. Power is maximized when all treatment groups have the same number of experimental units. Consequently, if there are no restrictions on the allocation of resources, the experimenter should allocate an equal number of experimental units to each of the <span class="math inline">\(a\)</span> treatments. Then, experiment with different values for the sample sizes for each treatment until the power is greater than or equal to 0.80. Our trial and error method started with <span class="math inline">\(n_1 = n_2 = n_3 = n_4 = 10\)</span> which yielded too small a power. As a guess, we doubled the values to <span class="math inline">\(n_1 = n_2 = n_3 = n_4 = 20\)</span> and noted we were just a little short of our desired power value. Next we tried <span class="math inline">\(n_1 = n_2 = n_3 = n_4 = 25\)</span> and observed this was over the target value of 0.80. We continued experimenting lowering the values until we arrived at <span class="math inline">\(n_1 = n_2 = n_3 = n_4 = 21\)</span> which returned a power of 0.8082.</p>
 <table>
 <caption><span id="tab:unnamed-chunk-6">Table 1: </span>Process of trial and error for desired power</caption>
