@@ -38,7 +38,7 @@ lapply(PackagesUsed, library, character.only = TRUE)
 
 # INTRODUCTION {-}
 
-Following the GAISE guidelines [@gaise2016], many instructors have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a project, often comparing many means when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The Shiny package [@R-shiny] can be used to create web based applications.  The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER.  This work shows how the noncentrality parameter ($\lambda$) is a measure of statistical difference between **population** means and how the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power. The notation used for the one-way completely randomized design follows that presented in @ugarte_probability_2015.  To aid with the connection between noncentrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test when there are ($a = 2$) treatments before generalizing to $a >= 2$ treatments.  
+Following the GAISE guidelines [@gaise2016], many instructors have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a project, often comparing many means when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The Shiny package [@R-shiny] can be used to create web based applications.  The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER.  This work shows how the non-centrality parameter ($\lambda$) is a measure of statistical difference between **population** means and how the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power. The notation used for the one-way completely randomized design follows that presented in @ugarte_probability_2015.  To aid with the connection between non-centrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test when there are ($a = 2$) treatments before generalizing to $a >= 2$ treatments.  
 
 
 # STATISTICAL BACKGROUND {-}
@@ -60,7 +60,7 @@ errors are assumed to be normally and independently distributed with mean zero
 and constant standard deviation $\bigl(NID(0, \sigma)\bigr)$.  Although estimating the parameters for Model \@ref(eq:EDMeq) is possible, the goal of the experimenter is typically to discern whether or not the $a$ treatment means are equal.  The hypotheses of interest are
 
 \begin{equation}
-H_0: \mu_1=\mu_2= \dots = \mu_a\quad\text{ versus }\quad H_1:\mu_i \ne \mu_j \text{ for some }(i, j).
+H_0: \mu_1=\mu_2= \dots = \mu_a\quad\text{ versus }\quad H_A:\mu_i \ne \mu_j \text{ for some }(i, j).
 (\#eq:HYP)
 \end{equation}
 
@@ -95,7 +95,7 @@ F = \dfrac{(\,\bar{Y}_{1\bullet} -\bar{Y}_{2\bullet})^2 }{S^2_p\left( \frac{1}{n
 The quantity in \@ref(eq:AltFeq) measures the statistical differences between **sample** means. Let $SS_\text{Hypothesis}(\text{population})$ be the sum of squares for  treatments 
 obtained by replacing $\bar{Y}_{1\bullet}$ with $\mu_1$, $\bar{Y}_{2\bullet}$ with 
 $\mu_2$, and $\bar{Y}_{\bullet\bullet}$ with $\frac{n_1\mu_1+n_2\mu_2}{n_1+n_2}$. 
-Then, replacing the sample means in \@ref(eq:AltFeq) with the population means yields
+Then, replacing the sample means in \@ref(eq:AltFeq) with the population means and replacing $S_p^2$ with $\sigma^2$ yields
 
 \begin{equation*}
 \lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
@@ -108,13 +108,13 @@ Then, replacing the sample means in \@ref(eq:AltFeq) with the population means y
 
 The following scenario can be given to students:
 
-Consider a ficticious experiment where one of two hormones (testosterone or isoandrostenolone) is administered for fifteen days to male chicks starting when the chicks are one day old.  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and that the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power for the test of at least 0.80 using $\alpha = 0.05$? 
+Consider a fictitious experiment where one of two hormones (testosterone or isoandrostenolone) is administered for fifteen days to male chicks starting when the chicks are one day old.  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and that the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power for the test of at least 0.80 using $\alpha = 0.05$? 
 
 ## Solution using base R functions {-}
 
 Although R [@R-base] is used as the computational engine in what follows, most modern software packages can handle what is shown in the code. Start by asking the students to specify the null and alternative hypotheses they will use to test the two hormones.  The hypotheses are: 
-$$H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}.$$
-Since the researcher specified a range for $\sigma$, two sets of values will be computed one for when the value of $\sigma$ is 20 mg and one for when the value of $\sigma$ is 30 mg. Start by finding a critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level with a guess of $n_1 = n_2 = 10$.  That is we are looking for $F_{0.95, 2 - 1, 10 + 10 -2} = F_{0.95, 1, 18} = `r qf(0.95, 1, 18)`$.  Next compute the noncentrality parameter when $\sigma = 20$ mg.
+$$H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}.$$
+Since the researcher specified a range for $\sigma$, two sets of values will be computed one for when the value of $\sigma$ is 20 mg and one for when the value of $\sigma$ is 30 mg. Start by finding a critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level with a guess of $n_1 = n_2 = 10$.  That is we are looking for $F_{0.95, 2 - 1, 10 + 10 -2} = F_{0.95, 1, 18} = `r qf(0.95, 1, 18)`$.  Next compute the non-centrality parameter when $\sigma = 20$ mg.
 
 \begin{align*}
 \lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
@@ -211,21 +211,21 @@ summary(aov(Y ~ Treat))
 
 ## Solution using the Shiny app{-}
 
-To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app [@R-shiny] found at [https://shinyapp](https://shinyapp) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80.
+To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app [@R-shiny] found at [https://shinyapp](https://shinyapp) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2,\ldots, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80 which will appear in the title for the Shiny app in parentheses.
 
-```{r, echo = FALSE, label = power1, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
+```{r, echo = FALSE, label = power1, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power1.png", dpi = 400)
 ```
 
 The red density in Figure \@ref(fig:power1) depicts a central *F*-distribution with $2 - 1$ and $20 - 2 = 18$ degrees of freedom.  The blue density in Figure \@ref(fig:power1) is a non-central *F*-distribution with $2-1$ and $20-2 = 18$ degrees of freedom and non-centrality parameter ($\lambda = 11.25)$.  The purple shaded area in Figure \@ref(fig:power1) is the significance level and the sum of all blue and purple shaded areas is the power (0.887). Changing the values for $n_1$ and $n_2$ to either 8 and 9 or 9 and 8 results in a power of (0.8224) as shown in Figure \@ref(fig:power2).
 
-```{r, echo = FALSE, label = power2, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
+```{r, echo = FALSE, label = power2, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power2.png", dpi = 400)
 ```
 
 Finally, have the students verify that the minimum samples sizes for $n_1$ and $n_2$ are both 17 when $\sigma = 30$ using the Shiny app as shown in Figure \@ref(fig:power3).
 
-```{r, echo = FALSE, label = power3, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
+```{r, echo = FALSE, label = power3, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power3.png", dpi = 400)
 ```
 
@@ -243,10 +243,10 @@ knitr::kable(DF, caption = "Process of trial and error for desired power", bookt
 
 **Answer:** $n_1 = n_2 = n_3 = n_4 = 21$.
 
-```{r, echo = FALSE, label = power4, fig.cap = "Power to detect a specified difference in means with given sample sizes and population standard deviation"}
+```{r, echo = FALSE, label = power4, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power4.png", dpi = 400)
 ```
 
-We note in passing that computing power for full-rank general linear models is also possible using the same paradign where $\lambda = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}$.  For details see section 12.10 of @ugarte_probability_2015.  
+We note in passing that computing power for full-rank general linear models is also possible using the same paradigm where $\lambda = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}$.  For details see section 12.10 of @ugarte_probability_2015.  
 
 # References {-}
