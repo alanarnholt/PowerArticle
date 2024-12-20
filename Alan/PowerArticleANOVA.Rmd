@@ -1,9 +1,9 @@
 ---
 title: "Determining sample size for a completely randomized experiment to achieve an acceptable power with a Shiny app"
 author:
-- name: Dr. X, Dr. Y, and Dr. Z
-  affiliation: RV School
-  email: somename.com
+- name: Alan T. Arnholt, Hasthika S. Rupasinghe Arachchige Don and Lasanthi C.R. Pelawa Watagoda
+  affiliation: Appalachian State University
+  email: arnholtat@appstate.edu
 header-includes:
   - \usepackage{mathtools}
   - \usepackage{amsmath}
@@ -11,9 +11,9 @@ header-includes:
   - \usepackage{breakurl}
 date: 'Last edit: `r format(Sys.time(), "%B %d, %Y at %X")`'
 output: 
-    bookdown::html_document2
+    #bookdown::html_document2
     #bookdown::pdf_document2
-    #bookdown::word_document2
+    bookdown::word_document2
 bibliography: [packages.bib, powerarticle.bib] 
 csl: apa.csl
 toc: FALSE
@@ -72,7 +72,19 @@ The sum of all observations is $Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i}
 Y_{ij}.$ The grand mean of all observations is denoted $\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a
 \sum_{j=1}^{n_i}Y_{ij}=\frac{Y_{\bullet\bullet}}{N}.$ For $a = 2$ treatments, the typical sum of squares for testing the hypotheses in \@ref(eq:HYP) are shown to the left of the equivalence ($\equiv$) symbol in \@ref(eq:AltFeq).  The representation on the right side of the $\equiv$ in \@ref(eq:AltFeq) is the standard test statistic used to test two means when variances are assumed to be equal.  To verify the equivalence, keep in mind that $\sum_{j=1}^{n_i} Y_{ij} = n_i \bar{Y}_{i\bullet}
  \text{ for } i=1,2$ and $(n_1 + n_2) \bar{Y}_{\bullet\bullet} = \sum_{i=1}^2
-\sum_{j=1}^{n_i} Y_{ij}$.
+\sum_{j=1}^{n_i} Y_{ij}$ and that $S_i^2 =\sum_{j=1}^{n_i}(Y_{ij} - \bar{Y}_{i\bullet})^2/(n_1 - 1)$. 
+
+
+\begin{equation}
+SS_\text{Error} = \sum_{i=1}^{2}\sum_{j=1}^{n_i}(Y_{ij} - \bar{Y}_{i\bullet})^2 = \sum_{i=1}^{2}\left[\sum_{j=1}^{n_1}(Y_{ij}- \bar{Y}_{i\bullet})^2\right] = (n_1 - 1)S_1^2 + (n_2 - 1)S_2^2
+(\#eq:FE)
+\end{equation}
+
+\begin{equation}
+MS_\text{Error} = \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 -2} = S_p^2
+(\#eq:MFE)
+\end{equation}
+
 
 \begin{equation}
 F = \frac{MS_\text{Treatment}}{MS_\text{Error}} = \dfrac{\dfrac{\sum_{i=1}^2
@@ -82,6 +94,8 @@ df_\text{Treatment}}}{\dfrac{\sum_{i=1}^2 \sum_{j=1}^{n_i}(\, Y_{ij}-
 -\bar{Y}_{2\bullet})^2 \left( \frac{1}{n_1} + \frac{1}{n_2} \right)^{-1}}{S^2_p}
 (\#eq:AltFeq)
 \end{equation}
+
+
 
 Rewriting the right side of \@ref(eq:AltFeq) yields
 
@@ -114,7 +128,7 @@ Consider a fictitious experiment where one of two hormones (testosterone or isoa
 
 Although R [@R-base] is used as the computational engine in what follows, most modern software packages can handle what is shown in the code. Start by asking the students to specify the null and alternative hypotheses they will use to test the two hormones.  The hypotheses are: 
 $$H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}.$$
-Since the researcher specified a range for $\sigma$, two sets of values will be computed one for when the value of $\sigma$ is 20 mg and one for when the value of $\sigma$ is 30 mg. Start by finding a critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level with a guess of $n_1 = n_2 = 10$.  That is we are looking for $F_{0.95, 2 - 1, 10 + 10 -2} = F_{0.95, 1, 18} = `r qf(0.95, 1, 18)`$.  Next compute the non-centrality parameter when $\sigma = 20$ mg.
+Since the researcher specified a range for $\sigma$, two sets of values will be computed one for when the value of $\sigma$ is 20 mg and one for when the value of $\sigma$ is 30 mg. Start by finding a critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level with a guess of $n_1 = n_2 = 10$.  That is we are looking for $f_{0.95, 2 - 1, 10 + 10 -2} = f_{0.95, 1, 18} = `r qf(0.95, 1, 18)`$.  Next compute the non-centrality parameter when $\sigma = 20$ mg.
 
 \begin{align*}
 \lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
@@ -211,7 +225,7 @@ summary(aov(Y ~ Treat))
 
 ## Solution using the Shiny app{-}
 
-To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app [@R-shiny] found at [https://shinyapp](https://shinyapp) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2,\ldots, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80 which will appear in the title for the Shiny app in parentheses.
+To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app [@R-shiny] found at [https://shinyapp](https://shinyapp) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2,\ldots, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Additionally, the $P(\text{Type II error}) = \beta$ is depicted as the green shaded area in \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80 which will appear in the title for the Shiny app in parentheses.
 
 ```{r, echo = FALSE, label = power1, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power1.png", dpi = 400)
