@@ -1,5 +1,5 @@
 ---
-title: "Determining sample size for a completely randomized experiment to achieve an acceptable power with a Shiny app"
+title: "Determining sample size for a completely randomized experiment to achieve an acceptable level of power with a Shiny app"
 author:
 - name: Alan T. Arnholt, Hasthika S. Rupasinghe Arachchige Don and Lasanthi C.R. Pelawa Watagoda
   affiliation: Appalachian State University
@@ -18,7 +18,7 @@ bibliography: [packages.bib, powerarticle.bib]
 csl: apa.csl
 toc: FALSE
 abstract: |
-  **Summary** A Shiny app facilitates computing power and visualizing the non-central *F* distribution based on different population means, population standard deviation, sample sizes, and significance levels.  The Shiny app allows students to solve various scenarios by entering these parameters' values and by moving the significance slider.  
+  **Summary** A Shiny app facilitates computing power and visualizing the non-central *F* distribution based on different population means, a single population standard deviation, different sample sizes, and any significance level.  The Shiny app allows students to solve various scenarios by entering these parameters' values and by moving the significance slider.  
   
   **Keywords:** Power, Shiny app, significance level
 ---
@@ -38,7 +38,7 @@ lapply(PackagesUsed, library, character.only = TRUE)
 
 # INTRODUCTION {-}
 
-Following the GAISE guidelines [@gaise2016], many instructors have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a project, often comparing many means when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The Shiny package [@R-shiny] can be used to create web based applications.  The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER.  This work shows how the non-centrality parameter ($\lambda$) is a measure of statistical difference between **population** means and how the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power. The notation used for the one-way completely randomized design follows that presented in @ugarte_probability_2015.  To aid with the connection between non-centrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test when there are ($a = 2$) treatments before generalizing to $a >= 2$ treatments.  
+Following the GAISE guidelines [@gaise2016], many instructors have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a project, often comparing many means when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The Shiny package [@R-shiny] can be used to create web based applications.  The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER.  This work shows how the non-centrality parameter ($\lambda$) is a measure of statistical difference between **population** means and how the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app written by the authors is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power. The notation used for the one-way completely randomized design follows that presented in @ugarte_probability_2015.  To aid with the connection between non-centrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test when there are ($a = 2$) treatments before generalizing to $a >= 2$ treatments.  
 
 
 # STATISTICAL BACKGROUND {-}
@@ -52,10 +52,10 @@ Y_{ij} = \mu + \tau_i + \epsilon_{ij} \text{ for }i=1, 2, \dots, a \text{ and } 
 (\#eq:EDMeq)
 \end{equation}
 where $Y_{ij}$ is the $j^\text{th}$
-observation of the $i^\text{th}$ treatment, $\mu$ is a parameter common to all
-treatments called the overall mean, $\tau_i$ is a parameter unique to the
-$i^\text{th}$ treatment called the $i^\text{th}$ treatment effect, and
-$\epsilon_{ij}$ is a random error component. For hypothesis testing, the model
+observation of the $i^\text{th}$ treatment; $\mu$ is a parameter common to all
+treatments called the overall mean; the $\tau_i$s are parameters unique to the
+$i$ treatments called collectively treatment effects; and
+$\epsilon_{ij}$ are random errors associated with each observation. For hypothesis testing, the model
 errors are assumed to be normally and independently distributed with mean zero
 and constant standard deviation $\bigl(NID(0, \sigma)\bigr)$.  Although estimating the parameters for Model \@ref(eq:EDMeq) is possible, the goal of the experimenter is typically to discern whether or not the $a$ treatment means are equal.  The hypotheses of interest are
 
@@ -70,7 +70,7 @@ Y_{ij} = \frac{Y_{i\bullet}}{n_i}$. The bar indicates a mean while the dot
 $(\bullet)$ indicates that values have been added over the indicated subscript.
 The sum of all observations is $Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i}
 Y_{ij}.$ The grand mean of all observations is denoted $\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a
-\sum_{j=1}^{n_i}Y_{ij}=\frac{Y_{\bullet\bullet}}{N}.$ For $a = 2$ treatments, the typical sum of squares for testing the hypotheses in \@ref(eq:HYP) are shown to the left of the equivalence ($\equiv$) symbol in \@ref(eq:AltFeq).  The representation on the right side of the $\equiv$ in \@ref(eq:AltFeq) is the standard test statistic used to test two means when variances are assumed to be equal.  To verify the equivalence, keep in mind that $\sum_{j=1}^{n_i} Y_{ij} = n_i \bar{Y}_{i\bullet}
+\sum_{j=1}^{n_i}Y_{ij}=\frac{Y_{\bullet\bullet}}{N}.$ For $a = 2$ treatments, the typical sum of squares for testing the hypotheses in \@ref(eq:HYP) are shown to the left of the equivalence ($\equiv$) symbol in \@ref(eq:AltFeq).  The representation on the right side of the $\equiv$ in \@ref(eq:AltFeq) is the standard test statistic used to test the difference of two means when variances are assumed to be equal.  To verify the equivalence, keep in mind that $\sum_{j=1}^{n_i} Y_{ij} = n_i \bar{Y}_{i\bullet}
  \text{ for } i=1,2$ and $(n_1 + n_2) \bar{Y}_{\bullet\bullet} = \sum_{i=1}^2
 \sum_{j=1}^{n_i} Y_{ij}$ and that $S_i^2 =\sum_{j=1}^{n_i}(Y_{ij} - \bar{Y}_{i\bullet})^2/(n_1 - 1)$. 
 
@@ -120,13 +120,13 @@ Then, replacing the sample means in \@ref(eq:AltFeq) with the population means a
 
 # EXAMPLE 1{-}
 
-The following scenario can be given to students:
+The following scenario is suitable for students:
 
 Consider a fictitious experiment where one of two hormones (testosterone or isoandrostenolone) is administered for fifteen days to male chicks starting when the chicks are one day old.  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and that the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power for the test of at least 0.80 using $\alpha = 0.05$? 
 
 ## Solution using base R functions {-}
 
-Although R [@R-base] is used as the computational engine in what follows, most modern software packages can handle what is shown in the code. Start by asking the students to specify the null and alternative hypotheses they will use to test the two hormones.  The hypotheses are: 
+Although R [@R-base] is used as the computational engine in what follows, most modern software packages can handle what is shown in the code. Start by asking the students to specify the null and alternative hypotheses they will use to test the mean difference in chicks' weights that were given the two hormones.  The hypotheses are: 
 $$H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}.$$
 Since the researcher specified a range for $\sigma$, two sets of values will be computed one for when the value of $\sigma$ is 20 mg and one for when the value of $\sigma$ is 30 mg. Start by finding a critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level with a guess of $n_1 = n_2 = 10$.  That is we are looking for $f_{0.95, 2 - 1, 10 + 10 -2} = f_{0.95, 1, 18} = `r qf(0.95, 1, 18)`$.  Next compute the non-centrality parameter when $\sigma = 20$ mg.
 
@@ -144,7 +144,7 @@ $$\text{Power}(\lambda = 11.25) = P(F^*_{1, 18, \lambda = 11.25} \geq f_{0.95, 1
 ```
 
 
-Since we only need to achieve a power of 0.80, we can reduce the values for each sample.  Next, we consider using $n_1 = 9$ and $n_2 = 8$ when $\sigma = 20$ mg. 
+Since we only need to achieve a power of 0.80, we can reduce the values for each sample.  Next, we consider using $n_1 = 9$ and $n_2 = 8$ when $\sigma = 20$ mg.  Although power is maximized when sample sizes are equal, in this example, $n_1 = n_2 = 9$ returned a power of 0.8476, while $n_1 = n_2 = 8$ returned a power of 0.7965. Consequently, we chose to use unequal sample sizes.  It would not matter whether the first treatment group or the second treatment group received the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.5625, lower = FALSE)`. 
 
 \begin{align*}
 \lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
@@ -189,7 +189,7 @@ $$\text{Power}(\lambda = 8.5) = P(F^*_{1, 32, \lambda = 8.5} \geq f_{0.95, 1, 32
 # Power for lambda
 (pf(CriticalF, 2 - 1, 17 + 17 - 2, 8.5, lower = FALSE) -> POWER)
 ```
-If the standard deviation for chick weight is $\sigma = 30$ mg, the experimenter needs to have 17 chicks assigned to each group to detect mean differences between groups greater than 80% percent of the time.  If the standard deviation for chick weights is as small as $\sigma = 20$ mg, the experimenter can assign 9 chicks to the first group and 8 chicks to the second group and still detect mean differences greater than 80% of the time.  To save space, we selected the values of $n_1$ and $n_2$ that solved the problem for the different values of $\sigma$.  Next we show how to compute the non-centrality parameter $\lambda$ using the notion of the $SS_\text{Hypothesis}(\text{population})$ using R, but which will work with any statistical software that computes the sum of squares.   
+If the standard deviation for chick weight is $\sigma = 30$ mg, the experimenter needs to have 17 chicks assigned to each group to detect mean differences between groups greater than 80% percent of the time.  If the standard deviation for chick weights is as small as $\sigma = 20$ mg, the experimenter can assign 9 chicks to the first group and 8 chicks to the second group and still detect mean differences more than 80% of the time.  To save space, we selected the values of $n_1$ and $n_2$ that solved the problem for the different values of $\sigma$.  Next, we show how to compute the non-centrality parameter $\lambda$ using the notion of the $SS_\text{Hypothesis}(\text{population})$ using R, but which will work with any statistical software that computes the sum of squares.   
 
 
 
@@ -225,13 +225,13 @@ summary(aov(Y ~ Treat))
 
 ## Solution using the Shiny app{-}
 
-To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app [@R-shiny] found at [https://shinyapp](https://shinyapp) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2,\ldots, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Additionally, the $P(\text{Type II error}) = \beta$ is depicted as the green shaded area in \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80 which will appear in the title for the Shiny app in parentheses.
+To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app found at [https://shinyapp/hasthikatiprovide](https://shinyapp/hasthikatiprovide) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2,\ldots, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Additionally, the $P(\text{Type II error}) = \beta$ is depicted as the green shaded area in \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80 which will appear in the title of the Shiny app in parentheses.
 
 ```{r, echo = FALSE, label = power1, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power1.png", dpi = 400)
 ```
 
-The red density in Figure \@ref(fig:power1) depicts a central *F*-distribution with $2 - 1$ and $20 - 2 = 18$ degrees of freedom.  The blue density in Figure \@ref(fig:power1) is a non-central *F*-distribution with $2-1$ and $20-2 = 18$ degrees of freedom and non-centrality parameter ($\lambda = 11.25)$.  The purple shaded area in Figure \@ref(fig:power1) is the significance level and the sum of all blue and purple shaded areas is the power (0.887). Changing the values for $n_1$ and $n_2$ to either 8 and 9 or 9 and 8 results in a power of (0.8224) as shown in Figure \@ref(fig:power2).
+The red density in Figure \@ref(fig:power1) depicts a central *F*-distribution with $2 - 1 = 1$ and $20 - 2 = 18$ degrees of freedom.  The blue density in Figure \@ref(fig:power1) is a non-central *F*-distribution with $2-1 = 1$ and $20-2 = 18$ degrees of freedom and non-centrality parameter ($\lambda = 11.25)$.  The purple shaded area in Figure \@ref(fig:power1) is the significance level and the sum of all blue and purple shaded areas is the power (0.887). Changing the values for $n_1$ and $n_2$ to either 8 and 9 or 9 and 8 results in a power of (0.8224) as shown in Figure \@ref(fig:power2).
 
 ```{r, echo = FALSE, label = power2, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power2.png", dpi = 400)

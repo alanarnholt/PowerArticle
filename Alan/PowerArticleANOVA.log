@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.24)  20 DEC 2024 09:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.24)  20 DEC 2024 13:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -631,15 +631,15 @@ L3 programming layer <2024-10-09>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 15055 strings out of 475517
- 240212 string characters out of 5775463
- 682287 words of memory out of 5000000
+ 15045 strings out of 475517
+ 240108 string characters out of 5775463
+ 682365 words of memory out of 5000000
  37247 multiletter control sequences out of 15000+600000
- 633601 words of font info for 171 fonts, out of 8000000 for 9000
+ 633086 words of font info for 166 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 69i,11n,79p,1708b,484s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 69i,11n,79p,1731b,484s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on PowerArticleANOVA.pdf (9 pages, 1168119 bytes).
+Output written on PowerArticleANOVA.pdf (9 pages, 1168687 bytes).
 PDF statistics:
  261 PDF objects out of 1000 (max. 8388607)
  194 compressed objects within 2 object streams
