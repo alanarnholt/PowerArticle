@@ -12,8 +12,8 @@ header-includes:
 date: 'Last edit: `r format(Sys.time(), "%B %d, %Y at %X")`'
 output: 
     #bookdown::html_document2
-    #bookdown::pdf_document2
-    bookdown::word_document2
+    bookdown::pdf_document2
+    #bookdown::word_document2
 bibliography: [packages.bib, powerarticle.bib] 
 csl: apa.csl
 toc: FALSE
@@ -38,7 +38,7 @@ lapply(PackagesUsed, library, character.only = TRUE)
 
 # INTRODUCTION {-}
 
-Following the GAISE guidelines [@gaise2016], many instructors have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a project, often comparing many means when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The Shiny package [@R-shiny] can be used to create web based applications.  The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER.  This work shows how the non-centrality parameter ($\lambda$) is a measure of statistical difference between **population** means and how the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app written by the authors is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power. The notation used for the one-way completely randomized design follows that presented in @ugarte_probability_2015.  To aid with the connection between non-centrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test when there are ($a = 2$) treatments before generalizing to $a >= 2$ treatments.  
+Following the GAISE guidelines [@gaise2016], many instructors have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a project, often comparing many means when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The Shiny package [@R-shiny] can be used to create web based applications.  The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER.  This work shows how the non-centrality parameter ($\lambda$) is a measure of statistical difference between **population** means and how the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app written by the authors is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power.  To aid with the connection between non-centrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test when there are two treatments before generalizing to two or more treatments.  
 
 
 # STATISTICAL BACKGROUND {-}
@@ -60,7 +60,7 @@ errors are assumed to be normally and independently distributed with mean zero
 and constant standard deviation $\bigl(NID(0, \sigma)\bigr)$.  Although estimating the parameters for Model \@ref(eq:EDMeq) is possible, the goal of the experimenter is typically to discern whether or not the $a$ treatment means are equal.  The hypotheses of interest are
 
 \begin{equation}
-H_0: \mu_1=\mu_2= \dots = \mu_a\quad\text{ versus }\quad H_A:\mu_i \ne \mu_j \text{ for some }(i, j).
+H_0: \mu_1=\mu_2= \dots = \mu_a\quad\text{ versus }\quad H_A:\mu_i \ne \mu_j \text{ for some }(i \neq j).
 (\#eq:HYP)
 \end{equation}
 
@@ -76,7 +76,7 @@ Y_{ij}.$ The grand mean of all observations is denoted $\bar{Y}_{\bullet\bullet}
 
 
 \begin{equation}
-SS_\text{Error} = \sum_{i=1}^{2}\sum_{j=1}^{n_i}(Y_{ij} - \bar{Y}_{i\bullet})^2 = \sum_{i=1}^{2}\left[\sum_{j=1}^{n_1}(Y_{ij}- \bar{Y}_{i\bullet})^2\right] = (n_1 - 1)S_1^2 + (n_2 - 1)S_2^2
+SS_\text{Error} = \sum_{i=1}^{2}\sum_{j=1}^{n_i}(Y_{ij} - \bar{Y}_{i\bullet})^2 = \sum_{i=1}^{2}\left[\sum_{j=1}^{n_i}(Y_{ij}- \bar{Y}_{i\bullet})^2\right] = (n_1 - 1)S_1^2 + (n_2 - 1)S_2^2
 (\#eq:FE)
 \end{equation}
 
@@ -109,7 +109,7 @@ F = \dfrac{(\,\bar{Y}_{1\bullet} -\bar{Y}_{2\bullet})^2 }{S^2_p\left( \frac{1}{n
 The quantity in \@ref(eq:AltFeq) measures the statistical differences between **sample** means. Let $SS_\text{Hypothesis}(\text{population})$ be the sum of squares for  treatments 
 obtained by replacing $\bar{Y}_{1\bullet}$ with $\mu_1$, $\bar{Y}_{2\bullet}$ with 
 $\mu_2$, and $\bar{Y}_{\bullet\bullet}$ with $\frac{n_1\mu_1+n_2\mu_2}{n_1+n_2}$. 
-Then, replacing the sample means in \@ref(eq:AltFeq) with the population means and replacing $S_p^2$ with $\sigma^2$ yields
+Then, replacing the sample means in \@ref(eq:AltFeq) with the population means and replacing $S_p^2$ with $\sigma^2$ yields the non-centrality parameter of the $F$ distribution,
 
 \begin{equation*}
 \lambda =  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
@@ -144,19 +144,19 @@ $$\text{Power}(\lambda = 11.25) = P(F^*_{1, 18, \lambda = 11.25} \geq f_{0.95, 1
 ```
 
 
-Since we only need to achieve a power of 0.80, we can reduce the values for each sample.  Next, we consider using $n_1 = 9$ and $n_2 = 8$ when $\sigma = 20$ mg.  Although power is maximized when sample sizes are equal, in this example, $n_1 = n_2 = 9$ returned a power of 0.8476, while $n_1 = n_2 = 8$ returned a power of 0.7965. Consequently, we chose to use unequal sample sizes.  It would not matter whether the first treatment group or the second treatment group received the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.5625, lower = FALSE)`. 
+Since we only need to achieve a power of 0.80, we can reduce the values for each sample.  Next, we consider using $n_1 = 9$ and $n_2 = 8$ when $\sigma = 20$ mg.  Although power is maximized when sample sizes are equal, in this example, $n_1 = n_2 = 9$ returned a power of 0.8476, while $n_1 = n_2 = 8$ returned a power of 0.7965. Consequently, we chose to use unequal sample sizes.  It does make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks.  If the second group receives the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`.  Since the groups are of different sizes, one must weight the means appropriately.  That is $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235$.  
 
 \begin{align*}
 \lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
 \right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}\\
-&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 8(70 - 85)^2}{20^2} = 9.5625
+&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85.88235)^2 + 8(70 - 85.88235)^2}{20^2} = 9.529412
 \end{align*}
 
-$$\text{Power}(\lambda = 9.5625) = P(F^*_{1, 15, \lambda = 9.5625} \geq f_{0.95, 1, 15} = `r qf(0.95, 1, 15)`) = `r pf(qf(0.95, 1, 15), 1, 15, 9.5625, lower = FALSE)`$$
+$$\text{Power}(\lambda = 9.529412) = P(F^*_{1, 15, \lambda = 9.529412} \geq f_{0.95, 1, 15} = `r qf(0.95, 1, 15)`) = `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`$$
 ```{r}
 (CriticalF <- qf(0.95, 2 - 1, 9 + 8 - 2))
 # Power for lambda
-(pf(CriticalF, 2 - 1, 9 + 8 - 2, 9.5625, lower = FALSE) -> POWER)
+(pf(CriticalF, 2 - 1, 9 + 8 - 2, 9.529412, lower = FALSE) -> POWER)
 ```
 
 The same calculations are performed next under the assumption that $\sigma = 30$ mg.
