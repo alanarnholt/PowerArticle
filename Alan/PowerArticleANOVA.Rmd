@@ -96,8 +96,11 @@ The quantity in \@ref(eq:AltFeq) measures the statistical differences between **
 The formula to find $\lambda$ for testing equality of $a$ means is
 
 \begin{equation*}
-\lambda = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} = \frac{\sum_{i=1}^{a}n_i(\bar{\mu}_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2}.
+\lambda = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} = \frac{\sum_{i=1}^{a}n_i(\bar{\mu}_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2},
 \end{equation*}
+
+which one obtains by replacing the sample means in the standard sum of squares treatments formula with corresponding population means. $\lambda$ is a measure of statistical difference between **population** means and the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means.
+
 
 # EXAMPLE 1{-}
 
