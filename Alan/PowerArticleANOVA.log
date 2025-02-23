@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.2.16)  21 FEB 2025 13:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.2.16)  23 FEB 2025 13:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -582,35 +582,35 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 {/home/faculty/arnholtat/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
 
 [2]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 254.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 242.
 (/home/faculty/arnholtat/.TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 255.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 243.
 
 
 [3]
 
 [4]
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 400.
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 388.
 (/home/faculty/arnholtat/.TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 <./pics/fig-power1.png, id=67, 1177.39874pt x 742.775pt>
 File: ./pics/fig-power1.png Graphic file (type png)
 <use ./pics/fig-power1.png>
-Package pdftex.def Info: ./pics/fig-power1.png  used on input line 453.
+Package pdftex.def Info: ./pics/fig-power1.png  used on input line 441.
 (pdftex.def)             Requested size: 423.5039pt x 267.17212pt.
 <./pics/fig-power2.png, id=73, 1181.41376pt x 748.7975pt>
 File: ./pics/fig-power2.png Graphic file (type png)
 <use ./pics/fig-power2.png>
-Package pdftex.def Info: ./pics/fig-power2.png  used on input line 464.
+Package pdftex.def Info: ./pics/fig-power2.png  used on input line 452.
 (pdftex.def)             Requested size: 424.94809pt x 269.33838pt.
 <./pics/fig-power3.png, id=75, 1177.39874pt x 748.7975pt>
 File: ./pics/fig-power3.png Graphic file (type png)
 <use ./pics/fig-power3.png>
-Package pdftex.def Info: ./pics/fig-power3.png  used on input line 475.
+Package pdftex.def Info: ./pics/fig-power3.png  used on input line 463.
 (pdftex.def)             Requested size: 423.5039pt x 269.33838pt.
 
 
@@ -620,7 +620,7 @@ Package pdftex.def Info: ./pics/fig-power3.png  used on input line 475.
 <./pics/fig-power4.png, id=96, 1177.39874pt x 746.79pt>
 File: ./pics/fig-power4.png Graphic file (type png)
 <use ./pics/fig-power4.png>
-Package pdftex.def Info: ./pics/fig-power4.png  used on input line 511.
+Package pdftex.def Info: ./pics/fig-power4.png  used on input line 499.
 (pdftex.def)             Requested size: 423.5039pt x 268.61629pt.
 
 
@@ -635,15 +635,15 @@ L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 15075 strings out of 475152
- 240621 string characters out of 5763996
- 687458 words of memory out of 5000000
+ 15073 strings out of 475152
+ 240601 string characters out of 5763996
+ 689458 words of memory out of 5000000
  37627 multiletter control sequences out of 15000+600000
- 633926 words of font info for 167 fonts, out of 8000000 for 9000
+ 633843 words of font info for 166 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 69i,11n,79p,1598b,484s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 69i,11n,79p,1600b,484s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></home/faculty/arnholtat/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on PowerArticleANOVA.pdf (9 pages, 1168661 bytes).
+Output written on PowerArticleANOVA.pdf (9 pages, 1169646 bytes).
 PDF statistics:
  262 PDF objects out of 1000 (max. 8388607)
  195 compressed objects within 2 object streams
