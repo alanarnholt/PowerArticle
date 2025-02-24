@@ -139,15 +139,14 @@ c) $\text{Power}(\lambda = 19.125) = P(F^*_{1, 32; \lambda = 19.125} \geq f_{0.9
 (pf(CriticalF, 2 - 1, 17 + 17 - 2, 19.125, lower = FALSE) -> POWER)
 ```
 
-d) Consider $n_1 = n_2 = 9$ so that the critical value becomes
-$f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 9 + 9 -2} = f_{0.95; 1, 16} = `r qf(0.95, 1, 16)`$ and the non-centrality parameter $\lambda$ becomes
+d) Have the students use different values for $n_1 = n_2$ potentially starting with 12 and observing the computed power is more than sufficient. Lead the students through computing the power with a reduced sample sizes of $n_1 = n_2 = 9$ so that the critical value becomes $f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 9 + 9 -2} = f_{0.95; 1, 16} = `r qf(0.95, 1, 16)`$ and the non-centrality parameter $\lambda$ becomes
 
 \begin{equation*}
 \lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 9(70 - 85)^2}{20^2} = 10.125.
 \end{equation*}
 
 $$\text{Power}(\lambda = 10.125) = P(F^*_{1, 16; \lambda = 10.125} \geq f_{0.95; 1, 16} = `r qf(0.95, 1, 16)`) = `r pf(qf(0.95, 1, 16), 1, 16, 10.125, lower = FALSE)`$$
-Next consider $n_1 = n_2 = 8$ so that the critical value becomes
+Next have the students consider $n_1 = n_2 = 8$ so that the critical value becomes
 $f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 8 + 8 -2} = f_{0.95; 1, 14} = `r qf(0.95, 1, 14)`$ and the non-centrality parameter $\lambda$ becomes
 
 \begin{equation*}
@@ -157,7 +156,7 @@ $f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 8 + 8 -2} = f_{0.95; 1, 1
 $$\text{Power}(\lambda = 9) = P(F^*_{1, 14; \lambda = 9} \geq f_{0.95; 1, 14} = `r qf(0.95, 1, 14)`) = `r pf(qf(0.95, 1, 14), 1, 14, 9, lower = FALSE)`$$
 Since $n_1 = n_2 = 8$ resulted in a power value less than the required 0.80, the minimum sample size for $n_1 = n_2$ to obtain a power of at least 0.80 is 9.
 
-e) Since we only need to achieve a power of 0.80, we may be able to reduce the values for one of the samples.  Consider using $n_1 = 9$ and $n_2 = 8$ when $\sigma = 20$ mg.  Although power is maximized when sample sizes are equal, in this example, $n_1 = n_2 = 9$ returned a power of 0.8476, while $n_1 = n_2 = 8$ returned a power of 0.7965. Consequently, we chose to use unequal sample sizes.  It does make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks.  If the second group receives the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`.  Since the groups are of different sizes, one must weight the means appropriately.  That is $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235$.  
+e). Although power is maximized when sample sizes are equal, in this example, $n_1 = n_2 = 9$ returned a power of 0.8476, while $n_1 = n_2 = 8$ returned a power of 0.7965. Ask the students to use either $n_1 = 9$ and  $n_2 = 8$ or $n_1 = 8$ and  $n_2 = 9$ to see if the power is at least 0.80.  It does make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks.  If the second group receives the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`.  Since the groups are of different sizes, remind the students to weight the means appropriately.  That is $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235$.  
 
 \begin{equation*}
 \lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85.88235)^2 + 8(70 - 85.88235)^2}{20^2} = 9.529412
@@ -173,7 +172,7 @@ $$\text{Power}(\lambda = 9.529412) = P(F^*_{1, 15, \lambda = 9.529412} \geq f_{0
 f) The non-centrality parameter when $\sigma = 30$ mg is
 
 \begin{equation*}
-\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{30^2} = 8.5
+\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{30^2} = \frac{7650}{900} = 8.5
 \end{equation*}
 
 $$\text{Power}(\lambda = 8.5) = P(F^*_{1, 32; \lambda = 8.5} \geq f_{0.95; 1, 32} = `r qf(0.95, 1, 32)`) = `r pf(qf(0.95, 1, 32), 1, 32, 8.5, lower = FALSE)`$$
@@ -184,7 +183,7 @@ $$\text{Power}(\lambda = 8.5) = P(F^*_{1, 32; \lambda = 8.5} \geq f_{0.95; 1, 32
 (pf(CriticalF, 2 - 1, 17 + 17 - 2, 8.5, lower = FALSE) -> POWER)
 ```
 
-Note: If the standard deviation for chick weight is $\sigma = 30$ mg, the experimenter needs to have 17 chicks assigned to each group to detect mean differences between groups greater than 80% percent of the time.  If the standard deviation for chick weights is as small as $\sigma = 20$ mg, the experimenter can assign 9 chicks to the first group and 8 chicks to the second group and still detect mean differences more than 80% of the time.  Next, we show how to compute the non-centrality parameter $\lambda$ using the notion of the $SS_\text{Hypothesis}(\text{population})$ using R, but which will work with any statistical software that computes the sum of squares.   
+Note: If the standard deviation for chick weight is $\sigma = 30$ mg, the student needs to have 17 chicks assigned to each group to detect mean differences between groups greater than 80% percent of the time.  If the standard deviation for chick weights is as small as $\sigma = 20$ mg, the students can assign 9 chicks to the first group and 8 chicks to the second group and still detect mean differences more than 80% of the time.  Next, we show how to compute the non-centrality parameter $\lambda$ using the notion of the $SS_\text{Hypothesis}(\text{population})$ using R, but which will work with any statistical software that computes the sum of squares.   
 
 
 
