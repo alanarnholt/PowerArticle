@@ -101,40 +101,67 @@ The formula to find $\lambda$ for testing equality of $a$ means is
 
 which one obtains by replacing the sample means in the standard sum of squares treatments formula with corresponding population means. $\lambda$ is a measure of statistical difference between **population** means and the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means.
 
+The following projects walk students through the process of  finding a critical value for a given level of significance and assumed sample sizes, computing the measure of statistical difference in population means via the non-centrality parameter $\lambda$ and the corresponding power for detecting differences in population means with the given $\lambda$ value using both base R and a Shiny app. Although R [@R-base] is used as the computational engine in what follows, most modern software packages can handle what is shown in the code.  By the end of these projects, students should recognize that the non-centrality parameter can be calculated using the standard sum of squares for treatments they have been taught in their statistics course by replacing the sample means with hypothesized population means.
 
-# EXAMPLE 1{-}
+# PROJECT 1{-}
 
-The following scenario is suitable for students:
+Consider a fictitious experiment where one of two hormones (testosterone or isoandrostenolone) is administered for fifteen days to male chicks starting when the chicks are one day old.  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and that the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power of at least 0.80 for testing $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ using $\alpha = 0.05$ if in fact $\mu_\text{testosterone} = 100$ mg and $\mu_\text{isoandrostenolone} = 70$ mg? 
 
-Consider a fictitious experiment where one of two hormones (testosterone or isoandrostenolone) is administered for fifteen days to male chicks starting when the chicks are one day old.  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and that the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power for the test of at least 0.80 using $\alpha = 0.05$? 
+a)  Find the critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level if $n_1=n_2 = 17$.
+
+b)  Find the non-centrality parameter ($\lambda$) when $\sigma = 20$ mg.
+
+c)  Compute the power for the $\lambda$ value computed in b).
+
+d)  Reduce the values of $n_1$ and $n_2$ to as small as possible while the power is at least 0.80 while keeping $n_1 = n_2$ so that power is maximized.
+
+e)  Reduce the values of $n_1$ and $n_2$ to as small as possible while the power is at least 0.80.
+
+f) Repeat steps c) and d) for $\sigma = 30$ mg. 
+
+
 
 ## Solution using base R functions {-}
 
-Although R [@R-base] is used as the computational engine in what follows, most modern software packages can handle what is shown in the code. Start by asking the students to specify the null and alternative hypotheses they will use to test the mean difference in chicks' weights that were given the two hormones.  The hypotheses are: 
-$$H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}.$$
-Since the researcher specified a range for $\sigma$, two sets of values will be computed one for when the value of $\sigma$ is 20 mg and one for when the value of $\sigma$ is 30 mg. Start by finding a critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level with a guess of $n_1 = n_2 = 10$.  That is we are looking for $f_{0.95, 2 - 1, 10 + 10 -2} = f_{0.95, 1, 18} = `r qf(0.95, 1, 18)`$.  Next compute the non-centrality parameter when $\sigma = 20$ mg.
+a) The critical value we are looking for $f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 17 + 17 -2} = f_{0.95; 1, 32} = `r qf(0.95, 1, 32)`$.
 
-\begin{align*}
-\lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
-\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} \\
-&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{10(100 - 85)^2 + 10(70 - 85)^2}{20^2} = 11.25
-\end{align*}
+b) The non-centrality parameter when $\sigma = 20$ mg is
 
-$$\text{Power}(\lambda = 11.25) = P(F^*_{1, 18, \lambda = 11.25} \geq f_{0.95, 1, 18} = `r qf(0.95, 1, 18)`) = `r pf(qf(0.95, 1, 18), 1, 18, 11.25, lower = FALSE)`$$
+\begin{equation*}
+\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{20^2} = 19.125
+\end{equation*}
+
+c) $\text{Power}(\lambda = 19.125) = P(F^*_{1, 32; \lambda = 19.125} \geq f_{0.95; 1, 32} = `r qf(0.95, 1, 32)`) = `r pf(qf(0.95, 1, 32), 1, 32, 19.125, lower = FALSE)`$
+
 ```{r}
-(CriticalF <- qf(0.95, 2 - 1, 20 - 2))
+(CriticalF <- qf(0.95, 2 - 1, 17 + 17 - 2))
 # Power for lambda
-(pf(CriticalF, 2 - 1, 20 - 2, 11.25, lower = FALSE) -> POWER)
+(pf(CriticalF, 2 - 1, 17 + 17 - 2, 19.125, lower = FALSE) -> POWER)
 ```
 
+d) Consider $n_1 = n_2 = 9$ so that the critical value becomes
+$f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 9 + 9 -2} = f_{0.95; 1, 16} = `r qf(0.95, 1, 16)`$ and the non-centrality parameter $\lambda$ becomes
 
-Since we only need to achieve a power of 0.80, we can reduce the values for each sample.  Next, we consider using $n_1 = 9$ and $n_2 = 8$ when $\sigma = 20$ mg.  Although power is maximized when sample sizes are equal, in this example, $n_1 = n_2 = 9$ returned a power of 0.8476, while $n_1 = n_2 = 8$ returned a power of 0.7965. Consequently, we chose to use unequal sample sizes.  It does make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks.  If the second group receives the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`.  Since the groups are of different sizes, one must weight the means appropriately.  That is $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235$.  
+\begin{equation*}
+\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 9(70 - 85)^2}{20^2} = 10.125.
+\end{equation*}
 
-\begin{align*}
-\lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
-\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}\\
-&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85.88235)^2 + 8(70 - 85.88235)^2}{20^2} = 9.529412
-\end{align*}
+$$\text{Power}(\lambda = 10.125) = P(F^*_{1, 16; \lambda = 10.125} \geq f_{0.95; 1, 16} = `r qf(0.95, 1, 16)`) = `r pf(qf(0.95, 1, 16), 1, 16, 10.125, lower = FALSE)`$$
+Next consider $n_1 = n_2 = 8$ so that the critical value becomes
+$f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 8 + 8 -2} = f_{0.95; 1, 14} = `r qf(0.95, 1, 14)`$ and the non-centrality parameter $\lambda$ becomes
+
+\begin{equation*}
+\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{8(100 - 85)^2 + 8(70 - 85)^2}{20^2} = 9.
+\end{equation*}
+
+$$\text{Power}(\lambda = 9) = P(F^*_{1, 14; \lambda = 9} \geq f_{0.95; 1, 14} = `r qf(0.95, 1, 14)`) = `r pf(qf(0.95, 1, 14), 1, 14, 9, lower = FALSE)`$$
+Since $n_1 = n_2 = 8$ resulted in a power value less than the required 0.80, the minimum sample size for $n_1 = n_2$ to obtain a power of at least 0.80 is 9.
+
+e) Since we only need to achieve a power of 0.80, we may be able to reduce the values for one of the samples.  Consider using $n_1 = 9$ and $n_2 = 8$ when $\sigma = 20$ mg.  Although power is maximized when sample sizes are equal, in this example, $n_1 = n_2 = 9$ returned a power of 0.8476, while $n_1 = n_2 = 8$ returned a power of 0.7965. Consequently, we chose to use unequal sample sizes.  It does make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks.  If the second group receives the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`.  Since the groups are of different sizes, one must weight the means appropriately.  That is $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235$.  
+
+\begin{equation*}
+\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85.88235)^2 + 8(70 - 85.88235)^2}{20^2} = 9.529412
+\end{equation*}
 
 $$\text{Power}(\lambda = 9.529412) = P(F^*_{1, 15, \lambda = 9.529412} \geq f_{0.95, 1, 15} = `r qf(0.95, 1, 15)`) = `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`$$
 ```{r}
@@ -143,37 +170,21 @@ $$\text{Power}(\lambda = 9.529412) = P(F^*_{1, 15, \lambda = 9.529412} \geq f_{0
 (pf(CriticalF, 2 - 1, 9 + 8 - 2, 9.529412, lower = FALSE) -> POWER)
 ```
 
-The same calculations are performed next under the assumption that $\sigma = 30$ mg.
+f) The non-centrality parameter when $\sigma = 30$ mg is
 
-\begin{align*}
-\lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
-\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2} \\
-&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{10(100 - 85)^2 + 10(70 - 85)^2}{30^2} = 5
-\end{align*}
+\begin{equation*}
+\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{30^2} = 8.5
+\end{equation*}
 
-$$\text{Power}(\lambda = 5) = P(F^*_{1, 18, \lambda = 5} \geq f_{0.95, 1, 18} = `r qf(0.95, 1, 18)`) = `r pf(qf(0.95, 1, 18), 1, 18, 5, lower = FALSE)`$$
-```{r}
-(CriticalF <- qf(0.95, 2 - 1, 20 - 2))
-# Power for lambda
-(pf(CriticalF, 2 - 1, 20 - 2, 5, lower = FALSE) -> POWER)
-```
+$$\text{Power}(\lambda = 8.5) = P(F^*_{1, 32; \lambda = 8.5} \geq f_{0.95; 1, 32} = `r qf(0.95, 1, 32)`) = `r pf(qf(0.95, 1, 32), 1, 32, 8.5, lower = FALSE)`$$
 
-
-Since we need to achieve a power of 0.80, we need to increase the values for each sample.  Next, we consider using $n_1 = 17$ and $n_2 = 17$ when $\sigma = 30$ mg. 
-
-\begin{align*}
-\lambda &=  \frac{ ( \mu_1 - \mu_2 )^2\left( \frac{1}{n_1} + \frac{1}{n_2}
-\right)^{-1} }{\sigma^2} = \frac{SS_\text{Hypothesis}(\text{population})}{\sigma^2}\\
-&= \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{30^2} = 8.5
-\end{align*}
-
-$$\text{Power}(\lambda = 8.5) = P(F^*_{1, 32, \lambda = 8.5} \geq f_{0.95, 1, 32} = `r qf(0.95, 1, 32)`) = `r pf(qf(0.95, 1, 32), 1, 32, 8.5, lower = FALSE)`$$
 ```{r}
 (CriticalF <- qf(0.95, 2 - 1, 17 + 17 - 2))
 # Power for lambda
 (pf(CriticalF, 2 - 1, 17 + 17 - 2, 8.5, lower = FALSE) -> POWER)
 ```
-If the standard deviation for chick weight is $\sigma = 30$ mg, the experimenter needs to have 17 chicks assigned to each group to detect mean differences between groups greater than 80% percent of the time.  If the standard deviation for chick weights is as small as $\sigma = 20$ mg, the experimenter can assign 9 chicks to the first group and 8 chicks to the second group and still detect mean differences more than 80% of the time.  To save space, we selected the values of $n_1$ and $n_2$ that solved the problem for the different values of $\sigma$.  Next, we show how to compute the non-centrality parameter $\lambda$ using the notion of the $SS_\text{Hypothesis}(\text{population})$ using R, but which will work with any statistical software that computes the sum of squares.   
+
+Note: If the standard deviation for chick weight is $\sigma = 30$ mg, the experimenter needs to have 17 chicks assigned to each group to detect mean differences between groups greater than 80% percent of the time.  If the standard deviation for chick weights is as small as $\sigma = 20$ mg, the experimenter can assign 9 chicks to the first group and 8 chicks to the second group and still detect mean differences more than 80% of the time.  Next, we show how to compute the non-centrality parameter $\lambda$ using the notion of the $SS_\text{Hypothesis}(\text{population})$ using R, but which will work with any statistical software that computes the sum of squares.   
 
 
 
