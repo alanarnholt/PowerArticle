@@ -121,7 +121,7 @@ f) Repeat steps c) and d) for $\sigma = 30$ mg.
 
 
 
-## Solution using base R functions {-}
+## Solutions and hints {-}
 
 a) The critical value we are looking for $f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 17 + 17 -2} = f_{0.95; 1, 32} = `r qf(0.95, 1, 32)`$.
 
@@ -133,13 +133,16 @@ b) The non-centrality parameter when $\sigma = 20$ mg is
 
 c) $\text{Power}(\lambda = 19.125) = P(F^*_{1, 32; \lambda = 19.125} \geq f_{0.95; 1, 32} = `r qf(0.95, 1, 32)`) = `r pf(qf(0.95, 1, 32), 1, 32, 19.125, lower = FALSE)`$
 
+## R code {-}
+
 ```{r}
+# Computing critical value
 (CriticalF <- qf(0.95, 2 - 1, 17 + 17 - 2))
 # Power for lambda
 (pf(CriticalF, 2 - 1, 17 + 17 - 2, 19.125, lower = FALSE) -> POWER)
 ```
 
-d) Have the students use different values for $n_1 = n_2$ potentially starting with 12 and observing the computed power is more than sufficient. Lead the students through computing the power with a reduced sample sizes of $n_1 = n_2 = 9$ so that the critical value becomes $f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 9 + 9 -2} = f_{0.95; 1, 16} = `r qf(0.95, 1, 16)`$ and the non-centrality parameter $\lambda$ becomes
+d) Have the students use different values for $n_1 = n_2$ potentially starting with 12 and observing the computed power (0.9394) is more than sufficient. Lead the students through computing the power with reduced sample sizes of $n_1 = n_2 = 9$ so that the critical value becomes $f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 9 + 9 -2} = f_{0.95; 1, 16} = `r qf(0.95, 1, 16)`$ and the non-centrality parameter $\lambda$ becomes
 
 \begin{equation*}
 \lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 9(70 - 85)^2}{20^2} = 10.125.
@@ -156,20 +159,36 @@ $f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 8 + 8 -2} = f_{0.95; 1, 1
 $$\text{Power}(\lambda = 9) = P(F^*_{1, 14; \lambda = 9} \geq f_{0.95; 1, 14} = `r qf(0.95, 1, 14)`) = `r pf(qf(0.95, 1, 14), 1, 14, 9, lower = FALSE)`$$
 Since $n_1 = n_2 = 8$ resulted in a power value less than the required 0.80, the minimum sample size for $n_1 = n_2$ to obtain a power of at least 0.80 is 9.
 
-e). Although power is maximized when sample sizes are equal, in this example, $n_1 = n_2 = 9$ returned a power of 0.8476, while $n_1 = n_2 = 8$ returned a power of 0.7965. Ask the students to use either $n_1 = 9$ and  $n_2 = 8$ or $n_1 = 8$ and  $n_2 = 9$ to see if the power is at least 0.80.  It does make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks.  If the second group receives the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`.  Since the groups are of different sizes, remind the students to weight the means appropriately.  That is $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235$.  
+## R code {-}
+
+```{r}
+# Computing critical value
+(CriticalF <- qf(0.95, 2 - 1, 9 + 9 - 2))
+# Power for lambda
+(pf(CriticalF, 2 - 1, 9 + 9 - 2, 10.125, lower = FALSE) -> POWER)
+# Computing critical value
+(CriticalF <- qf(0.95, 2 - 1, 8 + 8 - 2))
+# Power for lambda
+(pf(CriticalF, 2 - 1, 8 + 8 - 2, 9, lower = FALSE) -> POWER)
+```
+
+e). In this example, $n_1 = n_2 = 9$ returned a power of 0.8476101 while $n_1 = n_2 = 8$ returned a power of 0.796545. Although power is maximized when sample sizes are equal, ask the students to use either $n_1 = 9$ and  $n_2 = 8$ or $n_1 = 8$ and  $n_2 = 9$ to see if the power is at least 0.80.  It does not make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks in computing $\lambda$ for this problem; however, the value for $\bar{\mu}_{\bullet\bullet}$ will differ depending on which group receives the smaller number of chicks.  If the second group receives the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`.  Since the groups are of different sizes, remind the students to weight the means appropriately.  That is $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235$.  
 
 \begin{equation*}
 \lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85.88235)^2 + 8(70 - 85.88235)^2}{20^2} = 9.529412
 \end{equation*}
 
 $$\text{Power}(\lambda = 9.529412) = P(F^*_{1, 15, \lambda = 9.529412} \geq f_{0.95, 1, 15} = `r qf(0.95, 1, 15)`) = `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`$$
+
+## R code {-}
+
 ```{r}
 (CriticalF <- qf(0.95, 2 - 1, 9 + 8 - 2))
 # Power for lambda
 (pf(CriticalF, 2 - 1, 9 + 8 - 2, 9.529412, lower = FALSE) -> POWER)
 ```
 
-f) The non-centrality parameter when $\sigma = 30$ mg is
+f) The non-centrality parameter when $\sigma = 30$ mg and $n_1 = n_2 = 17$ is
 
 \begin{equation*}
 \lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{30^2} = \frac{7650}{900} = 8.5
@@ -185,7 +204,7 @@ $$\text{Power}(\lambda = 8.5) = P(F^*_{1, 32; \lambda = 8.5} \geq f_{0.95; 1, 32
 
 Note: If the standard deviation for chick weight is $\sigma = 30$ mg, the student needs to have 17 chicks assigned to each group to detect mean differences between groups greater than 80% percent of the time.  If the standard deviation for chick weights is as small as $\sigma = 20$ mg, the students can assign 9 chicks to the first group and 8 chicks to the second group and still detect mean differences more than 80% of the time.  Next, we show how to compute the non-centrality parameter $\lambda$ using the notion of the $SS_\text{Hypothesis}(\text{population})$ using R, but which will work with any statistical software that computes the sum of squares.   
 
-
+## R code {-}
 
 ```{r}
 # Hypothesized means
@@ -219,37 +238,35 @@ summary(aov(Y ~ Treat))
 
 ## Solution using the Shiny app{-}
 
-To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ when $\sigma = 30$ mg, launch the Shiny app found at [https://hasthika.shinyapps.io/anovaShinyApp/](https://hasthika.shinyapps.io/anovaShinyApp/) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 10 and 10 separated with a comma in the $n_1, n_2,\ldots, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Additionally, the $P(\text{Type II error}) = \beta$ is depicted as the green shaded area in \@ref(fig:power1).  Change the values for $n_1$ and $n_2$ to be as small as possible with a power value of at least 0.80 which will appear in the title of the Shiny app in parentheses.
+To find the required samples sizes to test $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ using $\alpha = 0.05$ if in fact $\mu_\text{testosterone} = 100$ mg and $\mu_\text{isoandrostenolone} = 70$ mg when $\sigma = 20$ mg, have the students launch the Shiny app found at [https://hasthika.shinyapps.io/anovaShinyApp/](https://hasthika.shinyapps.io/anovaShinyApp/) and enter the values of 100 and 70 separated with a comma in the $H_A$ box, 17 and 17 separated with a comma in the $n_1, n_2,\ldots, n_a$ box, the value of 20 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power1).  Additionally, the $P(\text{Type II error}) = \beta$ is depicted as the green shaded area (the area underneath the non-central *F*-distribution to the left of the critical value of 4.1490974) in Figure \@ref(fig:power1).  Have the students experiment with the values for $n_1$ and $n_2$ to find the smallest values for $n_1 = n_2$ where the reported power value is at least 0.80 which will appear in the title of the Shiny app in parentheses.
 
 ```{r, echo = FALSE, label = power1, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
-knitr::include_graphics("./pics/fig-power1.png", dpi = 400)
+knitr::include_graphics("./pics/fig-power1a.png", dpi = 400)
 ```
 
-The red density in Figure \@ref(fig:power1) depicts a central *F*-distribution with $2 - 1 = 1$ and $20 - 2 = 18$ degrees of freedom.  The blue density in Figure \@ref(fig:power1) is a non-central *F*-distribution with $2-1 = 1$ and $20-2 = 18$ degrees of freedom and non-centrality parameter ($\lambda = 11.25)$.  The purple shaded area in Figure \@ref(fig:power1) is the significance level and the sum of all blue and purple shaded areas is the power (0.887). Changing the values for $n_1$ and $n_2$ to either 8 and 9 or 9 and 8 results in a power of (0.8224) as shown in Figure \@ref(fig:power2).
+The red density in Figure \@ref(fig:power1) depicts a central *F*-distribution with $2 - 1 = 1$ and $17 + 17 - 2 = 34$ degrees of freedom.  The blue density in Figure \@ref(fig:power1) is a non-central *F*-distribution with $2-1 = 1$ and $17 + 17 - 2 = 34$ degrees of freedom and non-centrality parameter ($\lambda = 19.125)$.  The purple shaded area in Figure \@ref(fig:power1) is the significance level (all of the area to the right of the critical value 4.1490974 underneath the *F*-distribution) and the sum of all blue and purple shaded areas (all of the area to the right of the critical value 4.1490974 underneath the non-central *F*-distribution) is the power (0.9887). Changing the values for $n_1$ and $n_2$ to either 8 and 9 or 9 and 8 results in a power of 0.8224 as shown in Figure \@ref(fig:power2).
 
 ```{r, echo = FALSE, label = power2, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
-knitr::include_graphics("./pics/fig-power2.png", dpi = 400)
+knitr::include_graphics("./pics/fig-power2a.png", dpi = 400)
 ```
 
 Finally, have the students verify that the minimum samples sizes for $n_1$ and $n_2$ are both 17 when $\sigma = 30$ using the Shiny app as shown in Figure \@ref(fig:power3).
 
 ```{r, echo = FALSE, label = power3, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
-knitr::include_graphics("./pics/fig-power3.png", dpi = 400)
+knitr::include_graphics("./pics/fig-power3a.png", dpi = 400)
 ```
 
-# EXAMPLE 2{-}
+# PROJECT 2{-}
 
 An educational researcher is interested in testing different tools to help his students master statistical concepts.  The researcher hypothesizes there will be increases in mean performance for students on a standardized test from lecture alone (70), to lecture with statistical software (75), to lecture with statistical software and videos (80), to lecture with statistical software, videos, and shiny apps of (85).  If the population standard deviation for the researcher's students on the standardized test is 15, find the minimum number of students required for each group to be able to have a power value of at least 0.80.
 
-Figure \@ref(fig:power4) shows 70, 75, 80, and 85 entered for $\mu_1$, $\mu_2$, $\mu_3$, and $\mu_4$ in the $H_A$ box, the value of 15 in the $\sigma$ box, and sliding the significance level to 0.05.  Power is maximized when all treatment groups have the same number of experimental units.  Consequently, if there are no restrictions on the allocation of resources, the experimenter should allocate an equal number of experimental units to each of the $a$ treatments. Then, experiment with different values for the sample sizes for each treatment until the power is greater than or equal to 0.80.  Our trial and error method started with $n_1 = n_2 = n_3 = n_4 = 10$ which yielded too small a power.  As a guess, we doubled the values to $n_1 = n_2 = n_3 = n_4 = 20$ and noted we were just a little short of our desired power value.  Next we tried $n_1 = n_2 = n_3 = n_4 = 25$ and observed this was over the target value of 0.80.  We continued experimenting lowering the values until we arrived at $n_1 = n_2 = n_3 = n_4 = 21$ which returned a power of 0.8082.
+
+To find the required samples sizes to test $H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4 \quad\text{ versus }\quad H_A: \mu_i \neq \mu_j$ for some ($i \neq j$) using $\alpha = 0.05$ if in fact $\mu_1 = 70$, $\mu_2 = 75$, $\mu_3 = 80$, and $\mu_4 = 85$, when $\sigma = 15$, have the students launch the Shiny app found at [https://hasthika.shinyapps.io/anovaShinyApp/](https://hasthika.shinyapps.io/anovaShinyApp/) and enter the values of 70, 75, 80, and 85 separated with commas in the $H_A$ box.  Power is maximized when all treatment groups have the same number of experimental units.  Consequently, if there are no restrictions on the allocation of resources, students should allocate an equal number of experimental units to each of the $a$ treatments by entering values separated with commas for each treatment group size in the $n_1, n_2,\ldots, n_a$ box, the value of 15 in the $\sigma$ box, and use the slider to select a significance level of 0.05 as shown in Figure \@ref(fig:power4). Have the students experiment with different values for the sample sizes of each treatment until the power is greater than or equal to 0.80.  Walk the students through a trial and error method starting with $n_1 = n_2 = n_3 = n_4 = 10$ which will yield too small a power.  As a guess, have the students doubled the values to $n_1 = n_2 = n_3 = n_4 = 20$ and point out that we are just a little short of our desired power value.  Next, have the students use $n_1 = n_2 = n_3 = n_4 = 25$ and observe that the returned power is over the target value of 0.80.  Have the students continue experimenting lowering the values until they arrive at $n_1 = n_2 = n_3 = n_4 = 21$ which returns a power of 0.8082.
 
 ```{r, echo = FALSE}
 DF <- data.frame(n = c(10, 20, 25, 22, 21), Power = c(0.4396, 0.7856, 0.8797, 0.8287, 0.8082))
 knitr::kable(DF, caption = "Process of trial and error for desired power", booktabs = TRUE)
 ```
-
-
-**Answer:** $n_1 = n_2 = n_3 = n_4 = 21$.
 
 ```{r, echo = FALSE, label = power4, fig.cap = "Power to detect a specified difference in population means with given sample sizes and population standard deviation"}
 knitr::include_graphics("./pics/fig-power4.png", dpi = 400)
