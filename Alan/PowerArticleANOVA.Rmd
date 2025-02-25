@@ -59,7 +59,7 @@ H_0: \mu_1=\mu_2= \dots = \mu_a\quad\text{ versus }\quad H_A:\mu_i \ne \mu_j \te
 (\#eq:HYP)
 \end{equation}
 
-The notation that follows is adopted from @ugarte_probability_2015. The sum of the observations in the $i^\text{th}$ treatment group is $Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}$, and the mean of the observations in the $i^\text{th}$ treatment group is $\bar{Y}_{i\bullet}=\frac{1}{n_{i}}\sum_{j=1}^{n_i} Y_{ij} = \frac{Y_{i\bullet}}{n_i}$. The bar indicates a mean while the dot $(\bullet)$ indicates that values have been added over the indicated subscript.  The sum of all observations is $Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}.$ The grand mean of all observations is denoted $\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}=\sum_{i=1}^{a}\frac{Y_{i\bullet}}{N}   =\sum_{i=1}^{a}n_{i\bullet}\bar{Y}_{i\bullet}/N.$ For $a = 2$ treatments, the typical sum of squares for testing the hypotheses in \@ref(eq:HYP) are shown to the left of the equivalence ($\equiv$) symbol in \@ref(eq:AltFeq) where for $a$ treatments $n_1 + n_2 + \cdot + n_a = N$, $df_{\text{Treatment}} = a - 1$, and $df_{\text{Error}} = N-a$.  The representation on the right side of the $\equiv$ in \@ref(eq:AltFeq) is the standard test statistic used to test the difference of two means when variances are assumed to be equal.  To verify the equivalence, keep in mind that $\sum_{j=1}^{n_i} Y_{ij} = n_i \bar{Y}_{i\bullet} \text{ for } i=1,2$ and $(n_1 + n_2) \bar{Y}_{\bullet\bullet} = \sum_{i=1}^2 \sum_{j=1}^{n_i} Y_{ij}$ and that $S_i^2 =\sum_{j=1}^{n_i}(Y_{ij} - \bar{Y}_{i\bullet})^2/(n_1 - 1)$. 
+The notation that follows is adopted from @ugarte_probability_2015. The sum of the observations in the $i^\text{th}$ treatment group is $Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}$, and the mean of the observations in the $i^\text{th}$ treatment group is $\bar{Y}_{i\bullet}=\frac{1}{n_{i}}\sum_{j=1}^{n_i} Y_{ij} = \frac{Y_{i\bullet}}{n_i}$. The bar indicates a mean while the dot $(\bullet)$ indicates that values have been added over the indicated subscript.  The sum of all observations is $Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}.$ The grand mean of all observations is denoted $\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}=\sum_{i=1}^{a}\frac{Y_{i\bullet}}{N}   =\sum_{i=1}^{a}n_{i\bullet}\bar{Y}_{i\bullet}/N.$ For $a = 2$ treatments, the typical sum of squares for testing the hypotheses in \@ref(eq:HYP) are shown to the left of the equivalence ($\equiv$) symbol in \@ref(eq:AltFeq) where for $a$ treatments $n_1 + n_2 + \cdot + n_a = N$, $df_{\text{Treatment}} = a - 1$, and $df_{\text{Error}} = N-a$.  The representation on the right side of the $\equiv$ in \@ref(eq:AltFeq) is the standard test statistic used to test the difference of two means when variances are assumed to be equal.  To verify the equivalence, keep in mind that $\sum_{j=1}^{n_i} Y_{ij} = n_i \bar{Y}_{i\bullet} \text{ for } i=1,2$ and $(n_1 + n_2) \bar{Y}_{\bullet\bullet} = \sum_{i=1}^2 \sum_{j=1}^{n_i} Y_{ij}$ and that $S_i^2 =\sum_{j=1}^{n_i}(Y_{ij} - \bar{Y}_{i\bullet})^2/(n_i - 1)$. 
 
 
 \begin{equation}
@@ -101,7 +101,7 @@ The formula to find $\lambda$ for testing equality of $a$ means is
 
 which one obtains by replacing the sample means in the standard sum of squares treatments formula with corresponding population means. $\lambda$ is a measure of statistical difference between **population** means and the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means.
 
-The following projects walk students through the process of  finding a critical value for a given level of significance and assumed sample sizes, computing the measure of statistical difference in population means via the non-centrality parameter $\lambda$ and the corresponding power for detecting differences in population means with the given $\lambda$ value using both base R and a Shiny app. Although R [@R-base] is used as the computational engine in what follows, most modern software packages can handle what is shown in the code.  By the end of these projects, students should recognize that the non-centrality parameter can be calculated using the standard sum of squares for treatments they have been taught in their statistics course by replacing the sample means with hypothesized population means.
+The following projects walk students through the process of  finding a critical value for a given level of significance and assumed sample sizes, computing the measure of statistical difference in population means via the non-centrality parameter $\lambda$ as well as the corresponding power for detecting differences in population means with the given $\lambda$ value using both base R and a Shiny app. Although R [@R-base] is used as the computational engine in what follows, most modern software packages can handle what is shown in the code.  By the end of these projects, students should recognize that the non-centrality parameter can be calculated using the standard sum of squares for treatments they have been taught in their statistics course by replacing the sample means with the hypothesized population means.
 
 # PROJECT 1{-}
 
@@ -117,7 +117,7 @@ d)  Reduce the values of $n_1$ and $n_2$ to as small as possible while the power
 
 e)  Reduce the values of $n_1$ and $n_2$ to as small as possible while the power is at least 0.80.
 
-f) Repeat steps c) and d) for $\sigma = 30$ mg. 
+f) Repeat steps b) through e) for $\sigma = 30$ mg. 
 
 
 
@@ -125,7 +125,7 @@ f) Repeat steps c) and d) for $\sigma = 30$ mg.
 
 a) The critical value we are looking for $f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 17 + 17 -2} = f_{0.95; 1, 32} = `r qf(0.95, 1, 32)`$.
 
-b) The non-centrality parameter when $\sigma = 20$ mg is
+b) The non-centrality parameter when $\sigma = 20$ mg is computed below.  Note that $\mu_{\text{testosterone}} = \bar{\mu}_{1\bullet} = 100$, $\mu_{\text{isoandrostenolone}} = \bar{\mu}_{2\bullet} = 70$ and $\bar{\mu}_{\bullet\bullet}=\sum_{i=1}^{2}n_{i\bullet}\bar{\mu}_{i\bullet}/N= 17\cdot 100/34 + 17\cdot 70/34 = 85.$
 
 \begin{equation*}
 \lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{20^2} = 19.125
@@ -172,10 +172,14 @@ Since $n_1 = n_2 = 8$ resulted in a power value less than the required 0.80, the
 (pf(CriticalF, 2 - 1, 8 + 8 - 2, 9, lower = FALSE) -> POWER)
 ```
 
-e). In this example, $n_1 = n_2 = 9$ returned a power of 0.8476101 while $n_1 = n_2 = 8$ returned a power of 0.796545. Although power is maximized when sample sizes are equal, ask the students to use either $n_1 = 9$ and  $n_2 = 8$ or $n_1 = 8$ and  $n_2 = 9$ to see if the power is at least 0.80.  It does not make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks in computing $\lambda$ for this problem; however, the value for $\bar{\mu}_{\bullet\bullet}$ will differ depending on which group receives the smaller number of chicks.  If the second group receives the smaller number of chicks, the resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`.  Since the groups are of different sizes, remind the students to weight the means appropriately.  That is $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235$.  
+e). In this example, $n_1 = n_2 = 9$ returned a power of 0.8476101 while $n_1 = n_2 = 8$ returned a power of 0.796545. Although power is maximized when sample sizes are equal, ask the students to use either $n_1 = 9$ and  $n_2 = 8$ or $n_1 = 8$ and  $n_2 = 9$ to see if the power is at least 0.80.  It does not make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks in computing $\lambda$ for this problem; however, the value for $\bar{\mu}_{\bullet\bullet}$ will differ depending on which group receives the smaller number of chicks.  The resulting power would be `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)` regardless of whether $n_1 = 9$ and  $n_2 = 8$ or $n_1 = 8$ and  $n_2 = 9$.  Since the groups are of different sizes, remind the students to weight the means appropriately.  That is $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235$ in the case where $n_1 = 9$ and  $n_2 = 8$ or $\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{8\times 100 + 9\times 70}{8 + 9}=84.11765$ in the case where $n_1 = 8$ and  $n_2 = 9$. 
 
 \begin{equation*}
 \lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85.88235)^2 + 8(70 - 85.88235)^2}{20^2} = 9.529412
+\end{equation*}
+or
+\begin{equation*}
+\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{8(100 - 84.11765)^2 + 9(70 - 84.11765)^2}{20^2} = 9.529412
 \end{equation*}
 
 $$\text{Power}(\lambda = 9.529412) = P(F^*_{1, 15, \lambda = 9.529412} \geq f_{0.95, 1, 15} = `r qf(0.95, 1, 15)`) = `r pf(qf(0.95, 1, 15), 1, 15, 9.529412, lower = FALSE)`$$
