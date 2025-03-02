@@ -12,9 +12,9 @@ header-includes:
 date: 'Last edit: `r format(Sys.time(), "%B %d, %Y at %X")`'
 output: 
     #bookdown::html_document2
-     bookdown::pdf_document2:
-       keep_tex: TRUE
-    #bookdown::word_document2
+    #bookdown::pdf_document2:
+     #  keep_tex: TRUE
+    bookdown::word_document2
 bibliography: [packages.bib, powerarticle.bib] 
 csl: apa.csl
 toc: FALSE
