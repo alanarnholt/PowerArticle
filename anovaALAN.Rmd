@@ -70,9 +70,9 @@ p + stat_function(fun = df_fun1, geom = "area", n = 1500, fill = "red", alpha = 
        caption = paste0("Beta ","(",BETA,") is the green shaded area.", " Lambda ", "(",LAMBDA,") is the statistical difference.") ) +
     theme(plot.title = element_text(hjust = 0.5)) + 
     theme(plot.subtitle = element_text(hjust = 0.5)) + 
-    theme(plot.caption = element_text(hjust = 0.5)) +
-    annotate("text", qf(.5, g - 1, N - g) + 2.5, df(qf(.5, g - 1, N - g), g - 1, N - g) + 0.05, label = expression(F["a - 1, N - a"]), color = "red", parse = TRUE) + 
-    annotate("text", qf(.5, g - 1, N - g, lambda) + 0.5, df(qf(.5, g - 1, N - g, lambda), g - 1, N - g, lambda) + 0.05, label = expression(F["a - 1, N - a, lambda"]), color = "blue", parse = TRUE) 
+    theme(plot.caption = element_text(hjust = 0.5, size = 16)) + # Alan increased size to 16
+    annotate("text", qf(.9, g - 1, N - g) + 1, df(qf(.45, g - 1, N - g), g - 1, N - g) + 0.05, label = expression(F["a - 1, N - a"]), color = "red", parse = TRUE, size = 8) + 
+    annotate("text", qf(.65, g - 1, N - g, lambda) + 2, df(qf(.5, g - 1, N - g, lambda), g - 1, N - g, lambda) + 0.05, label = expression(F["a - 1, N - a, lambda"]), color = "blue", parse = TRUE, size = 8) 
 }
 ```
 
