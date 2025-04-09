@@ -11,8 +11,8 @@ header-includes:
   - \usepackage{breakurl}
 date: 'Last edit: `r format(Sys.time(), "%B %d, %Y at %X")`'
 output: 
-    #bookdown::html_document2
-    bookdown::pdf_document2:
+    bookdown::html_document2
+    #bookdown::pdf_document2:
     #   keep_tex: TRUE
     #bookdown::word_document2
 bibliography: [packages.bib, powerarticle.bib] 
@@ -106,7 +106,7 @@ The following projects walk students through the process of  finding a critical 
 
 # PROJECT 1{-}
 
-Consider an experiment where one of two hormones (testosterone or isoandrostenolone) is administered for fifteen days to male chicks starting when the chicks are one day old.  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and that the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power of at least 0.80 for testing $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ using $\alpha = 0.05$ if in fact $\mu_\text{testosterone} = 100$ mg and $\mu_\text{isoandrostenolone} = 70$ mg? 
+Consider an experiment where one of two hormones (testosterone or isoandrostenolone) is administered for fifteen days to male chicks starting when the chicks are one day old [@snedecor_cochran, p. 102].  At the end of the fifteen days, the experimenter hypothesizes the average weight of chicks that receive testosterone will be 100 mg and that the average weight of chicks that receive isoandrostenolone will be 70 mg.  Based on previous work, the researcher estimates the standard deviation for both groups of chicks to be somewhere between 20 mg and 30 mg.  What is the minimum number of chicks that should be assigned to each group to obtain a power of at least 0.80 for testing $H_0: \mu_\text{testosterone} = \mu_\text{isoandrostenolone}\quad\text{ versus }\quad H_A: \mu_\text{testosterone} \neq \mu_\text{isoandrostenolone}$ using $\alpha = 0.05$ if in fact $\mu_\text{testosterone} = 100$ mg and $\mu_\text{isoandrostenolone} = 70$ mg? 
 
 a)  Find the critical value for which the null hypothesis will be rejected at the $\alpha = 0.05$ level if $n_1=n_2 = 17$.
 
