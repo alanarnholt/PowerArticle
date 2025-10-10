@@ -39,7 +39,7 @@ lapply(PackagesUsed, library, character.only = TRUE)
 
 # INTRODUCTION {-}
 
-Following the GAISE guidelines [@gaise2016], many instructors of introductory statistics courses have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a project, often comparing many means (one-way ANOVA) when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The Shiny package [@R-shiny] can be used to create web based applications using either R or Python as the programming language.  A Shiny app is an interactive web application that can be deployed to the cloud or hosted on a server.  In this work we use the the free hosting service [Shinyapps.io](https://www.shinyapps.io/) for hosting Shiny web apps.  The ideas of a type I error, a type II error, and power are introduced in a table in virtually all elementary statistics texts when introducing hypothesis testing.  Although some elementary texts discuss power for a $z$-test, most do not discuss how to compute power for a $t$-test. The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER.  The present work extends the ideas of computing power from a single sample to computing the power with multiple samples via a Shiny app so that users can determine appropriate sample sizes to attain satisfactory power and have a graphic depicting various quantities of interest without manually performing the arithmetic to determine the depicted values.  Specifically, this work shows how the non-centrality parameter ($\lambda$) is a measure of statistical difference between **population** means and how the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means. A Shiny app written by the authors is presented where students can experiment  with different design structures (i.e. different sample sizes for each of the $a$ treatments) to ensure their experiments attain satisfactory power.  To aid with the connection between non-centrality parameters and test statistics, it is shown how the pooled variance $t$-test is a special case of the $F$-test when there are two treatments before generalizing to two or more treatments.  
+Following the GAISE guidelines [@gaise2016], many instructors of introductory statistics courses have added assessments in the form of small projects to the end of their courses to improve and evaluate student learning.  It has been our observation that students will often select one of the last topics they have covered in their course for a project, often comparing many means (one-way ANOVA) when given the opportunity.  When comparing many means, it is important the study allocate sufficient subjects/experimental units to each treatment to be able to detect differences in treatment means when those differences exist (power).  The Shiny package [@R-shiny] can be used to create web based applications using either R or Python as the programming language.  A Shiny app is an interactive web application that can be deployed to the cloud or hosted on a server.  This work uses the free hosting service [Shinyapps.io](https://www.shinyapps.io/) for hosting Shiny web apps.  The ideas of a type I error, a type II error, and power are introduced in a table in virtually all elementary statistics texts when introducing hypothesis testing.  For completeness, a brief review of the main types of errors one can make in hypothesis testing and the definition of power follows.  A type I error is rejecting the null hypothesis when it is true; the probability of making a type I error is denoted with the Greek symbol alpha ($\alpha$).  Power is the probability of rejecting a false null hypothesis.  In other words, power is the probability of making the correct decision when the null hypothesis is false.  A type II error is failing to reject the null hypothesis when the null hypothesis is false.  The probability of making a type II error is denoted with the Greek symbol beta ($\beta$).  Although some elementary texts discuss power for a $z$-test, most do not discuss how to compute power for a $t$-test. The concept of power and its relationship to sample size for a single sample via a Shiny app was discussed in @arnholtPOWER. The present work extends the ideas of computing power from a single sample to computing the power with multiple samples via a Shiny app written by the authors so that users can determine appropriate sample sizes to attain satisfactory power and have a graphic depicting various quantities of interest without manually performing the arithmetic to determine the depicted values.  Specifically, this work shows how the non-centrality parameter ($\lambda$) is a measure of statistical difference between **population** means and how the $F$ value computed in an ANOVA table is a measure of statistical difference between **sample** means.  To aid with the connection between non-centrality parameters and test statistics, the reader is reminded that a pooled variance $t$-test is a special case of the $F$-test when there are two treatments before generalizing to two or more treatments.  The code used to create this particular Shiny app can be seen by clicking on the `</> Source Code` in the top right of the Shiny app.  
 
 
 # STATISTICAL BACKGROUND {-}
@@ -60,18 +60,7 @@ H_0: \mu_1=\mu_2= \dots = \mu_a\quad\text{ versus }\quad H_A:\mu_i \ne \mu_j \te
 (\#eq:HYP)
 \end{equation}
 
-The notation that follows is adopted from @ugarte_probability_2015. The sum of the observations in the $i^\text{th}$ treatment group is $Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}$, and the mean of the observations in the $i^\text{th}$ treatment group is $\bar{Y}_{i\bullet}=\frac{1}{n_{i}}\sum_{j=1}^{n_i} Y_{ij} = \frac{Y_{i\bullet}}{n_i}$. The bar indicates a mean while the dot $(\bullet)$ indicates that values have been added over the indicated subscript.  The sum of all observations is $Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}.$ The grand mean of all observations is denoted $\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}=\sum_{i=1}^{a}\frac{Y_{i\bullet}}{N}   =\sum_{i=1}^{a}n_{i\bullet}\bar{Y}_{i\bullet}/N.$ For $a = 2$ treatments, the typical sum of squares for testing the hypotheses in \@ref(eq:HYP) are shown to the left of the equivalence ($\equiv$) symbol in \@ref(eq:AltFeq) where for $a$ treatments $n_1 + n_2 + \cdot + n_a = N$, $df_{\text{Treatment}} = a - 1$, and $df_{\text{Error}} = N-a$.  The representation on the right side of the $\equiv$ in \@ref(eq:AltFeq) is the standard test statistic used to test the difference of two means when variances are assumed to be equal.  To verify the equivalence, keep in mind that $\sum_{j=1}^{n_i} Y_{ij} = n_i \bar{Y}_{i\bullet} \text{ for } i=1,2$ and $(n_1 + n_2) \bar{Y}_{\bullet\bullet} = \sum_{i=1}^2 \sum_{j=1}^{n_i} Y_{ij}$ and that $S_i^2 =\sum_{j=1}^{n_i}(Y_{ij} - \bar{Y}_{i\bullet})^2/(n_i - 1)$. 
-
-
-\begin{equation}
-SS_\text{Error} = \sum_{i=1}^{2}\sum_{j=1}^{n_i}(Y_{ij} - \bar{Y}_{i\bullet})^2 = \sum_{i=1}^{2}\left[\sum_{j=1}^{n_i}(Y_{ij}- \bar{Y}_{i\bullet})^2\right] = (n_1 - 1)S_1^2 + (n_2 - 1)S_2^2
-(\#eq:FE)
-\end{equation}
-
-\begin{equation}
-MS_\text{Error} = \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 -2} = S_p^2
-(\#eq:MFE)
-\end{equation}
+The notation that follows is adopted from @ugarte_probability_2015. The sum of the observations in the $i^\text{th}$ treatment group is $Y_{i\bullet}=\sum_{j=1}^{n_i} Y_{ij}$, and the mean of the observations in the $i^\text{th}$ treatment group is $\bar{Y}_{i\bullet}=\frac{1}{n_{i}}\sum_{j=1}^{n_i} Y_{ij} = \frac{Y_{i\bullet}}{n_i}$. The bar indicates a mean while the dot $(\bullet)$ indicates that values have been added over the indicated subscript.  The sum of all observations is $Y_{\bullet\bullet}=\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}.$ The grand mean of all observations is denoted $\bar{Y}_{\bullet\bullet}=\frac{1}{N}\sum_{i=1}^a \sum_{j=1}^{n_i}Y_{ij}=\sum_{i=1}^{a}\frac{Y_{i\bullet}}{N}   =\sum_{i=1}^{a}n_{i\bullet}\bar{Y}_{i\bullet}/N.$ For $a = 2$ treatments, the typical sum of squares for testing the hypotheses in \@ref(eq:HYP) are shown to the left of the equivalence ($\equiv$) symbol in \@ref(eq:AltFeq) where for $a$ treatments $n_1 + n_2 + \cdot + n_a = N$, $df_{\text{Treatment}} = a - 1$, and $df_{\text{Error}} = N-a$.  The representation on the right side of the $\equiv$ in \@ref(eq:AltFeq) is the standard test statistic used to test the difference of two means when variances are assumed to be equal.   
 
 
 \begin{equation}
@@ -245,12 +234,16 @@ Treat <- factor(rep(c("testosterone", "isoandrostenolone"),
 # Compute SS for ANOVA
 summary(aov(Y ~ Treat))
 # Pull out the SS Treat value and assign to SShyp
-(summary(aov(Y ~ Treat))[[1]][1, 2] -> SShyp) 
+SShyp <- summary(aov(Y ~ Treat))[[1]][1, 2]
+SShyp
 # Noncentrality parameter
-(lambda <- SShyp/sigma^2)
-(CriticalF <- qf(0.95, a - 1, N - a))
+lambda <- SShyp/sigma^2
+lambda
+CriticalF <- qf(0.95, a - 1, N - a)
+CriticalF
 # Power for lambda
-(pf(CriticalF, a-1, dferror, lambda, lower = FALSE) -> POWER)
+POWER <- pf(CriticalF, a-1, dferror, lambda, lower = FALSE)
+POWER
 ```
 
 ## Solution using the Shiny app{-}
