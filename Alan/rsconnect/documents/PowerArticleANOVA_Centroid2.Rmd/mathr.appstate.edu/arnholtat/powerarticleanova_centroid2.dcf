@@ -1,0 +1,12 @@
+name: powerarticleanova_centroid2
+title: PowerArticleANOVA_Centroid2
+username: arnholtat
+account: arnholtat
+server: mathr.appstate.edu
+hostUrl: https://mathr.appstate.edu/connect/__api__
+appId: 137
+bundleId: 382
+url: https://mathr.appstate.edu/connect/content/56c1f92d-cd44-4661-a7f9-713a92d91b81/
+version: 1
+asMultiple: FALSE
+asStatic: TRUE
