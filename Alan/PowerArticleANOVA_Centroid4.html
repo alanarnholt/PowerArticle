@@ -373,7 +373,7 @@ display: none;
 <address class="author_afil">
 Appalachian State University<br><a class="author_email" href="mailto:#"><a href="mailto:arnholtat@appstate.edu" class="email">arnholtat@appstate.edu</a></a>
 </address>
-<h4 class="date">Last edit: October 16, 2025 at 10:05:44 AM</h4>
+<h4 class="date">Last edit: October 16, 2025 at 10:34:33 AM</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p><strong>Summary</strong> A Shiny app facilitates computing power and visualizing the non-central <em>F</em> distribution based on different population means, a single population standard deviation, different sample sizes, and any significance level. The Shiny app allows students to solve various scenarios by entering these parameters’ values and by moving the significance slider.</p>
@@ -494,16 +494,6 @@ or
 \lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{8(100 - 84.11765)^2 + 9(70 - 84.11765)^2}{20^2} = 9.529412
 \end{equation*}\]</span></p>
 <p><span class="math display">\[\text{Power}(\lambda = 9.529412) = P(F^*_{1, 15, \lambda = 9.529412} \geq f_{0.95, 1, 15} = 4.5430772) = 0.8223981\]</span></p>
-</div>
-<div id="r-code-1" class="section level2 unnumbered">
-<h2>R code</h2>
-<pre class="r"><code>CriticalF &lt;- qf(0.95, 2 - 1, 9 + 8 - 2)
-CriticalF</code></pre>
-<pre><code>[1] 4.543077</code></pre>
-<pre class="r"><code># Power for lambda = 9.529412
-POWER &lt;- pf(CriticalF, 2 - 1, 9 + 8 - 2, 9.529412, lower = FALSE)
-POWER</code></pre>
-<pre><code>[1] 0.8223981</code></pre>
 <ol start="6" style="list-style-type: lower-alpha">
 <li>The non-centrality parameter when <span class="math inline">\(\sigma = 30\)</span> mg and <span class="math inline">\(n_1 = n_2 = 17\)</span> is</li>
 </ol>
@@ -518,13 +508,6 @@ Have the students verify that the minimum samples sizes for <span class="math in
 Figure 3: Power to detect a specified difference in population means with given sample sizes and population standard deviation
 </p>
 </div>
-<pre class="r"><code>CriticalF &lt;- qf(0.95, 2 - 1, 17 + 17 - 2)
-CriticalF</code></pre>
-<pre><code>[1] 4.149097</code></pre>
-<pre class="r"><code># Power for lambda
-POWER &lt;- pf(CriticalF, 2 - 1, 17 + 17 - 2, 8.5, lower = FALSE)
-POWER</code></pre>
-<pre><code>[1] 0.8070367</code></pre>
 <p>Note: If the standard deviation for chick weight is <span class="math inline">\(\sigma = 30\)</span> mg, the student needs to have 17 chicks assigned to each group to detect mean differences between groups greater than 80% percent of the time. If the standard deviation for chick weights is as small as <span class="math inline">\(\sigma = 20\)</span> mg, the students can assign 9 chicks to the first group and 8 chicks to the second group and still detect mean differences more than 80% of the time.</p>
 </div>
 </div>
@@ -533,7 +516,7 @@ POWER</code></pre>
 <p>An educational researcher is interested in testing different tools to help his students master statistical concepts. The researcher hypothesizes there will be increases in mean performance for students on a standardized test from lecture alone (70), to lecture with statistical software (75), to lecture with statistical software and videos (80), to lecture with statistical software, videos, and shiny apps of (85). If the population standard deviation for the researcher’s students on the standardized test is 15, find the minimum number of students required for each group to be able to have a power value of at least 0.80.</p>
 <p>To find the required samples sizes to test <span class="math inline">\(H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4 \quad\text{ versus }\quad H_A: \mu_i \neq \mu_j\)</span> for some <span class="math inline">\(i \neq j\)</span> using <span class="math inline">\(\alpha = 0.05\)</span> if in fact <span class="math inline">\(\mu_1 = 70\)</span>, <span class="math inline">\(\mu_2 = 75\)</span>, <span class="math inline">\(\mu_3 = 80\)</span>, and <span class="math inline">\(\mu_4 = 85\)</span>, when <span class="math inline">\(\sigma = 15\)</span>, have the students launch the Shiny app found at <a href="https://hasthika.shinyapps.io/anovaShinyApp/">https://hasthika.shinyapps.io/anovaShinyApp/</a> and enter the values of 70, 75, 80, and 85 separated with commas in the <span class="math inline">\(H_A\)</span> box. Power is maximized when all treatment groups have the same number of experimental units. Consequently, if there are no restrictions on the allocation of resources, students should allocate an equal number of experimental units to each of the <span class="math inline">\(a\)</span> treatments by entering values separated with commas for each treatment group size in the <span class="math inline">\(n_1, n_2,\ldots, n_a\)</span> box, the value of 15 in the <span class="math inline">\(\sigma\)</span> box, and use the slider to select a significance level of 0.05 as shown in Figure <a href="#fig:power4">4</a>. Have the students experiment with different values for the sample sizes of each treatment until the power is greater than or equal to 0.80. Walk the students through a trial and error method starting with <span class="math inline">\(n_1 = n_2 = n_3 = n_4 = 10\)</span> which will yield too small a power. As a guess, have the students double the values to <span class="math inline">\(n_1 = n_2 = n_3 = n_4 = 20\)</span> and point out that we are just a little short of our desired power value. Next, have the students use <span class="math inline">\(n_1 = n_2 = n_3 = n_4 = 25\)</span> and observe that the returned power is over the target value of 0.80. Have the students continue experimenting lowering the values until they arrive at <span class="math inline">\(n_1 = n_2 = n_3 = n_4 = 21\)</span> which returns a power of 0.8082.</p>
 <table>
-<caption><span id="tab:unnamed-chunk-4">Table 1: </span>Process of trial and error for desired power</caption>
+<caption><span id="tab:unnamed-chunk-2">Table 1: </span>Process of trial and error for desired power</caption>
 <thead>
 <tr class="header">
 <th align="right">n</th>
