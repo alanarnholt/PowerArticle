@@ -373,7 +373,7 @@ display: none;
 <address class="author_afil">
 Appalachian State University<br><a class="author_email" href="mailto:#"><a href="mailto:arnholtat@appstate.edu" class="email">arnholtat@appstate.edu</a></a>
 </address>
-<h4 class="date">Last edit: October 20, 2025 at 09:07:56 AM</h4>
+<h4 class="date">Last edit: October 20, 2025 at 10:27:35 AM</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p><strong>Summary</strong> A Shiny app facilitates computing power and visualizing the non-central <em>F</em> distribution based on different population means, a single population standard deviation, different sample sizes, and any significance level. The Shiny app allows students to solve various scenarios by entering these parameters’ values and by moving the significance slider.</p>
@@ -440,7 +440,7 @@ F = \dfrac{(\,\bar{Y}_{1\bullet} -\bar{Y}_{2\bullet})^2 }{S^2_p\left( \frac{1}{n
 <li><p>The non-centrality parameter when <span class="math inline">\(\sigma = 20\)</span> mg is computed below. Note that <span class="math inline">\(\mu_{\text{testosterone}} = \bar{\mu}_{1\bullet} = 100\)</span>, <span class="math inline">\(\mu_{\text{isoandrostenolone}} = \bar{\mu}_{2\bullet} = 70\)</span> and <span class="math inline">\(\bar{\mu}_{\bullet\bullet}=\sum_{i=1}^{2}n_{i\bullet}\bar{\mu}_{i\bullet}/N= 17\cdot 100/34 + 17\cdot 70/34 = 85.\)</span></p></li>
 </ol>
 <p><span class="math display">\[\begin{equation*}
-\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{20^2} = 19.125
+\lambda = \frac{\sum_{1 = 1}^an_i(\bar{\mu}_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{20^2} = 19.125
 \end{equation*}\]</span></p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li><span class="math inline">\(\text{Power}(\lambda = 19.125) = P(F^*_{1, 32; \lambda = 19.125} \geq f_{0.95; 1, 32} = 4.1490974) = 0.9886555\)</span></li>
@@ -475,30 +475,30 @@ POWER</code></pre>
 <li>Have the students use different values for <span class="math inline">\(n_1 = n_2\)</span> potentially starting with 12 and observing the computed power (0.9394) is more than sufficient. Lead the students through computing the power with reduced sample sizes of <span class="math inline">\(n_1 = n_2 = 9\)</span> so that the critical value becomes <span class="math inline">\(f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 9 + 9 -2} = f_{0.95; 1, 16} = 4.4939985\)</span> and the non-centrality parameter <span class="math inline">\(\lambda\)</span> becomes</li>
 </ol>
 <p><span class="math display">\[\begin{equation*}
-\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 9(70 - 85)^2}{20^2} = 10.125.
+\lambda = \frac{\sum_{1 = 1}^an_i(\bar{\mu}_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85)^2 + 9(70 - 85)^2}{20^2} = 10.125.
 \end{equation*}\]</span></p>
 <p><span class="math display">\[\text{Power}(\lambda = 10.125) = P(F^*_{1, 16; \lambda = 10.125} \geq f_{0.95; 1, 16} = 4.4939985) = 0.8476101\]</span>
 Next have the students consider <span class="math inline">\(n_1 = n_2 = 8\)</span> so that the critical value becomes
 <span class="math inline">\(f_{1 - \alpha; a - 1, n_1 + n_2 -2} = f_{0.95; 2 - 1, 8 + 8 -2} = f_{0.95; 1, 14} = 4.6001099\)</span> and the non-centrality parameter <span class="math inline">\(\lambda\)</span> becomes</p>
 <p><span class="math display">\[\begin{equation*}
-\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{8(100 - 85)^2 + 8(70 - 85)^2}{20^2} = 9.
+\lambda = \frac{\sum_{1 = 1}^an_i(\bar{\mu}_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{8(100 - 85)^2 + 8(70 - 85)^2}{20^2} = 9.
 \end{equation*}\]</span></p>
 <p><span class="math display">\[\text{Power}(\lambda = 9) = P(F^*_{1, 14; \lambda = 9} \geq f_{0.95; 1, 14} = 4.6001099) = 0.796545\]</span>
 Since <span class="math inline">\(n_1 = n_2 = 8\)</span> resulted in a power value less than the required 0.80, the minimum sample size for <span class="math inline">\(n_1 = n_2\)</span> to obtain a power of at least 0.80 is 9.</p>
-<p>e). In this example, <span class="math inline">\(n_1 = n_2 = 9\)</span> returned a power of 0.8476101 while <span class="math inline">\(n_1 = n_2 = 8\)</span> returned a power of 0.796545. Although power is maximized when sample sizes are equal, ask the students to use either <span class="math inline">\(n_1 = 9\)</span> and <span class="math inline">\(n_2 = 8\)</span> or <span class="math inline">\(n_1 = 8\)</span> and <span class="math inline">\(n_2 = 9\)</span> to see if the power is at least 0.80. It does not make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks in computing <span class="math inline">\(\lambda\)</span> for this problem; however, the value for <span class="math inline">\(\bar{\mu}_{\bullet\bullet}\)</span> will differ depending on which group receives the smaller number of chicks. The resulting power would be 0.8223981 regardless of whether <span class="math inline">\(n_1 = 9\)</span> and <span class="math inline">\(n_2 = 8\)</span> or <span class="math inline">\(n_1 = 8\)</span> and <span class="math inline">\(n_2 = 9\)</span>. Since the groups are of different sizes, remind the students to weight the means appropriately. That is <span class="math inline">\(\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235\)</span> in the case where <span class="math inline">\(n_1 = 9\)</span> and <span class="math inline">\(n_2 = 8\)</span> or <span class="math inline">\(\bar{\mu}_{\bullet\bullet} = \frac{n_1\mu_1+n_2\mu_2}{n_1+n2} =\frac{8\times 100 + 9\times 70}{8 + 9}=84.11765\)</span> in the case where <span class="math inline">\(n_1 = 8\)</span> and <span class="math inline">\(n_2 = 9\)</span>.</p>
+<p>e). In this example, <span class="math inline">\(n_1 = n_2 = 9\)</span> returned a power of 0.8476101 while <span class="math inline">\(n_1 = n_2 = 8\)</span> returned a power of 0.796545. Although power is maximized when sample sizes are equal, ask the students to use either <span class="math inline">\(n_1 = 9\)</span> and <span class="math inline">\(n_2 = 8\)</span> or <span class="math inline">\(n_1 = 8\)</span> and <span class="math inline">\(n_2 = 9\)</span> to see if the power is at least 0.80. It does not make a difference whether the first treatment group or the second treatment group receives the smaller number of chicks in computing <span class="math inline">\(\lambda\)</span> for this problem; however, the value for <span class="math inline">\(\bar{\mu}_{\bullet\bullet}\)</span> will differ depending on which group receives the smaller number of chicks. The resulting power would be 0.8223981 regardless of whether <span class="math inline">\(n_1 = 9\)</span> and <span class="math inline">\(n_2 = 8\)</span> or <span class="math inline">\(n_1 = 8\)</span> and <span class="math inline">\(n_2 = 9\)</span>. Since the groups are of different sizes, remind the students to weight the means appropriately. That is <span class="math inline">\(\bar{\mu}_{\bullet\bullet} = \frac{n_1\bar{\mu}_{1\bullet}+n_2\bar{\mu}_{2\bullet}}{n_1+n_2} =\frac{9\times 100 + 8 \times 70}{9 + 8}=85.88235\)</span> in the case where <span class="math inline">\(n_1 = 9\)</span> and <span class="math inline">\(n_2 = 8\)</span> or <span class="math inline">\(\bar{\mu}_{\bullet\bullet} = \frac{n_1\bar{\mu}_{1\bullet}+n_2\bar{\mu}_{2\bullet}}{n_1+n_2} =\frac{8\times 100 + 9\times 70}{8 + 9}=84.11765\)</span> in the case where <span class="math inline">\(n_1 = 8\)</span> and <span class="math inline">\(n_2 = 9\)</span>.</p>
 <p><span class="math display">\[\begin{equation*}
-\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85.88235)^2 + 8(70 - 85.88235)^2}{20^2} = 9.529412
+\lambda = \frac{\sum_{1 = 1}^an_i(\bar{\mu}_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{9(100 - 85.88235)^2 + 8(70 - 85.88235)^2}{20^2} = 9.529412
 \end{equation*}\]</span>
 or
 <span class="math display">\[\begin{equation*}
-\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{8(100 - 84.11765)^2 + 9(70 - 84.11765)^2}{20^2} = 9.529412
+\lambda = \frac{\sum_{1 = 1}^an_i(\bar{\mu}_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{8(100 - 84.11765)^2 + 9(70 - 84.11765)^2}{20^2} = 9.529412
 \end{equation*}\]</span></p>
 <p><span class="math display">\[\text{Power}(\lambda = 9.529412) = P(F^*_{1, 15, \lambda = 9.529412} \geq f_{0.95, 1, 15} = 4.5430772) = 0.8223981\]</span></p>
 <ol start="6" style="list-style-type: lower-alpha">
 <li>The non-centrality parameter when <span class="math inline">\(\sigma = 30\)</span> mg and <span class="math inline">\(n_1 = n_2 = 17\)</span> is</li>
 </ol>
 <p><span class="math display">\[\begin{equation*}
-\lambda = \frac{\sum_{1 = 1}^an_i(\mu_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{30^2} = \frac{7650}{900} = 8.5
+\lambda = \frac{\sum_{1 = 1}^an_i(\bar{\mu}_{i\bullet} - \bar{\mu}_{\bullet\bullet})^2}{\sigma^2} = \frac{17(100 - 85)^2 + 17(70 - 85)^2}{30^2} = \frac{7650}{900} = 8.5
 \end{equation*}\]</span></p>
 <p><span class="math display">\[\text{Power}(\lambda = 8.5) = P(F^*_{1, 32; \lambda = 8.5} \geq f_{0.95; 1, 32} = 4.1490974) = 0.8070367\]</span>
 Have the students verify that the minimum samples sizes for <span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span> are both 17 when <span class="math inline">\(\sigma = 30\)</span> using the Shiny app as shown in Figure <a href="#fig:power3">3</a>.</p>
